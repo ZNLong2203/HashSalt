@@ -1,7 +1,7 @@
 # Hash and Salt Website login
 ## Client
 1. npm create vite@latest
-2. npm install -D tailwindcss postcss autoprefixer
+2. npm install -D tailwindcss postcss autoprefixer \
 npx tailwindcss init -p
 3. Configure template [https://tailwindcss.com/docs/guides/nextjs]
 
