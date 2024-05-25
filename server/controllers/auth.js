@@ -7,11 +7,13 @@ const KeyToken = require('../models/keytoken');
 
 exports.signup = async (req, res, next) => {
     try {
+        // Check if email already exists
         const checkEmail = await User.findOne({email: req.body.email}).lean();
         if(checkEmail) {
             return res.status(400).json({message: 'Email already exists'});
         }
 
+        // Create new user from request body
         const {name, email, password} = req.body;
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(password, salt);
@@ -22,6 +24,7 @@ exports.signup = async (req, res, next) => {
         })
         const result = await user.save();
 
+        // Generate RSA key pair
         const {privateKey, publicKey} = crypto.generateKeyPairSync('rsa', {
             modulusLength: 4096,
             publicKeyEncoding: {
@@ -33,9 +36,9 @@ exports.signup = async (req, res, next) => {
                 format: 'pem'
             }
         });
-
+        
+        // Create access token and refresh token from user info
         const payload = getInfoJson({fields: ['_id', 'name', 'email', 'role'], objects: result})
-
         const {accessToken, refreshToken} = await createTokenPair(payload, publicKey, privateKey);  
         const keyToken = new KeyToken({
             userId: result._id,
