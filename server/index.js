@@ -52,4 +52,4 @@ class Database {
         return Database.instance
     }
 }
-const instanceMongoDB = Database.getInstance()
+Database.getInstance()
