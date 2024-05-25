@@ -25,11 +25,31 @@ app.use(compression()) // Compress all routes to reduce the size of the response
 // Bodyparser middleware
 app.use('/auth', auth)
 
-mongoose.connect(process.env.MONGODB_URL)
-    .then(() => {
-        console.log("Server connected to MongoDB"),
-        app.listen(process.env.PORT || 3000, () => {
-            console.log("Server is running on port 3000")
-        })
-    })
-    .catch(err => console.log(err))
+// Connect to DB with singleton pattern
+class Database {
+    constructor() {
+        this.connect()
+    }
+
+    connect() {
+        mongoose.connect(process.env.MONGODB_URL)
+            .then(() => {
+                console.log("Database connection successful")
+                app.listen(process.env.PORT || 3000, () => {
+                    console.log("Server is running on port 3000")
+                })
+            })
+            .catch(err => {
+                console.log("Database connection error")
+                console.log(err)
+            })
+    }
+
+    static getInstance() {
+        if(!Database.instance) {
+            Database.instance = new Database()
+        }
+        return Database.instance
+    }
+}
+const instanceMongoDB = Database.getInstance()
