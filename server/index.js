@@ -6,9 +6,7 @@ const passport = require('passport')
 const morgan = require('morgan')
 const helmet = require('helmet')
 const compression = require('compression')
-
-// Importing the routes
-const auth = require('./routes/auth');
+const mainRoute = require('./routes/mainRoute');
 
 // Creating the express app
 const app = express();
@@ -21,9 +19,7 @@ app.use(passport.initialize())
 app.use(morgan('dev')) // HTTP request logger middleware for node.js
 app.use(helmet()) // Secure Express apps by setting various HTTP headers
 app.use(compression()) // Compress all routes to reduce the size of the response body
-
-// Bodyparser middleware
-app.use('/auth', auth)
+app.use('/', mainRoute) // Main route
 
 // Connect to DB with singleton pattern
 class Database {
