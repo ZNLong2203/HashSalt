@@ -7,10 +7,6 @@ const keyTokenSchema = new Schema({
         required: true,
         ref: 'User'
     },
-    publicKey: {
-        type: String,
-        required: true
-    },
     refreshToken: {
         type: String,
         required: true

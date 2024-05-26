@@ -22,33 +22,11 @@ exports.signup = async (req, res, next) => {
             email,
             hashPassword: hash
         })
-        const result = await user.save();
+        await user.save();
 
-        // Generate RSA key pair
-        const {privateKey, publicKey} = crypto.generateKeyPairSync('rsa', {
-            modulusLength: 4096,
-            publicKeyEncoding: {
-                type: 'spki',
-                format: 'pem'
-            },
-            privateKeyEncoding: {
-                type: 'pkcs8',
-                format: 'pem'
-            }
+        return res.status(200).json({
+            message: 'Signup success',
         });
-        
-        // Create access token and refresh token from user info
-        const payload = getInfoJson({fields: ['_id', 'name', 'email', 'role'], objects: result})
-        const {accessToken, refreshToken} = await createTokenPair(payload, publicKey, privateKey);  
-        const keyToken = new KeyToken({
-            userId: result._id,
-            publicKey,
-            refreshToken
-        })
-
-        await keyToken.save();
-
-        return res.status(200).json({message: 'Signup success'});
     } catch(err) {
         console.log(err);
         return res.status(400).json({message: 'Something went wrong'});
@@ -62,10 +40,34 @@ exports.login = async (req, res, next) => {
         const isMatch = bcrypt.compareSync(password, user.hashPassword)
 
         if(!isMatch) {
-            return res.status(400).json({message: 'Invalid credentials'});
+            return res.status(401).json({message: 'Wrong password'});
+        } 
+
+        // Create access token and refresh token from user info
+        const payload = getInfoJson({fields: ['_id', 'name', 'email', 'role'], objects: user})
+        const {accessToken, refreshToken} = await createTokenPair(payload, process.env.JWT_PUBLIC_KEY, process.env.JWT_PRIVATE_KEY);  
+
+        const existsToken = await KeyToken.findOne({userId: user._id});
+        if(existsToken) {
+            existsToken.refreshToken = refreshToken;
+            await existsToken.save();
         } else {
-            return res.status(200).json({message: 'Login success'});
+            const keyToken = new KeyToken({
+                userId: user._id,
+                refreshToken
+            })
+            await keyToken.save();
         }
+
+        return res.status(200).json({
+            message: 'Login success',
+            token_type: 'Bearer',
+            accessToken,
+            refreshToken,
+            name: user.name,
+            role: user.role
+        });
+
     } catch(err) {
         console.log(err);
         return res.status(400).json({message: 'Something went wrong'});
