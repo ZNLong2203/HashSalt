@@ -6,6 +6,8 @@ const router = express.Router()
 
 router.post('/signup', authController.signup)
 router.post('/login', authController.login)
+router.post('/logout', authenticateToken, authController.logout)
+
 router.get('/test', authenticateToken, (req, res) => {
     res.json({message: "Access granted"})
 })

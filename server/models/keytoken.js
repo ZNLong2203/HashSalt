@@ -15,4 +15,4 @@ const keyTokenSchema = new Schema({
     timestamps: true
 })
 
-module.exports = model('KeyToken', keyTokenSchema)
+module.exports = model('KeyToken', keyTokenSchema);

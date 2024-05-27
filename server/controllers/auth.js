@@ -73,3 +73,16 @@ exports.login = async (req, res, next) => {
         return res.status(400).json({message: 'Something went wrong'});
     }
 }
+
+exports.logout = async (req, res, next) => {
+    try {
+        console.log(req.cookies);
+        const refreshToken = req.cookies.refreshToken;
+        await KeyToken.deleteOne({refreshToken: refreshToken});
+        res.clearCookie('refreshToken');
+        return res.status(200).json({message: 'Logout success'});
+    } catch(err) {
+        console.log(err);
+        return res.status(400).json({message: 'Something went wrong'});
+    }
+}

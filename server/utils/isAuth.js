@@ -2,22 +2,28 @@ const User = require("../models/user")
 const KeyToken = require("../models/keytoken")
 const jwt = require("jsonwebtoken")
 
-const authenticateToken = async (req, res, next) => {
+exports.authenticateToken = async (req, res, next) => {
+    // Get refresh token from request headers
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
     if(!token) {
         return res.status(401).json({message: "Access denied"});
     }
 
-    jwt.verify(token, process.env.JWT_PRIVATE_KEY, (err, User) => {
+    console.log(req.headers)
+    // Verify refresh token
+    jwt.verify(token, process.env.JWT_PRIVATE_KEY, (err, user) => {
         if(err) {
-            return res.status(403).json({message: "Invalid token"});
+            return res.status(401).json({message: "Access denied"});
         }
-        req.User = User;
+        req.user = user;
         next();
-    });
+    })
 }
 
-module.exports = {
-    authenticateToken
+exports.isAdmin = async (req, res, next) => {
+    if(req.user.role !== 'admin') {
+        return res.status(401).json({message: "Access denied"})
+    }
+    next();
 }
