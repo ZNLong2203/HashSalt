@@ -46,7 +46,6 @@ exports.login = async (req, res, next) => {
         // Create access token and refresh token from user info
         const payload = getInfoJson({fields: ['_id', 'name', 'email', 'role'], objects: user})
         const {accessToken, refreshToken} = await createTokenPair(payload, process.env.JWT_PUBLIC_KEY, process.env.JWT_PRIVATE_KEY);  
-
         const existsToken = await KeyToken.findOne({userId: user._id});
         if(existsToken) {
             existsToken.refreshToken = refreshToken;
@@ -59,6 +58,7 @@ exports.login = async (req, res, next) => {
             await keyToken.save();
         }
 
+        res.cookie('refreshToken', refreshToken, {httpOnly: true})
         return res.status(200).json({
             message: 'Login success',
             token_type: 'Bearer',
