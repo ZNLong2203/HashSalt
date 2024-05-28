@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken")
 
 exports.authenticateToken = async (req, res, next) => {
     // Get refresh token from request headers
+    console.log(req.headers)
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
     if(!token) {

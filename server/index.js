@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
 const passport = require('passport')
 const morgan = require('morgan')
 const helmet = require('helmet')
@@ -13,11 +14,21 @@ const mainRoute = require('./routes/mainRoute');
 const app = express();
 dotenv.config()
 
+// Configuring CORS
+corsOptions = {
+    origin: process.env.FRONTEND_URL,
+    methos: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    optionsSuccessStatus: 200
+}
+
 // Init middleware
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(passport.initialize())
 app.use(cookieParser())
+app.use(cors(corsOptions))
 app.use(morgan('dev')) // HTTP request logger middleware for node.js
 app.use(helmet()) // Secure Express apps by setting various HTTP headers
 app.use(compression()) // Compress all routes to reduce the size of the response body
