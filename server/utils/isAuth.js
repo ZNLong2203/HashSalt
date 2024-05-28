@@ -9,8 +9,7 @@ exports.authenticateToken = async (req, res, next) => {
     if(!token) {
         return res.status(401).json({message: "Access denied"});
     }
-
-    console.log(req.headers)
+    
     // Verify refresh token
     jwt.verify(token, process.env.JWT_PRIVATE_KEY, (err, user) => {
         if(err) {

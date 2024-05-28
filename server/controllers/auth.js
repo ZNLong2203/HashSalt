@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
-const getInfoJson = require('../utils/getInfoJson');
-const createTokenPair = require('../utils/createToken');
+const {getInfoJson} = require('../utils/getInfoJson');
+const {createTokenPair} = require('../utils/createToken');
 const User = require('../models/user');
 const KeyToken = require('../models/keytoken');
 
@@ -76,11 +76,36 @@ exports.login = async (req, res, next) => {
 
 exports.logout = async (req, res, next) => {
     try {
+        // Get refresh token from cookies and delete it from database
         console.log(req.cookies);
         const refreshToken = req.cookies.refreshToken;
         await KeyToken.deleteOne({refreshToken: refreshToken});
         res.clearCookie('refreshToken');
         return res.status(200).json({message: 'Logout success'});
+    } catch(err) {
+        console.log(err);
+        return res.status(400).json({message: 'Something went wrong'});
+    }
+}
+
+exports.refreshAccessToken = async (req, res, next) => {
+    try {
+        // Get refresh token from cookies and find user
+        const refreshToken = req.cookies.refreshToken;
+        const keyToken = await KeyToken.findOne({refreshToken: refreshToken});
+        if(!keyToken) {
+            return res.status(401).json({message: 'Access denied'});
+        }
+
+        const user = await User.findOne({_id: keyToken.userId});
+        const payload = getInfoJson({fields: ['_id', 'name', 'email', 'role'], objects: user})
+        const {accessToken} = await createTokenPair(payload, process.env.JWT_PUBLIC_KEY, process.env.JWT_PRIVATE_KEY);
+
+        return res.status(200).json({
+            message: 'Refresh access token success',
+            token_type: 'Bearer',
+            accessToken
+        })
     } catch(err) {
         console.log(err);
         return res.status(400).json({message: 'Something went wrong'});
