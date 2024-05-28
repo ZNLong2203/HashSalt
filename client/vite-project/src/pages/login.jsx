@@ -1,10 +1,35 @@
+import axios from 'axios'
 import React from 'react'
+import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import ROUTES from '../routes/routes'
 
 const Login = () => {
     const navigate = useNavigate()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        if(email === '' || password === '') {
+            alert('Please fill in all fields')
+        }
+        try {
+            const res = await axios.post('http://localhost:3000/auth/login', {
+                email,
+                password,
+            })
+            if(res.status === 200) {
+                alert("Login success")
+                localStorage.setItem('accessToken', res.data.accessToken)
+                navigate(ROUTES.REGISTER)
+            }
+        } catch(err) {
+            alert("Login failed")
+        }
+    }
     return (
+        <form onSubmit={handleSubmit}>
             <div className="bg-sky-500/50 flex flex-col md:flex-row items-center justify-center w-full h-screen">
             <div className="w-full flex items-center justify-center">
                 <div className="bg-white px-10 py-20 rounded-3xl">
@@ -17,6 +42,7 @@ const Login = () => {
                                 className="border border-gray-300 p-2 w-full mt-1 bg-transparent"
                                 type="email"
                                 placeholder="Enter your email"
+                                onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
                         <div>
@@ -25,6 +51,7 @@ const Login = () => {
                                 className="border border-gray-300 p-2 w-full mt-1 bg-transparent"
                                 type="password"
                                 placeholder="Enter your password"
+                                onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
                         <div className="mt-8 flex justify-between items-center">
@@ -51,7 +78,8 @@ const Login = () => {
                 <div className="w-60 h-60 bg-gradient-to-tr from-violet-500 to-pink-500 rounded-lg animate-bounce"></div>
                 <div className="w-full h-1/2 absolute bottom-0 bg-white/10 backdrop-blur-lg"></div>
             </div>
-        </div>
+            </div>
+        </form>
     )
 }
 

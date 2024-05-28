@@ -34,6 +34,15 @@ app.use(helmet()) // Secure Express apps by setting various HTTP headers
 app.use(compression()) // Compress all routes to reduce the size of the response body
 app.use('/', mainRoute) // Main route
 
+// Error handler
+app.use((err, req, res, next) => {
+    console.error(err.stack)
+    res.status(err.status || 500).json({
+        message: err.message,
+        error: err
+    })
+})
+
 // Connect to DB with singleton pattern
 class Database {
     constructor() {
