@@ -40,6 +40,7 @@ const productSchema = new Schema({
     timestamps: true
 })
 
+// Electronics schema
 const electronicsSchema = new Schema({
     brand: {
         type: String,
@@ -57,6 +58,7 @@ const electronicsSchema = new Schema({
     timestamps: true
 })
 
+// Clothing schema
 const clothingSchema = new Schema({
     brand: {
         type: String,
@@ -78,6 +80,7 @@ const clothingSchema = new Schema({
     timestamps: true
 })
 
+// Furniture schema
 const furnitureSchema = new Schema({
     brand: {
         type: String,
@@ -104,8 +107,8 @@ const furnitureSchema = new Schema({
 })
 
 module.exports = {
-    Products: model('Product', productSchema),
+    Products: model('Products', productSchema),
     Electronics: model('Electronics', electronicsSchema),
-    Clothings: model('Clothing', clothingSchema),
-    Furnitures: model('Furniture', furnitureSchema)
+    Clothings: model('Clothings', clothingSchema),
+    Furnitures: model('Furnitures', furnitureSchema)
 }
