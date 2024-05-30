@@ -1,3 +1,4 @@
+const { createCipheriv } = require('crypto')
 const {Products, Electronics, Clothing, Furniture} = require('../models/products')
 const ProductFactory = require('../services/products')
 
@@ -11,7 +12,7 @@ exports.createProduct = async (req, res, next) => {
         const newProduct = await productFactory.createProduct()
         res.status(201).json(newProduct)
     } catch(err) {
-        res.status(500).json({message: err.message})
+        res.status(err.status || 500).json({message: err.message})
     }
 }
 
@@ -22,7 +23,7 @@ exports.getProductShop = async (req, res, next) => {
         const products =  await Products.find({product_shop: req.user._id})
         res.status(200).json(products)
     } catch(err) {
-        res.status(500).json({message: err.message})
+        res.status(err.status || 500).json({message: err.message})
     }
 }
 
@@ -39,6 +40,40 @@ exports.searchProduct = async (req, res, next) => {
         .lean()
         res.status(200).json(products)
     } catch(err) {
-        res.status(500).json({message: err.message})
+        res.status(err.status || 500).json({message: err.message})
+    }
+}
+
+// Publish a product
+exports.publishedProduct = async (req, res, next) => {
+    try {
+        const product = await Products.findByIdAndUpdate(
+            req.params.id,
+            {isPublished: true},
+            {new: true}
+        )
+        if(!product) {
+            return res.status(404).json({message: 'Product not found'})
+        }
+        res.status(200).json(product)
+    } catch(err) {
+        res.status(err.status || 500).json({message: err.message})
+    }
+}
+
+// Unpublish a product
+exports.unpublishedProduct = async (req, res, next) => {
+    try {
+        const product = await Products.findByIdAndUpdate(
+            req.params.id,
+            {isPublished: false},
+            {new: true}
+        )
+        if(!product) {
+            return res.status(404).json({message: 'Product not found'})
+        }
+        res.status(200).json(product)
+    } catch(err) {
+        res.status(err.status || 500).json({message: err.message})
     }
 }

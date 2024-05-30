@@ -6,7 +6,11 @@ const router = express.Router()
 
 // api/products/
 router.post('/create', authenticateToken, productController.createProduct)
+
 router.get('/shopproduct', authenticateToken, productController.getProductShop)
 router.get('/search', productController.searchProduct)
+
+router.patch('/published/:id', authenticateToken, productController.publishedProduct)
+router.patch('/unpublished/:id', authenticateToken, productController.unpublishedProduct)
 
 module.exports = router

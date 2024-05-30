@@ -17,7 +17,7 @@ dotenv.config()
 // Configuring CORS
 corsOptions = {
     origin: process.env.FRONTEND_URL,
-    methos: ['GET', 'POST', 'PUT', 'DELETE'],
+    nethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'HEAD'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
     optionsSuccessStatus: 200
