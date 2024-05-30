@@ -4,6 +4,7 @@ const {authenticateToken, isAdmin} = require('../../utils/isAuth')
 
 const router = express.Router()
 
+// auth/
 router.post('/signup', authController.signup)
 router.post('/login', authController.login)
 router.post('/logout', authenticateToken, authController.logout)

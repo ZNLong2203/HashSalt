@@ -35,10 +35,18 @@ const productSchema = new Schema({
     product_attributes: {
         type: Schema.Types.Mixed,
         required: true,
+    },
+    isPublished: {
+        type: Boolean,
+        default: true,
+        index: true
     }
 }, {
     timestamps: true
 })
+
+// Indexing the product_name and product_description fields
+productSchema.index({product_name: 'text', product_description: 'text'})
 
 // Electronics schema
 const electronicsSchema = new Schema({

@@ -1,4 +1,4 @@
-const {Products, Electronics, Clothings, Furnitures} = require('../models/product')
+const {Products, Electronics, Clothings, Furnitures} = require('../models/products')
 
 // Define factory class for product
 class ProductFactory {

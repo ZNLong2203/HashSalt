@@ -2,9 +2,9 @@ const express = require('express')
 const router = express.Router()
 
 const auth = require('./access/auth')
-const product = require('./shop/product')
+const products = require('./shop/products')
 
 router.use('/auth', auth)
-router.use('/api/product', product)
+router.use('/api/products', products)
 
 module.exports = router
