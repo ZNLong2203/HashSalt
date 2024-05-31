@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React from 'react';
+import ROUTES from '../routes/routes'
 import { useState, useEffect } from 'react';
 import { styled } from '@mui/system';
 import { Button, Card, CardContent, CardMedia, Container, Grid, Typography, CardActions } from '@mui/material';
@@ -40,30 +41,32 @@ const Home = () => {
       <Grid container spacing={3}>
         {products.map((product) => (
           <Grid item key={product._id} xs={12} sm={6} md={5}>
-            <StyledCard>
+            <StyledCard className="shadow-lg hover:shadow-xl transition-shadow duration-200">
               <StyledCardMedia
+                className="h-64 object-cover"
                 image="https://applecenter.com.vn/uploads/cms/16632365177447.jpg" 
                 // title={product.product_name}
               />
-              <StyledCardContent>
-                <Typography gutterBottom variant="h5" component="h2">
+              <StyledCardContent className="p-4">
+                <Typography className="text-2xl font-bold mb-2">
                   Product {product.product_name} 
                 </Typography>
-                <Typography>
+                <Typography className="text-gray-700 mb-2">
                   {product.product_description}
                 </Typography>
-                <Typography>
+                <Typography className="text-lg font-semibold mb-2">
                   Price: {product.product_price} 
                 </Typography>
-                <Typography>
+                <Typography className="text-gray-500 mb-2">
                   Quantity: {product.product_quantity}
                 </Typography>
               </StyledCardContent>
-              <CardActions>
-                <Button size="small" color="primary">
-                  View
+              <CardActions className="justify-center p-4">
+                <Button size="small" color="primary" className="mr-2 bg-blue-400 text-white hover:bg-blue-500 transition-colors duration-200"
+                  onClick={() => navigate(ROUTES.DETAILS_PRODUCT.replace(':product_id', product._id))}
+                > View
                 </Button>
-                <Button size="small" color="primary">
+                <Button size="small" color="primary" className="bg-blue-400 text-white hover:bg-blue-500 transition-colors duration-200">
                   Add to cart
                 </Button>
               </CardActions>
@@ -73,6 +76,6 @@ const Home = () => {
       </Grid>
     </Container>
   );
-};
+}
 
 export default Home;
