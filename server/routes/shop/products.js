@@ -10,6 +10,11 @@ router.post('/create', authenticateToken, productController.createProduct)
 router.get('/shopproduct', authenticateToken, productController.getProductShop)
 router.get('/search', productController.searchProduct)
 
+// Get all products to display on the home page
+router.get('/', productController.getAllProducts)
+router.get('/:id', productController.getSingleProduct)
+
+// Publish and unpublish a product
 router.patch('/published/:id', authenticateToken, productController.publishedProduct)
 router.patch('/unpublished/:id', authenticateToken, productController.unpublishedProduct)
 

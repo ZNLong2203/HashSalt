@@ -2,6 +2,31 @@ const { createCipheriv } = require('crypto')
 const {Products, Electronics, Clothing, Furniture} = require('../models/products')
 const ProductFactory = require('../services/products')
 
+// Get all products to display on the home page
+exports.getAllProducts = async (req, res, next) => {
+    try {
+        const products = await Products
+                        .find({isPublished: true})
+                        .select('product_name product_image product_description product_price product_quantity product_shop')
+        res.status(200).json(products)
+    } catch(err) {
+        res.status(err.status || 500).json({message: err.message})
+    }
+}
+
+// Get a single product
+exports.getSingleProduct = async (req, res, next) => {
+    try {
+        const product = await Products.findById(req.params.id)
+        if(!product) {
+            return res.status(404).json({message: 'Product not found'})
+        }
+        res.status(200).json(product)
+    } catch(err) {
+        res.status(err.status || 500).json({message: err.message})
+    }
+}
+
 // User creates a product
 exports.createProduct = async (req, res, next) => {
     try {
