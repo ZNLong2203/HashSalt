@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
-const {getInfoJson} = require('../utils/getInfoJson');
+const {getInfoJson} = require('../utils/getInfo');
 const {createTokenPair} = require('../utils/createToken');
 const User = require('../models/user');
 const KeyToken = require('../models/keytoken');

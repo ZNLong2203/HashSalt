@@ -36,26 +36,22 @@ const Home = () => {
                 alt={product.product_name}
               />
               <CardContent className="p-4">
-                <Typography variant="h5" component="h2" className="font-bold mb-2">
+                <Typography variant="h4" className="font-black mb-2 text-stone-900">
                   {product.product_name}
                 </Typography>
-                <Typography variant="body2" color="textSecondary" className="mb-2">
+                <Typography variant="body2" className="font-semibold mb-2">
                   {product.product_description}
                 </Typography>
-                <Typography variant="subtitle1" className="font-semibold mb-2">
+                <Typography variant="subtitle1" className="font-semibold mb-2 text-orange-600">
                   Price: {product.product_price}
                 </Typography>
-                <Typography variant="body2" color="textSecondary" className="mb-2">
-                  Quantity: {product.product_quantity}
-                </Typography>
               </CardContent>
-              <CardActions className="justify-center p-4">
+              <CardActions className="justify-center p-4 space-x-5">
                 <Button
                   size="small"
                   variant="contained"
                   color="primary"
                   className="mr-2"
-                  startIcon={<AiFillEye />}
                   onClick={() => navigate(ROUTES.DETAILS_PRODUCT.replace(':product_id', product._id))}
                 >
                   View
@@ -63,7 +59,7 @@ const Home = () => {
                 <Button
                   size="small"
                   variant="contained"
-                  color="secondary"
+                  color="inherit"
                   startIcon={<RiAddCircleLine />}
                 >
                   Add to Cart

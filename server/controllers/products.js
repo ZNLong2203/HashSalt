@@ -1,4 +1,5 @@
 const { createCipheriv } = require('crypto')
+const User = require('../models/user')
 const {Products, Electronics, Clothing, Furniture} = require('../models/products')
 const ProductFactory = require('../services/products')
 
@@ -47,6 +48,21 @@ exports.getProductShop = async (req, res, next) => {
         console.log(req.user._id)
         const products =  await Products.find({product_shop: req.user._id})
         res.status(200).json(products)
+    } catch(err) {
+        res.status(err.status || 500).json({message: err.message})
+    }
+}
+
+exports.updatedProduct = async (req, res, next) => {
+    try {
+        // Check if the user is the owner of the product
+        if(req.body.product_shop !== req.user._id) {
+            return res.status(401).json({message: 'Access denied'})
+        }
+
+        const productFactory = new ProductFactory(req.body)
+        const updatedProduct = await productFactory.updateProduct()
+        res.status(200).json(updatedProduct)
     } catch(err) {
         res.status(err.status || 500).json({message: err.message})
     }
