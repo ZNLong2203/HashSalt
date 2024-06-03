@@ -37,6 +37,19 @@ class ProductFactory {
                 throw new Error('Invalid product type')
         }
     }
+
+    async deleteProduct() {
+        switch(this.product.product_type) {
+            case 'Electronics':
+                return await new Electronics_Class(this.product).deleteProduct()
+            case 'Clothings':
+                return await new Clothings_Class(this.product).deleteProduct()
+            case 'Furnitures':
+                return await new Furnitures_Class(this.product).deleteProduct()
+            default:
+                throw new Error('Invalid product type')
+        }
+    }
 }
 
 // Define base class for product
@@ -61,6 +74,15 @@ class Products_Class {
                 new: true
             })
             return updatedProduct
+        } catch(err) {
+            throw new Error(err)
+        }
+    }
+
+    async deleteProduct() {
+        try {
+            const deletedProduct = await Products.findByIdAndDelete(this.product._id)
+            return deletedProduct
         } catch(err) {
             throw new Error(err)
         }
@@ -97,6 +119,16 @@ class Electronics_Class extends Products_Class {
             throw new Error(err)
         }
     }
+
+    async deleteProduct() {
+        try {
+            const deletedElectronics = await Electronics.findByIdAndDelete(this.product._id)
+            await super.deleteProduct()
+            return deletedElectronics
+        } catch(err) {
+            throw new Error(err)
+        }
+    }
 }
 
 // Define child class for clothing
@@ -129,6 +161,16 @@ class Clothings_Class extends Products_Class {
             throw new Error(err)
         }
     }
+
+    async deleteProduct() {
+        try {
+            const deletedClothing = await Clothings.findByIdAndDelete(this.product._id)
+            await super.deleteProduct()
+            return deletedClothing
+        } catch(err) {
+            throw new Error(err)
+        }
+    }
 }
 
 // Define child class for furniture
@@ -158,6 +200,16 @@ class Furnitures_Class extends Products_Class {
             const updatedProduct = await super.updateProduct()
             return updatedProduct
         } catch (err) {
+            throw new Error(err)
+        }
+    }
+
+    async deleteProduct() {
+        try {
+            const deletedFurniture = await Furnitures.findByIdAndDelete(this.product._id)
+            await super.deleteProduct()
+            return deletedFurniture
+        } catch(err) {
             throw new Error(err)
         }
     }

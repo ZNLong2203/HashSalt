@@ -5,10 +5,21 @@ const productController = require('../../controllers/products')
 const router = express.Router()
 
 // api/products/
+
+// Create a new product
 router.post('/create', authenticateToken, productController.createProduct)
 
+// Get all products from the shop of that user
 router.get('/shopproduct', authenticateToken, productController.getProductShop)
+
+// Search for a product using query ?name=product_name
 router.get('/search', productController.searchProduct)
+
+// Update a product when the user wants to edit it
+router.put('/update/:id', authenticateToken, productController.updatedProduct)
+
+// Delete a product when the user wants to delete it
+router.delete('/delete/:id', authenticateToken, productController.deleteProduct)
 
 // Get all products to display on the home page
 router.get('/', productController.getAllProducts)

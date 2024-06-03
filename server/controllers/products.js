@@ -68,6 +68,21 @@ exports.updatedProduct = async (req, res, next) => {
     }
 }
 
+exports.deleteProduct = async (req, res, next) => {
+    try {
+        // Check if the user is the owner of the product
+        if(req.body.product_shop !== req.user._id) {
+            return res.status(401).json({message: 'Access denied'})
+        }
+
+        const productFactory = new ProductFactory(req.body)
+        const deletedProduct = await productFactory.deleteProduct()
+        res.status(200).json(deletedProduct)
+    } catch(err) {
+        res.status(err.status || 500).json({message: err.message})
+    }
+}
+
 // Get all products when people type in search bar, query is the name of the product 
 // Using text index to search for products, only return products that are published
 exports.searchProduct = async (req, res, next) => {

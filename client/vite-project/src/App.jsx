@@ -9,6 +9,7 @@ import Home from './pages/home'
 import Login from './pages/login'
 import Register from './pages/register'
 import ProductDetails from './pages/detailsProduct'
+import EditProducts from './pages/editProduct'
 
 function Main() {
   const location = useLocation()
@@ -23,6 +24,7 @@ function Main() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/product/:product_id" element={<ProductDetails />} />
+          <Route path="/edit/:product_id" element={<EditProducts />} />
         </Routes>
       </main>
       {hideFooterOnPages.includes(location.pathname) ? null : <Footer />}
