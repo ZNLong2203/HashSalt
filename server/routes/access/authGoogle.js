@@ -1,6 +1,8 @@
 const express = require('express')
 const passport = require('passport')
 const dotenv = require('dotenv')
+const cookieParser = require('cookie-parser')
+const createTokenPair = require('../../utils/createToken')
 const GoogleStrategy = require('passport-google-oauth20').Strategy
 const User = require('../../models/user')
 const KeyToken = require('../../models/keytoken')
@@ -10,6 +12,8 @@ dotenv.config()
 
 router.get('/google', passport.authenticate('google', {scope: ['profile', 'email']}))
 router.get('/google/callback', passport.authenticate('google', {failureRedirect: '/auth/login'}), (req, res) => {
+    const {accessToken, refreshToken} = createTokenPair(req.user, process.env.JWT_PUBLIC_KEY, process.env.JWT_PRIVATE_KEY)
+    res.cookie('refreshToken', refreshToken, {httpOnly: true})
     res.redirect(process.env.FRONTEND_URL)
 })
 
