@@ -5,6 +5,8 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const passport = require('passport')
+const GoogleStrategy = require('passport-google-oauth20').Strategy
+const session = require('express-session')
 const morgan = require('morgan')
 const helmet = require('helmet')
 const compression = require('compression')
@@ -26,12 +28,18 @@ corsOptions = {
 // Init middleware
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use(passport.initialize())
 app.use(cookieParser())
 app.use(cors(corsOptions))
 app.use(morgan('dev')) // HTTP request logger middleware for node.js
 app.use(helmet()) // Secure Express apps by setting various HTTP headers
 app.use(compression()) // Compress all routes to reduce the size of the response body
+app.use(session({ // Express session middleware to store session data
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+}))
+app.use(passport.initialize())
+app.use(passport.session())
 app.use('/', mainRoute) // Main route
 
 // Error handler
