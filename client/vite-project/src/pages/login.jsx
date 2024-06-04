@@ -66,7 +66,9 @@ const Login = () => {
                         </div>
                         <div>
                             <button className="bg-violet-500 text-white w-full py-2 mt-6 rounded-lg hover:bg-violet-600 transition duration-200">Login</button>
-                            <button className="bg-gray-200 text-black w-full py-2 mt-4 rounded-lg hover:bg-gray-300 transition duration-200">Login with Google</button>
+                            <button className="bg-gray-200 text-black w-full py-2 mt-4 rounded-lg hover:bg-gray-300 transition duration-200"
+                            onClick={() => navigate("http://localhost:3000/auth/google")}
+                            >Login with Google</button>
                         </div>
                         <div>
                             <p className="mt-6 text-center">Don't have an account? <button className="bg-white text-violet-500 font-medium hover:text-violet-800 transition duration-200" onClick={() => navigate(ROUTES.REGISTER)}>Sign up</button></p>

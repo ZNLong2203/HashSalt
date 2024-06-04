@@ -1,6 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const dotenv = require('dotenv')
+const dotenv = require('dotenv').config()
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
@@ -14,7 +14,6 @@ const mainRoute = require('./routes/mainRoute');
 
 // Creating the express app
 const app = express();
-dotenv.config()
 
 // Configuring CORS
 corsOptions = {

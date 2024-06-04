@@ -14,8 +14,17 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    provider: {
+        type: String,
+        default: 'normal',
+    },
+    provider_id: {
+        type: String,
+        default: null,
+    },
     role: {
         type: String,
+        enum: ['user', 'admin'],
         default: 'user',
     }
 }, {
