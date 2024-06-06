@@ -46,10 +46,9 @@ exports.getAllDiscountsFromShop = async (req, res) => {
         // Get all discounts from shop
         const discounts = await Discounts.find({
             discount_shopId: shopId
-        }, {
-            select: '-discount_users_used -discount_shopId -createdAt -updatedAt -__v',
-            sort: {createdAt: -1}
         })
+        .select('-discount_users_used -discount_shopId -createdAt -updatedAt -__v')
+        .sort({ createdAt: -1 });
 
         if(!discounts) {
             return res.status(400).json({message: 'No discounts found'})
@@ -66,10 +65,9 @@ exports.getAllDiscountFromProduct = async (req, res) => {
         // Get all discounts from product
         const discounts = await Discounts.find({
             discount_productId: productId
-        }, {
-            select: 'discount_code, discount_description discount_percent discount_max_uses discount_start discount_end',
-            sort: {createdAt: -1}
         })
+        .select('-discount_users_used -discount_shopId -createdAt -updatedAt -__v')
+        .sort({ createdAt: -1 })
 
         if(!discounts) {
             return res.status(400).json({message: 'No discounts found'})
