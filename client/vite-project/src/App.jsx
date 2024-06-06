@@ -8,6 +8,8 @@ import Footer from './components/footer'
 import Home from './pages/home'
 import Login from './pages/login'
 import Register from './pages/register'
+import MyShop from './pages/myShop'
+import MyDiscount from './pages/myDiscount'
 import ProductDetails from './pages/detailsProduct'
 import EditProducts from './pages/editProduct'
 
@@ -23,6 +25,8 @@ function Main() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/myshop" element={<MyShop />} />
+          <Route path="/mydiscount" element={<MyDiscount />} />
           <Route path="/product/:product_id" element={<ProductDetails />} />
           <Route path="/edit/:product_id" element={<EditProducts />} />
         </Routes>
