@@ -42,7 +42,7 @@ exports.createDiscount = async (req, res) => {
 
 exports.getAllDiscountsFromShop = async (req, res) => {
     try {
-        const {shopId} = req.params.shopId
+        const {shopId} = req.params
         // Get all discounts from shop
         const discounts = await Discounts.find({
             discount_shopId: shopId
@@ -62,7 +62,7 @@ exports.getAllDiscountsFromShop = async (req, res) => {
 
 exports.getAllDiscountFromProduct = async (req, res) => {
     try {
-        const {productId} = req.params.productId
+        const {productId} = req.params
         // Get all discounts from product
         const discounts = await Discounts.find({
             discount_productId: productId
