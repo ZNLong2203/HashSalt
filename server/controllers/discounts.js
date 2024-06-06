@@ -47,7 +47,7 @@ exports.getAllDiscountsFromShop = async (req, res) => {
         const discounts = await Discounts.find({
             discount_shopId: shopId
         }, {
-            select: 'discount_code, discount_description discount_percent discount_max_uses discount_start discount_end',
+            select: '-discount_users_used -discount_shopId -createdAt -updatedAt -__v',
             sort: {createdAt: -1}
         })
 
