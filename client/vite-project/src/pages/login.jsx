@@ -3,11 +3,13 @@ import React from 'react'
 import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import ROUTES from '../routes/routes'
+import useStoreToken from '../hooks/useStoreToken'
 
 const Login = () => {
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const {setAuthenticated, setRole} = useStoreToken()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -22,7 +24,9 @@ const Login = () => {
             if(res.status === 200) {
                 alert("Login success")
                 localStorage.setItem('accessToken', res.data.accessToken)
-                navigate(ROUTES.REGISTER)
+                setRole(res.data.role)
+                setAuthenticated(true)
+                navigate(ROUTES.HOME)
             }
         } catch(err) {
             alert("Login failed")
