@@ -21,4 +21,8 @@ router.put('/:id', authenticateToken, discountController.updateDiscount)
 // Delete a discount when the user wants to delete it
 router.delete('/:id', authenticateToken, discountController.deleteDiscount)
 
+// Use and Cancel a discount
+router.patch('/use', authenticateToken, discountController.useDiscount)
+router.patch('/cancel', authenticateToken, discountController.cancelUseDiscount)
+
 module.exports = router

@@ -8,6 +8,8 @@ const KeyToken = require('../../models/keytoken')
 
 const router = express.Router()
 
+// auth/
+
 router.get('/google', authGoogle.google)
 router.get('/google/callback', authGoogle.googleCallback)
 router.get('/google/success', authGoogle.googleSuccess)
