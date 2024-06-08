@@ -77,11 +77,11 @@ const MyDiscounts = () => {
             <h1 className="text-4xl font-bold text-center mb-8">My Discounts</h1>
             <Link
                 to={ROUTES.CREATEDISCOUNT}
-                className="mb-8 inline-block bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition duration-300"
+                className="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
             >
                 Create Discount
             </Link>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
                 {discounts.map((discount) => (
                     <div key={discount._id} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                         {isEditing === discount._id ? (
@@ -164,13 +164,13 @@ const MyDiscounts = () => {
                                 <div className="flex justify-center space-x-20 mt-4">
                                     <button
                                         onClick={() => handleEditClick(discount)}
-                                        className="bg-yellow-500 text-white px-4 py-2 rounded-lg"
+                                        className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900"
                                     >
                                         Edit
                                     </button>
                                     <button
                                         onClick={() => handleDeleteClick(discount._id)}
-                                        className="bg-red-600 text-white px-4 py-2 rounded-lg"
+                                        className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                                     >
                                         Delete
                                     </button>

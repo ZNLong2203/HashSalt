@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ROUTES from '../routes/routes';
 import useStoreToken from '../hooks/useStoreToken';
 import UserMenu from './userMenu';
+import { FaShoppingCart } from "react-icons/fa";
 
 const Navbar = () => {
   const {isAuthenticated} = useStoreToken();
@@ -32,7 +33,10 @@ const Navbar = () => {
         </div>
         <div className="hidden md:flex items-center space-x-4">
           {isAuthenticated ? (
-            <UserMenu />
+            <>
+              <FaShoppingCart />
+              <UserMenu />
+            </>
           ) : (
             <>
               <a href={ROUTES.LOGIN} className="text-gray-600 hover:text-gray-800">Login</a>

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../routes/routes';
@@ -24,6 +25,20 @@ const UserMenu = () => {
     };
   }, []);
 
+  const logOut = () => {
+    try {
+      axios.post('http://localhost:3000/auth/logout', {}, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+        }
+      });
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('token-storage');
+      window.location.reload()
+    } catch(err) {
+      console.log(err)
+    }
+  }
   return (
     <div className="relative">
       <img
@@ -55,7 +70,7 @@ const UserMenu = () => {
               onClick={() => navigate(ROUTES.MYSHOP)}
               className="block px-4 py-2 text-gray-600 hover:bg-gray-100 w-full text-left"
             >
-              MyShop
+              My Shop
             </button>
           </li>
           <li>
@@ -63,12 +78,12 @@ const UserMenu = () => {
               onClick={() => navigate(ROUTES.MYDISCOUNT)}
               className="block px-4 py-2 text-gray-600 hover:bg-gray-100 w-full text-left"
             >
-              MyDiscount
+              My Discount
             </button>
           </li>
           <li>
             <button
-              onClick={() => navigate(ROUTES.LOGOUT)}
+              onClick={() => logOut()}
               className="block px-4 py-2 text-gray-600 hover:bg-gray-100 w-full text-left"
             >
               Logout

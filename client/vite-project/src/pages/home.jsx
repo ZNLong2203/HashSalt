@@ -47,23 +47,20 @@ const Home = () => {
                 </Typography>
               </CardContent>
               <CardActions className="justify-center p-4 space-x-5">
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  className="mr-2"
-                  onClick={() => navigate(ROUTES.DETAILS_PRODUCT.replace(':product_id', product._id))}
+                <button
+                  className="flex items-center justify-center bg-orange-500 text-white rounded-md px-4 py-2"
+                  onClick={() => navigate(`/product/${product._id}`)}
                 >
+                  <AiFillEye className="me-2" />
                   View
-                </Button>
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="inherit"
-                  startIcon={<RiAddCircleLine />}
+                </button>
+                <button
+                  className="flex items-center justify-center bg-green-500 text-white rounded-md px-4 py-2"
+                  onClick={() => navigate(ROUTES.CART)}
                 >
+                  <RiAddCircleLine className="me-2" />
                   Add to Cart
-                </Button>
+                </button>
               </CardActions>
             </Card>
           </Grid>
