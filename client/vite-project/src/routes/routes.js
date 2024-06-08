@@ -5,6 +5,7 @@ const ROUTES = {
     DETAILS_PRODUCT: '/product/:product_id',
     MYSHOP: '/myshop',
     MYDISCOUNT: '/mydiscount',
+    CREATEDISCOUNT: '/creatediscount',
 }
 
 export default ROUTES;
