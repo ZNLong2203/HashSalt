@@ -3,7 +3,7 @@ import axios from 'axios';
 import ROUTES from '../routes/routes';
 import { useState, useEffect } from 'react';
 import { Button, Card, CardContent, CardMedia, Container, Grid, Typography, CardActions } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { AiFillEye } from 'react-icons/ai';
 import { RiAddCircleLine } from 'react-icons/ri';
 
@@ -29,6 +29,21 @@ const Home = () => {
 
   return (
     <Container maxWidth="lg" className="mt-20">
+      <h1 className="text-4xl font-bold text-center mb-8">My Shop</h1>
+      <div className="space-x-4 mb-5">
+          <button
+              onClick={() => navigate(ROUTES.CREATEPRODUCT)}
+              className="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+          >
+              Create Product
+          </button>
+          <button
+              onClick={() => navigate(ROUTES.CREATEPRODUCT)}
+              className="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+          >
+              Delete Product
+          </button>
+      </div>
       <Grid container spacing={4}>
         {products.map((product) => (
           <Grid item key={product._id} xs={12} sm={6} md={4}>

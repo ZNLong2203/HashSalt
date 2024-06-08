@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import ROUTES from '../routes/routes';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
 import moment from 'moment';
@@ -39,9 +40,10 @@ const CreateDiscount = () => {
                     Authorization: 'Bearer ' + token,
                 },
             });
-            navigate('/my-discounts');
+            toast.success('Discount created successfully');
+            navigate(ROUTES.MYDISCOUNT);
         } catch (error) {
-            console.error('Error creating discount:', error);
+            toast.error('Failed to create discount');
         }
     };
 
@@ -51,7 +53,7 @@ const CreateDiscount = () => {
             <div className="mb-8 p-6 bg-white rounded-lg shadow-md">
                 <h2 className="text-2xl font-bold mb-6">Create New Discount</h2>
                 <div className="flex flex-row items-center mb-2">
-                    <h3 className="text-lg w-1/4 font-semibold mb-2">Discount Code:</h3>
+                    <label className="text-lg w-1/4 font-semibold mb-2">Discount Code:</label>
                     <input
                     type="text"
                     name="discount_code"
@@ -63,7 +65,7 @@ const CreateDiscount = () => {
                 </div>
 
                 <div className="flex flex-row items-center mb-2">
-                    <h3 className="text-lg w-1/4 font-semibold mb-2">Discount Description:</h3>
+                    <label className="text-lg w-1/4 font-semibold mb-2">Discount Description:</label>
                     <input
                     type="text"
                     name="discount_description"
@@ -75,7 +77,7 @@ const CreateDiscount = () => {
                 </div>
 
                 <div className="flex flex-row items-center mb-2">
-                    <h3 className="text-lg w-1/4 font-semibold mb-2">Discount Type:</h3>
+                    <label className="text-lg w-1/4 font-semibold mb-2">Discount Type:</label>
                     <select
                     name="discount_type"
                     value={newDiscount.discount_type}
@@ -88,7 +90,7 @@ const CreateDiscount = () => {
                 </div>
 
                 <div className="flex flex-row items-center mb-2">
-                    <h3 className="text-lg w-1/4 font-semibold mb-2">Discount Value:</h3>
+                    <label className="text-lg w-1/4 font-semibold mb-2">Discount Value:</label>
                     <input
                     type="number"
                     name="discount_value"
@@ -100,7 +102,7 @@ const CreateDiscount = () => {
                 </div>
             
                 <div className="flex flex-row items-center mb-2">
-                    <h3 className="text-lg w-1/4 font-semibold mb-2">Discount Max Uses:</h3>
+                    <label className="text-lg w-1/4 font-semibold mb-2">Discount Max Uses:</label>
                     <input
                     type="number"
                     name='discount_max_uses'
@@ -112,7 +114,7 @@ const CreateDiscount = () => {
                 </div>
 
                 <div className="flex flex-row items-center mb-2">
-                    <h3 className="text-lg w-1/4 font-semibold mb-2">Discount Start Date:</h3>
+                    <label className="text-lg w-1/4 font-semibold mb-2">Discount Start Date:</label>
                     <input 
                     type="date"
                     name="discount_start"
@@ -123,7 +125,7 @@ const CreateDiscount = () => {
                 </div>
 
                 <div className="flex flex-row items-center mb-2">
-                    <h3 className="text-lg w-1/4 font-semibold mb-2">Discount End Date:</h3>
+                    <label className="text-lg w-1/4 font-semibold mb-2">Discount End Date:</label>
                     <input
                     type="date"
                     name="discount_end"

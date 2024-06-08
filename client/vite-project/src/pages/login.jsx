@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React from 'react'
+import toast from 'react-hot-toast'
 import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import ROUTES from '../routes/routes'
@@ -22,14 +23,14 @@ const Login = () => {
                 password,
             })
             if(res.status === 200) {
-                alert("Login success")
+                toast.success('Login successful')
                 localStorage.setItem('accessToken', res.data.accessToken)
                 setRole(res.data.role)
                 setAuthenticated(true)
                 navigate(ROUTES.HOME)
             }
         } catch(err) {
-            alert("Login failed")
+            toast.error('Login failed')
         }
     }
     return (

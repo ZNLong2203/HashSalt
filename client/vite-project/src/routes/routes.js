@@ -4,6 +4,7 @@ const ROUTES = {
     REGISTER: '/register',
     DETAILS_PRODUCT: '/product/:product_id',
     MYSHOP: '/myshop',
+    CREATEPRODUCT: '/createproduct',
     MYDISCOUNT: '/mydiscount',
     CREATEDISCOUNT: '/creatediscount',
 }

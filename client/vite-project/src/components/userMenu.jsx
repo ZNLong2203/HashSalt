@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../routes/routes';
 
@@ -25,20 +26,25 @@ const UserMenu = () => {
     };
   }, []);
 
-  const logOut = () => {
+  const logOut = async () => {
     try {
-      axios.post('http://localhost:3000/auth/logout', {}, {
+      await axios.post('http://localhost:3000/auth/logout', {}, {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('accessToken')
         }
       });
       localStorage.removeItem('accessToken');
       localStorage.removeItem('token-storage');
-      window.location.reload()
-    } catch(err) {
-      console.log(err)
+      toast.success('Logout successful');
+      
+      setTimeout(() => {
+        window.location.reload() 
+      }, 500); // 0.5 second delay to allow the toast to be visible
+    } catch (err) {
+      toast.error('Logout failed');
     }
   }
+
   return (
     <div className="relative">
       <img

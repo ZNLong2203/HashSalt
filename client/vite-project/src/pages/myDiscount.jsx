@@ -4,13 +4,14 @@ import ROUTES from '../routes/routes';
 import {jwtDecode} from 'jwt-decode'; // Ensure correct import, it's a default export
 import { FaRegSmile } from 'react-icons/fa';
 import { FiArrowRightCircle } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import moment from 'moment';
 
 const MyDiscounts = () => {
     const [discounts, setDiscounts] = useState([]);
     const [isEditing, setIsEditing] = useState(null); // Track the discount being edited
     const [editDiscount, setEditDiscount] = useState({}); // Store the edited discount values
+    const navigate = useNavigate();
     const token = localStorage.getItem('accessToken');
 
     useEffect(() => {
@@ -75,12 +76,20 @@ const MyDiscounts = () => {
     return (
         <div className="min-h-screen bg-gray-100 p-8">
             <h1 className="text-4xl font-bold text-center mb-8">My Discounts</h1>
-            <Link
-                to={ROUTES.CREATEDISCOUNT}
-                className="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-            >
-                Create Discount
-            </Link>
+            <div className="space-x-4">
+                <button
+                    onClick={() => navigate(ROUTES.CREATEDISCOUNT)}
+                    className="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                >
+                    Create Discount
+                </button>
+                <button
+                    onClick={() => navigate(ROUTES.CREATEDISCOUNT)}
+                    className="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                >
+                    Delete Discount
+                </button>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
                 {discounts.map((discount) => (
                     <div key={discount._id} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
