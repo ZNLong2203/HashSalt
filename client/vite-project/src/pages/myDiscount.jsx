@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ROUTES from '../routes/routes';
-import { useRefreshAccess } from '../hooks/useRefreshAccess';
+import useRefreshAccess from '../hooks/useRefreshAccess';
 import {jwtDecode} from 'jwt-decode'; // Ensure correct import, it's a default export
 import { FaRegSmile } from 'react-icons/fa';
 import { FiArrowRightCircle } from 'react-icons/fi';

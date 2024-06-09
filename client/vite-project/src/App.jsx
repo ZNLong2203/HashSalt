@@ -15,6 +15,7 @@ import MyDiscount from './pages/myDiscount'
 import CreateDiscount from './pages/createDiscount'
 import ProductDetails from './pages/detailsProduct'
 import EditProducts from './pages/editProduct'
+import CartPage from './pages/carts'
 
 function Main() {
   const location = useLocation()
@@ -35,6 +36,7 @@ function Main() {
           <Route path="/creatediscount" element={<CreateDiscount />} />
           <Route path="/product/:product_id" element={<ProductDetails />} />
           <Route path="/edit/:product_id" element={<EditProducts />} />
+          <Route path="/cart" element={<CartPage />} />
         </Routes>
       </main>
       {hideFooterOnPages.includes(location.pathname) ? null : <Footer />}

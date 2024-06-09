@@ -14,4 +14,4 @@ router.get('/test', authenticateToken, (req, res) => {
     res.json({message: "Access granted"})
 })
 
-module.exports = router
+module.exports = router 

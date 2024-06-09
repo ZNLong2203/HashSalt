@@ -29,4 +29,4 @@ axios.interceptors.request.use(
     }
 )
 
-export default {useRefreshAccess};
+export default useRefreshAccess;

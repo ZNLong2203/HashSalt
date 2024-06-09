@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import ROUTES from '../routes/routes';
 import toast from 'react-hot-toast';
-import { useRefreshAccess } from '../hooks/useRefreshAccess';
+import useRefreshAccess  from '../hooks/useRefreshAccess';
 import { useNavigate } from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
 import moment from 'moment';

@@ -7,6 +7,7 @@ const ROUTES = {
     CREATEPRODUCT: '/createproduct',
     MYDISCOUNT: '/mydiscount',
     CREATEDISCOUNT: '/creatediscount',
+    CART: '/cart',
 }
 
 export default ROUTES;

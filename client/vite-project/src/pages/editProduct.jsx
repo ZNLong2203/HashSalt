@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useRefreshAccess } from '../hooks/useRefreshAccess'; 
+import useRefreshAccess from '../hooks/useRefreshAccess'; 
 import { FaSave, FaTimes } from 'react-icons/fa';
 
 const EditProduct = () => {
