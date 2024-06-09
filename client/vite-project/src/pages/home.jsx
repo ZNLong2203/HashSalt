@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import ROUTES from '../routes/routes';
+import { useRefreshAccess } from '../hooks/useRefreshAccess';
 import { useState, useEffect } from 'react';
 import { Button, Card, CardContent, CardMedia, Container, Grid, Typography, CardActions } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +19,10 @@ const Home = () => {
         setProducts(res.data);
       } catch(err) {
         console.log(err)
+        if(err.response.status === 401) {
+          await useRefreshAccess();
+          await fetchProducts();
+        }
       }
     };
     fetchProducts();

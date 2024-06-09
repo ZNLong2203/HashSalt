@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ROUTES from '../routes/routes';
+import { useRefreshAccess } from '../hooks/useRefreshAccess';
 import {jwtDecode} from 'jwt-decode'; // Ensure correct import, it's a default export
 import { FaRegSmile } from 'react-icons/fa';
 import { FiArrowRightCircle } from 'react-icons/fi';
@@ -27,6 +28,10 @@ const MyDiscounts = () => {
                 setDiscounts(response.data);
             } catch (error) {
                 console.error('Error fetching discounts or decoding token:', error);
+                if(error.response.status === 401) {
+                    await useRefreshAccess();
+                    await fetchDiscounts();
+                }
             }
         };
 
@@ -48,6 +53,10 @@ const MyDiscounts = () => {
             setDiscounts(discounts.filter((discount) => discount._id !== discountId));
         } catch (error) {
             console.error('Error deleting discount:', error);
+            if(error.response.status === 401) {
+                await useRefreshAccess();
+                await handleDeleteClick();
+            }
         }
     };
 
@@ -62,6 +71,10 @@ const MyDiscounts = () => {
             setIsEditing(null);
         } catch (error) {
             console.error('Error saving discount:', error);
+            if(error.response.status === 401) {
+                await useRefreshAccess();
+                await handleSaveClick();
+            }
         }
     };
 

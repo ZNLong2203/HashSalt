@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useRefreshAccess } from '../hooks/useRefreshAccess'; 
 import { FaSave, FaTimes } from 'react-icons/fa';
 
 const EditProduct = () => {
@@ -12,10 +13,18 @@ const EditProduct = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/products/${product_id}`);
+        const res = await axios.get(`http://localhost:3000/api/products/${product_id}`, {}, {
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+            }
+        });
         setProduct(res.data);
       } catch (err) {
         console.log(err);
+        if(err.response.status === 401) {
+          await useRefreshAccess();
+          await fetchProduct();
+        }
       }
     };
     fetchProduct();
@@ -31,10 +40,18 @@ const EditProduct = () => {
 
   const handleSave = async () => {
     try {
-      await axios.put(`http://localhost:3000/api/products/${product_id}`, product);
+      await axios.put(`http://localhost:3000/api/products/${product_id}`, product, {
+          headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+      });
       history.push(`/details/${product_id}`);
     } catch (err) {
       console.log(err);
+      if(err.response.status === 401) {
+        await useRefreshAccess();
+        await handleSave();
+      }
     }
   };
 
