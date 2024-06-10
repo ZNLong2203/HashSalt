@@ -2,6 +2,23 @@ const User = require('../models/user');
 const Carts = require('../models/carts');
 const { Products } = require('../models/products');
 
+exports.getListInCart = async (req, res, next) => {
+    try {
+        const userId = req.user._id;
+        const cart = await Carts.findOne({
+            cart_userId: userId,
+            cart_status: 'active'
+        }).populate('cart_items.cart_product');
+
+        return res.status(200).json({
+            message: 'Cart items fetched successfully',
+            metadata: cart
+        })
+    } catch(err) {
+        return res.status(err.status || 400).json({ message: err.message || 'Something went wrong' });
+    }
+}
+
 exports.addCart = async (req, res, next) => {
     try {
         const { cart_product, cart_quantity } = req.body; 
@@ -27,7 +44,10 @@ exports.addCart = async (req, res, next) => {
     
         await cart.save();
     
-        return res.status(200).json({ message: 'Product added to cart', cart });
+        return res.status(200).json({ 
+            message: 'Product added to cart', 
+            metadata: cart 
+        });
     } catch (err) {
         return res.status(err.status || 400).json({ message: err.message || 'Something went wrong' });
     }

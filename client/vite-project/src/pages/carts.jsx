@@ -9,12 +9,12 @@ const CartPage = () => {
   useEffect(() => {
     const fetchCartItems = async () => {
         try {
-            const res = await axios.get('http://localhost:3000/api/cart', {
+            const res = await axios.get('http://localhost:3000/api/carts', {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('accessToken')
                 }
             });
-            setCartItems(res.data);
+            setCartItems(res.data.metadata.cart_items);
         } catch(err) {
             console.log(err);
             if(err.response.status === 401) {
@@ -23,7 +23,7 @@ const CartPage = () => {
             }
         }
     }
-    // fetchCartItems();
+    fetchCartItems();
   }, [])
 
   const handleRemoveItem = (itemId) => {
@@ -45,13 +45,13 @@ const CartPage = () => {
             >
               <div className="flex items-center">
                 <img
-                  src={`path/to/your/product/images/${item.cart_product}.jpg`} // Replace with your image path logic
-                  alt="Product Image"
-                  className="w-16 h-16 rounded-md object-cover mr-4"
+                  src={"https://applecenter.com.vn/uploads/cms/16632365177447.jpg"}
+                  alt={item.cart_product.product_name}
+                  className="h-16 w-16 object-cover rounded-md"
                 />
                 <div>
-                  <h2 className="text-lg font-medium">{item.cart_product.name}</h2>
-                  <p className="text-gray-500">Price: ${item.cart_product.price}</p>
+                  <h2 className="text-lg font-medium">{item.cart_product.product_name}</h2>
+                  <p className="text-gray-500">Price: ${item.cart_product.product_price}</p>
                 </div>
               </div>
               <div className="flex items-center">
