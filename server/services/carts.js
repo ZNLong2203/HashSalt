@@ -10,8 +10,13 @@ class CartService {
                 cart_userId: userId,
                 cart_status: 'active'
             }).populate('cart_items.cart_product');
-
-            return cart;
+            
+            // Caculate total price
+            let totalPrice = 0;
+            cart.cart_items.forEach(item => {
+                totalPrice += item.cart_product.product_price * item.cart_quantity;
+            })
+            return {cart, totalPrice};
         } catch(err) {
             throw new Error(err.message || 'Something went wrong');
         }
