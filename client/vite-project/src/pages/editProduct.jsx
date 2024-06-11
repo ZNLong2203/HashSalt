@@ -22,8 +22,8 @@ const EditProduct = () => {
       } catch (err) {
         console.log(err);
         if(err.response.status === 401) {
-          await useRefreshAccess();
-          await fetchProduct();
+          // await useRefreshAccess();
+          // await fetchProduct();
         }
       }
     };
@@ -49,8 +49,8 @@ const EditProduct = () => {
     } catch (err) {
       console.log(err);
       if(err.response.status === 401) {
-        await useRefreshAccess();
-        await handleSave();
+        // await useRefreshAccess();
+        // await handleSave();
       }
     }
   };

@@ -7,7 +7,7 @@ const router = express.Router()
 // api/discounts/
 
 // Create a new discount
-router.post('/create', authenticateToken, discountController.createDiscount)
+router.post('/', authenticateToken, discountController.createDiscount)
 
 // Get all discounts from the shop of that user
 router.get('/shop/:shopId', authenticateToken, discountController.getAllDiscountsFromShop)

@@ -7,7 +7,7 @@ const router = express.Router()
 // api/products/
 
 // Create a new product
-router.post('/create', authenticateToken, productController.createProduct)
+router.post('/', authenticateToken, productController.createProduct)
 
 // Get all products from the shop of that user
 router.get('/shop', authenticateToken, productController.getProductShop)

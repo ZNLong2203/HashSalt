@@ -24,8 +24,8 @@ const Home = () => {
       } catch(err) {
         console.log(err)
         if(err.response.status === 401) {
-          await useRefreshAccess();
-          await fetchProducts();
+          // await useRefreshAccess();
+          // await fetchProducts();
         }
       }
     };

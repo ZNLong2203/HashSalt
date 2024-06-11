@@ -29,8 +29,8 @@ const MyDiscounts = () => {
             } catch (error) {
                 console.error('Error fetching discounts or decoding token:', error);
                 if(error.response.status === 401) {
-                    await useRefreshAccess();
-                    await fetchDiscounts();
+                    // await useRefreshAccess();
+                    // await fetchDiscounts();
                 }
             }
         };
@@ -54,8 +54,8 @@ const MyDiscounts = () => {
         } catch (error) {
             console.error('Error deleting discount:', error);
             if(error.response.status === 401) {
-                await useRefreshAccess();
-                await handleDeleteClick();
+                // await useRefreshAccess();
+                // await handleDeleteClick();
             }
         }
     };
@@ -72,8 +72,8 @@ const MyDiscounts = () => {
         } catch (error) {
             console.error('Error saving discount:', error);
             if(error.response.status === 401) {
-                await useRefreshAccess();
-                await handleSaveClick();
+                // await useRefreshAccess();
+                // await handleSaveClick();
             }
         }
     };

@@ -2,13 +2,13 @@ import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
 
 const useRefreshAccess = async () => {
-    try {
-        const res = await axios.post('http://localhost:3000/auth/refresh');
-        localStorage.setItem('accessToken', res.data.accessToken);
-        return res.data.accessToken;
-    } catch(err) {
-        console.error(err);
-    }
+    // try {
+    //     const res = await axios.post('http://localhost:3000/auth/refresh');
+    //     localStorage.setItem('accessToken', res.data.accessToken);
+    //     // return res.data.accessToken;
+    // } catch(err) {
+    //     console.error(err);
+    // }
 }
 
 // Axios interceptor to refresh access token

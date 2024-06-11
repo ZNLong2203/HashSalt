@@ -1,32 +1,63 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ROUTES from '../routes/routes';
-import useRefreshAccess  from '../hooks/useRefreshAccess';
-import { useState, useEffect } from 'react';
-import { Button, Card, CardContent, CardMedia, Container, Grid, Typography, CardActions } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { Button, Card, CardContent, CardMedia, Container, Grid, Typography, CardActions } from '@mui/material';
 import { AiFillEye } from 'react-icons/ai';
 import { RiAddCircleLine } from 'react-icons/ri';
+import AddToCartDialog from '../components/addToCartDialog' // Import the dialog component
 
 const Home = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
+    let isFetching = false;
     const fetchProducts = async () => {
+      if (isFetching) return;
+      isFetching = true;
       try {
         const res = await axios.get('http://localhost:3000/api/products');
         setProducts(res.data);
-      } catch(err) {
-        console.log(err)
-        if(err.response.status === 401) {
-          await useRefreshAccess();
-          await fetchProducts();
+      } catch (err) {
+        if (err.response.status === 401) {
+          console.error('Unauthorized');
+        } else {
+          console.error(err);
         }
+      } finally {
+        isFetching = false;
       }
     };
     fetchProducts();
   }, []);
+
+  const handleOpenPopup = (product) => {
+    setSelectedProduct(product);
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+    setQuantity(1);
+  };
+
+  const handleAddToCart = async (quantity) => {
+    try {
+      await axios.post('http://localhost:3000/api/carts/add', 
+        { cart_product: selectedProduct._id, cart_quantity: quantity }, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+        },
+      });
+      handleClosePopup();
+      // navigate('/cart');
+    } catch (err) {
+      console.error('Failed to add to cart:', err);
+    }
+  };
 
   return (
     <Container maxWidth="lg" className="mt-20">
@@ -37,7 +68,7 @@ const Home = () => {
               <CardMedia
                 component="img"
                 height="200"
-                image="https://applecenter.com.vn/uploads/cms/16632365177447.jpg"
+                image={"https://applecenter.com.vn/uploads/cms/16632365177447.jpg"}
                 alt={product.product_name}
               />
               <CardContent className="p-4">
@@ -48,7 +79,7 @@ const Home = () => {
                   {product.product_description}
                 </Typography>
                 <Typography variant="subtitle1" className="font-semibold mb-2 text-orange-600">
-                  Price: {product.product_price}
+                  Price: ${product.product_price}
                 </Typography>
               </CardContent>
               <CardActions className="justify-center p-4 space-x-5">
@@ -61,7 +92,7 @@ const Home = () => {
                 </button>
                 <button
                   className="flex items-center justify-center bg-green-500 text-white rounded-md px-4 py-2"
-                  onClick={() => navigate(ROUTES.CART)}
+                  onClick={() => handleOpenPopup(product)}
                 >
                   <RiAddCircleLine className="me-2" />
                   Add to Cart
@@ -71,8 +102,18 @@ const Home = () => {
           </Grid>
         ))}
       </Grid>
+      {selectedProduct && (
+        <AddToCartDialog
+          isPopupOpen={isPopupOpen}
+          handleClosePopup={handleClosePopup}
+          handleSubmit={handleAddToCart}
+          quantity={quantity}
+          setQuantity={setQuantity}
+          product={selectedProduct}
+        />
+      )}
     </Container>
   );
-}
+};
 
 export default Home;

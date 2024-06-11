@@ -5,29 +5,45 @@ import useRefreshAccess from '../hooks/useRefreshAccess';
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Loading state
 
   useEffect(() => {
     const fetchCartItems = async () => {
-        try {
-            const res = await axios.get('http://localhost:3000/api/carts', {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('accessToken')
-                }
-            });
-            setCartItems(res.data.metadata.cart_items);
-        } catch(err) {
-            console.log(err);
-            if(err.response.status === 401) {
-                await useRefreshAccess();
-                await fetchCartItems();
-            }
+      try {
+        const res = await axios.get("http://localhost:3000/api/carts", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("accessToken"),
+          },
+        });
+        setCartItems(res.data.metadata.cart_items);
+      } catch (err) {
+        console.error("Error fetching cart items:", err); 
+        if (err.response && err.response.status === 401) {
+          // await useRefreshAccess();
+          // await fetchCartItems(); // Retry after refresh
         }
-    }
-    fetchCartItems();
-  }, [])
+      } finally {
+        setIsLoading(false); // Data fetched, set loading to false
+      }
+    };
 
-  const handleRemoveItem = (itemId) => {
-    // Implement your logic to remove item from the cart
+    fetchCartItems();
+  }, []);
+
+  const handleRemoveItem = async (itemId) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/carts/one`, {
+        data: { cart_product: itemId }, // Send as request body
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        },
+      });
+      const updatedCartItems = cartItems.filter((item) => item.cart_product._id !== itemId);
+      console.log(itemId)
+      setCartItems(updatedCartItems);
+    } catch(err) {
+      console.error("Error removing item from cart:", err);
+    }
   };
 
   return (
@@ -40,7 +56,7 @@ const CartPage = () => {
         <div className="bg-white rounded-lg shadow-md">
           {cartItems.map(item => (
             <div 
-              key={item.cart_product} 
+              key={item.cart_product._id} 
               className="flex items-center justify-between p-4 border-b"
             >
               <div className="flex items-center">
@@ -58,7 +74,7 @@ const CartPage = () => {
                 <span className="text-gray-700 mr-4">Qty: {item.cart_quantity}</span>
                 <button
                   className="text-red-500 hover:text-red-700"
-                  onClick={() => handleRemoveItem(item.cart_product)}
+                  onClick={() => handleRemoveItem(item.cart_product._id)}
                 >
                   <FaTrash />
                 </button>

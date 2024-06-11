@@ -46,8 +46,8 @@ const CreateDiscount = () => {
         } catch (error) {
             toast.error('Failed to create discount');
             if(error.response.status === 401) {
-                await useRefreshAccess();
-                await handleSaveClick();
+                // await useRefreshAccess();
+                // await handleSaveClick();
             }
         }
     };

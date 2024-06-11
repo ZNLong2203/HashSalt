@@ -77,7 +77,6 @@ exports.login = async (req, res, next) => {
 exports.logout = async (req, res, next) => {
     try {
         // Get refresh token from cookies and delete it from database
-        console.log(req.cookies);
         const refreshToken = req.cookies.refreshToken;
         await KeyToken.deleteOne({refreshToken: refreshToken});
         res.clearCookie('refreshToken');
