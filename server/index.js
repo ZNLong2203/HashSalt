@@ -10,6 +10,7 @@ const session = require('express-session')
 const morgan = require('morgan')
 const helmet = require('helmet')
 const compression = require('compression')
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 const mainRoute = require('./routes/mainRoute');
 
 // Creating the express app

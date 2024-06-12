@@ -1,11 +1,14 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { FaTrash } from 'react-icons/fa'; 
+import { loadStripe } from "@stripe/stripe-js";
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(true); // Loading state
+
+  const stripePromise = loadStripe("pk_test_51PQmYTIYYB20QSq1o1yZlZ61qHl6ZgNtOhgkHXGI14siKnCf9LEV23WAkK6sLnOheYO06ds9fXXJQZKC6Kn2u4k8005CXtvDgp")
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -43,6 +46,29 @@ const CartPage = () => {
       setCartItems(updatedCartItems);
     } catch(err) {
       console.error("Error removing item from cart:", err);
+    }
+  };
+
+  const handlePayment = async (cart_items) => {
+    try {
+      const res = await axios.post("http://localhost:3000/api/payments", {
+        cart_items: cart_items,
+      }, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        },
+      });
+
+      const stripe = await stripePromise;
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: res.data.id,
+      });
+
+      if (error) {
+        console.error("Error redirecting to checkout:", error);
+      }
+    } catch (err) {
+      console.error("Error processing payment:", err);
     }
   };
 
@@ -96,7 +122,9 @@ const CartPage = () => {
             {/* Add more summaries if needed */}
           </div>
           <div className="mb-4">
-            <button className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition">
+            <button 
+              className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"
+              onClick={() => handlePayment(cartItems)}>
               Payment
             </button>
           </div>
