@@ -1,6 +1,6 @@
 const PaymentService = require('../services/payments')
 
-exports.createPaymentIntent = async (req, res, next) => {
+exports.createPaymentSession = async (req, res, next) => {
     try {
         const { cart_items } = req.body
 

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const {Products, Electronics, Clothings, Furnitures} = require('../models/products')
 const {removeUndefined} = require('../utils/getInfo')
+const {uploadImage} = require('../configs/cloudinaryConfig')
 
 // Define factory class for product
 class ProductFactory {
@@ -12,6 +13,7 @@ class ProductFactory {
         // Generate a new id for the product and assign it to the id sub_document too
         const newId = new mongoose.Types.ObjectId()
         this.product._id = newId
+        this.product.product_image = await uploadImage(this.product.product_image, 'products')
 
         switch(this.product.product_type) {
             case 'Electronics':

@@ -1,6 +1,6 @@
 const User = require('../models/user')
 const KeyToken = require('../models/keytoken')
-const ggPassport = require('../services/googleAuthConf')
+const ggPassport = require('../configs/googleAuthConfig')
 
 // Google OAuth2.0
 exports.google = async (req, res, next) => {

@@ -18,6 +18,11 @@ const cartSchema = new Schema({
             type: Number,
             required: true,
             default: 0
+        },
+        cart_discount: {
+            type: Types.ObjectId,
+            ref: 'Discounts',
+            default: null
         }
     }],
     cart_userId: {

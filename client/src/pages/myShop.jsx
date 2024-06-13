@@ -1,4 +1,3 @@
-import React from 'react';
 import axios from 'axios';
 import ROUTES from '../routes/routes';
 import useRefreshAccess from '../hooks/useRefreshAccess';

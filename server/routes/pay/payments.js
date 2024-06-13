@@ -7,6 +7,6 @@ const router = express.Router()
 // api/payments/
 
 // Post cart_items to create a payment session with STRIPE
-router.post('/', authenticateToken, PaymentController.createPaymentIntent)
+router.post('/', authenticateToken, PaymentController.createPaymentSession)
 
 module.exports = router

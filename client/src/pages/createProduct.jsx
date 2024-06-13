@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FiUpload } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../routes/routes';

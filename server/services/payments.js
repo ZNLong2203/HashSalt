@@ -12,6 +12,7 @@ class PaymentService{
                                 currency: 'usd',
                                 product_data: {
                                     name: item.cart_product.product_name,
+                                    images: ["https://applecenter.com.vn/uploads/cms/16632365177447.jpg"],
                                 },
                                 unit_amount: item.cart_product.product_price * 100
                             },
@@ -21,7 +22,7 @@ class PaymentService{
                     payment_method_types: ['card'],
                     mode: 'payment',
                     success_url: `${process.env.FRONTEND_URL}/paymentsuccess`,
-                    cancel_url: `${process.env.FRONTEND_URL}/cart`
+                    cancel_url: `${process.env.FRONTEND_URL}`
             })
             return session
         } catch (error) {
