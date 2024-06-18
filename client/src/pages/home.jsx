@@ -13,22 +13,20 @@ const Home = () => {
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    let isFetching = false;
+    // let isFetching = false;
     const fetchProducts = async () => {
-      if (isFetching) return;
-      isFetching = true;
+      // if (isFetching) return;
+      // isFetching = true;
       try {
         const res = await axios.get('http://localhost:3000/api/products');
         setProducts(res.data);
       } catch (err) {
-        if (err.response.status === 401) {
-          console.error('Unauthorized');
-        } else {
-          console.error(err);
-        }
-      } finally {
-        isFetching = false;
-      }
+        // if (err.response.status === 401) {
+        //   console.error('Unauthorized');
+        // } else {
+        //   console.error(err);
+        // }
+      } 
     };
     fetchProducts();
   }, []);

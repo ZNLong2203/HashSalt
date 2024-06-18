@@ -3,7 +3,7 @@ const Carts = require('../models/carts')
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 class PaymentService{
-    async createPaymentSession(cart_items) {
+    async createPaymentSession(cart_items, user) {
         try {
             const session = await stripe.checkout.sessions.create({
                     line_items: cart_items.map(item => {
@@ -19,6 +19,7 @@ class PaymentService{
                             quantity: item.cart_quantity,
                         }
                     }),
+                    customer_email: user.email,
                     payment_method_types: ['card'],
                     mode: 'payment',
                     success_url: `${process.env.FRONTEND_URL}/paymentsuccess`,
