@@ -33,6 +33,6 @@ exports.rating = async (req, res, next) => {
         await review.save()
         return res.status(201).json({message: 'Rating success'})
     } catch (err) {
-        res.status(err.status || 400).json({message: err.message || 'Something went wrong'})
+        next(err);
     }
 }

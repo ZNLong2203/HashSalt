@@ -46,7 +46,7 @@ app.use('/', mainRoute) // Main route
 app.use((err, req, res, next) => {
     console.error(err.stack)
     res.status(err.status || 500).json({
-        message: err.message,
+        message: err.message || 'Internal Server Error',
         error: err
     })
 })

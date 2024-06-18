@@ -8,7 +8,7 @@ const ROUTES = {
     MYDISCOUNT: '/mydiscount',
     CREATEDISCOUNT: '/creatediscount',
     CART: '/cart',
-    PAYMENTSUCCESS: '/paymentsuccess',
+    PAYMENTSUCCESS: '/paymentsuccess?session_id=',
 }
 
 export default ROUTES;

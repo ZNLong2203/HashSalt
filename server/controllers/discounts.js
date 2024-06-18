@@ -15,7 +15,7 @@ exports.createDiscount = async (req, res) => {
             metadata: discount
         })
     } catch(err) {
-        return res.status(err.status || 400).json({message: err.message || 'Something went wrong'})
+        next(err);
     }
 }
 
@@ -27,7 +27,7 @@ exports.getAllDiscountsFromShop = async (req, res) => {
 
         return res.status(200).json(discounts)
     } catch(err) {
-        return res.status(err.status || 400).json({message: err.message || 'Something went wrong'})
+        next(err);
     }
 }
 
@@ -39,7 +39,7 @@ exports.getAllDiscountFromProduct = async (req, res) => {
 
         return res.status(200).json(discounts)
     } catch(err) {
-        return res.status(err.status || 400).json({message: err.message || 'Something went wrong'})
+        next(err);
     }
 }
 
@@ -53,7 +53,7 @@ exports.updateDiscount = async (req, res) => {
 
         return res.status(200).json({message: 'Discount updated'})
     } catch(err) {
-        return res.status(err.status || 400).json({message: err.message || 'Something went wrong'})
+        next(err);
     }
 }
 
@@ -66,7 +66,7 @@ exports.deleteDiscount = async (req, res) => {
 
         return res.status(200).json({message: 'Discount deleted'})
     } catch(err) {
-        return res.status(err.status || 400).json({message: err.message || 'Something went wrong'})
+        next(err);
     }
 }
 
@@ -79,7 +79,7 @@ exports.useDiscount = async (req, res, next) => {
 
         return res.status(200).json({Price, Discount, Type, AfterDiscount})
     } catch(err) {
-        return res.status(err.status || 400).json({message: err.message || 'Something went wrong'})
+        next(err);
     }
 }
 
@@ -92,6 +92,6 @@ exports.cancelUseDiscount = async (req, res, next) => {
 
         return res.status(200).json({message: 'Discount canceled'})
     } catch(err) {
-        return res.status(err.status || 400).json({message: err.message || 'Something went wrong'})
+        next(err);
     }
 }

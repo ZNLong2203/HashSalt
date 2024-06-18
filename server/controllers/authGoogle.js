@@ -7,8 +7,7 @@ exports.google = async (req, res, next) => {
     try {
         ggPassport.authenticate('google', {scope: ['profile', 'email']})(req, res, next)
     } catch(err) {
-        console.log(err)
-        return res.status(400).json({message: 'Something went wrong'})
+        next(err);
     }
 }
 
@@ -25,8 +24,7 @@ exports.googleCallback = async (req, res, next) => {
             return res.redirect(process.env.FRONTEND_URL)
         })(req, res, next)
     } catch(err) {
-        console.log(err)
-        return res.status(400).json({message: 'Something went wrong'})
+        next(err);
     }
 }
 
@@ -38,8 +36,7 @@ exports.googleLogout = async (req, res, next) => {
         res.clearCookie('refreshToken')
         return res.status(200).json({message: 'Logout success'})
     } catch(err) {
-        console.log(err)
-        return res.status(400).json({message: 'Something went wrong'})
+        next(err);
     }
 }
 
@@ -47,7 +44,6 @@ exports.googleSuccess = async (req, res, next) => {
     try {
         res.redirect(process.env.FRONTEND_URL)
     } catch(err) {
-        console.log(err)
-        return res.status(400).json({message: 'Something went wrong'})
+        next(err);
     }
 }

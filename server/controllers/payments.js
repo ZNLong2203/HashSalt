@@ -10,19 +10,16 @@ exports.createPaymentSession = async (req, res, next) => {
         console.log(paymentSession)
         res.status(200).json(paymentSession)
     } catch(err) {
-        return next(err);
+        next(err);
     }
 }
 
 exports.successPayment = async (req, res, next) => {
     try {
-        const session = req.body
-        if(session.payment_status === 'paid') {
-            await sendEmail(session)
-            res.status(200).json({message: 'Payment success'})
-        } else {
-            res.status(400).json({message: 'You are not paid yet'})
-        }
+        const session_id = req.query.session_id
+
+        await PaymentService.successPayment(session_id)
+        res.status(200).json({message: 'Payment successful'})
     } catch(err) {
         next(err)
     }

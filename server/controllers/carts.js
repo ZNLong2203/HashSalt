@@ -13,7 +13,7 @@ exports.getListInCart = async (req, res, next) => {
             metadata: cart
         })
     } catch(err) {
-        return res.status(err.status || 400).json({ message: err.message || 'Something went wrong' });
+        next(err);
     }
 }
 
@@ -29,7 +29,7 @@ exports.addCart = async (req, res, next) => {
             metadata: cart 
         });
     } catch(err) {
-        return res.status(err.status || 400).json({ message: err.message || 'Something went wrong' });
+        next(err);
     }
 };
 
@@ -45,7 +45,7 @@ exports.changeQuantityCart = async (req, res, next) => {
             metadata: cart
         })
     } catch(err) {
-        return res.status(err.status || 400).json({ message: err.message || 'Something went wrong' });
+        next(err);
     }
 }
 
@@ -60,7 +60,7 @@ exports.deleteOneItem = async (req, res, next) => {
             metadata: cart
         })
      } catch(err) {
-        return res.status(err.status || 400).json({ message: err.message || 'Something went wrong' });
+        next(err);
     }
 }
 
@@ -74,6 +74,6 @@ exports.deleteAllItem = async (req, res, next) => {
             message: 'Cart deleted successfully'
         })
     } catch(err) {
-        return res.status(err.status || 400).json({ message: err.message || 'Something went wrong' });
+        next(err);
     }
 }

@@ -28,8 +28,7 @@ exports.signup = async (req, res, next) => {
             message: 'Signup success',
         });
     } catch(err) {
-        console.log(err);
-        return res.status(400).json({message: 'Something went wrong'});
+        next(err);
     }
 }
 
@@ -69,8 +68,7 @@ exports.login = async (req, res, next) => {
         });
 
     } catch(err) {
-        console.log(err);
-        return res.status(400).json({message: 'Something went wrong'});
+        next(err);
     }
 }
 
@@ -82,8 +80,7 @@ exports.logout = async (req, res, next) => {
         res.clearCookie('refreshToken');
         return res.status(200).json({message: 'Logout success'});
     } catch(err) {
-        console.log(err);
-        return res.status(400).json({message: 'Something went wrong'});
+        next(err);
     }
 }
 
@@ -106,7 +103,6 @@ exports.refreshAccessToken = async (req, res, next) => {
             accessToken
         })
     } catch(err) {
-        console.log(err);
-        return res.status(400).json({message: 'Something went wrong'});
+        next(err);
     }
 }

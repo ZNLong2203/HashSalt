@@ -11,7 +11,7 @@ exports.getAllProducts = async (req, res, next) => {
                         .select('product_name product_image product_description product_price product_quantity product_shop')
         res.status(200).json(products)
     } catch(err) {
-        res.status(err.status || 500).json({message: err.message})
+        next(err);
     }
 }
 
@@ -24,7 +24,7 @@ exports.getSingleProduct = async (req, res, next) => {
         }
         res.status(200).json(product)
     } catch(err) {
-        res.status(err.status || 500).json({message: err.message})
+        next(err);
     }
 }
 
@@ -38,7 +38,7 @@ exports.createProduct = async (req, res, next) => {
         const newProduct = await productFactory.createProduct()
         res.status(201).json(newProduct)
     } catch(err) {
-        res.status(err.status || 500).json({message: err.message})
+        next(err);
     }
 }
 
@@ -49,7 +49,7 @@ exports.getProductShop = async (req, res, next) => {
         const products =  await Products.find({product_shop: req.user._id})
         res.status(200).json(products)
     } catch(err) {
-        res.status(err.status || 500).json({message: err.message})
+        next(err);
     }
 }
 
@@ -64,7 +64,7 @@ exports.updatedProduct = async (req, res, next) => {
         const updatedProduct = await productFactory.updateProduct()
         res.status(200).json(updatedProduct)
     } catch(err) {
-        res.status(err.status || 500).json({message: err.message})
+        next(err);
     }
 }
 
@@ -79,7 +79,7 @@ exports.deleteProduct = async (req, res, next) => {
         const deletedProduct = await productFactory.deleteProduct()
         res.status(200).json(deletedProduct)
     } catch(err) {
-        res.status(err.status || 500).json({message: err.message})
+        next(err);
     }
 }
 
@@ -96,7 +96,7 @@ exports.searchProduct = async (req, res, next) => {
         .lean()
         res.status(200).json(products)
     } catch(err) {
-        res.status(err.status || 500).json({message: err.message})
+        next(err);
     }
 }
 
@@ -113,7 +113,7 @@ exports.publishedProduct = async (req, res, next) => {
         }
         res.status(200).json(product)
     } catch(err) {
-        res.status(err.status || 500).json({message: err.message})
+        next(err);
     }
 }
 
@@ -130,6 +130,6 @@ exports.unpublishedProduct = async (req, res, next) => {
         }
         res.status(200).json(product)
     } catch(err) {
-        res.status(err.status || 500).json({message: err.message})
+        next(err);
     }
 }
