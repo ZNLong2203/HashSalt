@@ -17,8 +17,8 @@ exports.createPaymentSession = async (req, res, next) => {
 exports.successPayment = async (req, res, next) => {
     try {
         const session_id = req.query.session_id
-
-        await PaymentService.successPayment(session_id)
+        const userId = req.user._id
+        await PaymentService.successPayment(session_id, userId)
         res.status(200).json({message: 'Payment successful'})
     } catch(err) {
         next(err)

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import toast from 'react-hot-toast'
 import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import ROUTES from '../routes/routes.js'
@@ -24,11 +25,11 @@ const Register = () => {
                 password,
             })
             if(res.status === 200) {
-                alert("Registration success")
+                toast.success("Registration success")
                 navigate(ROUTES.LOGIN)
             }
         } catch(err) {
-            alert("Registration failed")
+            toast.error("Registration failed")
         }
     }
     return (

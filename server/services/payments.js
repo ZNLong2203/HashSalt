@@ -36,10 +36,15 @@ class PaymentService{
         }
     }
 
-    async successPayment(session_id) {
+    async successPayment(session_id, userId) {
         try {
             const session = await stripe.checkout.sessions.retrieve(session_id)
             if(session.payment_status === 'paid') {
+                await Carts.findOneAndUpdate({
+                    cart_userId: userId,
+                    cart_status: 'active'
+                }, {cart_status: 'completed'}, {new: true})
+           
                 await sendEmail(session)
                 return {message: 'Payment success'}
             } else {

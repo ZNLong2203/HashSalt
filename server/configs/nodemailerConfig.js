@@ -20,6 +20,6 @@ exports.sendEmail = async(session) => {
         const result = await transporter.sendMail(mailOptions)
         console.log('Email sent: ', result)
     } catch(err) {
-        next(err);
+        throw err
     }
 }
