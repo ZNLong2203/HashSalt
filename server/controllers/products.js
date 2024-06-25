@@ -34,11 +34,12 @@ exports.createProduct = async (req, res, next) => {
     try {
         // Handle product_attributes, which is an string, convert it to an object
         const productAttributes = JSON.parse(req.body.product_attributes);
+
         // Change product_image to file path in local
-        req.body.product_image = req.file.path
         const productFactory = new ProductFactory({
             ...req.body,
             product_shop: req.user._id,
+            product_image: req.file.path,
             product_attributes: productAttributes
         })
         const newProduct = await productFactory.createProduct()
