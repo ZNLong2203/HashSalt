@@ -1,5 +1,6 @@
 const User = require('../models/user')
 const Carts = require('../models/carts')
+const Products = require('../models/products')
 const { sendEmail } = require('../configs/nodemailerConfig')
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
@@ -30,22 +31,30 @@ class PaymentService{
             const session = await stripe.checkout.sessions.create(sessionData)
             return session
         } catch (error) {
-            // Log the Stripe error for debugging
             console.error("Stripe Error:", error); 
-            throw error; // Rethrow the error to be handled by the route
+            throw error; 
         }
     }
 
     async successPayment(session_id, userId) {
         try {
+            // Retrieve the session to check if the payment is successful
             const session = await stripe.checkout.sessions.retrieve(session_id)
             if(session.payment_status === 'paid') {
                 await Carts.findOneAndUpdate({
                     cart_userId: userId,
                     cart_status: 'active'
                 }, {cart_status: 'completed'}, {new: true})
-           
+                
+                // Send email to user to confirm the payment
                 await sendEmail(session)
+
+                // Decrement the quantity of the product in database
+                session.display_items.forEach(async item => {
+                    const product = await Products.findById(item.custom.product_id)
+                    product.product_quantity -= item.quantity
+                    await product.save()
+                })
                 return {message: 'Payment success'}
             } else {
                 return {message: 'You are not paid yet'}

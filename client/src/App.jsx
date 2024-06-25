@@ -9,6 +9,7 @@ import Footer from './components/footer'
 import Home from './pages/home'
 import Login from './pages/login'
 import Register from './pages/register'
+import ErrorPage from './pages/error';
 import MyShop from './pages/myShop'
 import CreateProduct from './pages/createProduct';
 import MyDiscount from './pages/myDiscount'
@@ -31,6 +32,7 @@ function Main() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/error" element={<ErrorPage />} />
           <Route path="/myshop" element={<MyShop />} />
           <Route path="/createproduct" element={<CreateProduct />} />
           <Route path="/mydiscount" element={<MyDiscount />} />

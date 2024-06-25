@@ -2,6 +2,7 @@ const ROUTES = {
     HOME: '/',
     LOGIN: '/login',
     REGISTER: '/register',
+    ERROR: '/error',
     DETAILS_PRODUCT: '/product/:product_id',
     MYSHOP: '/myshop',
     CREATEPRODUCT: '/createproduct',

@@ -1,13 +1,14 @@
 const express = require('express')
 const {authenticateToken, isAdmin} = require('../../utils/isAuth')
 const productController = require('../../controllers/products')
+const {upload} = require('../../configs/cloudinaryConfig')
 
 const router = express.Router()
 
 // api/products/
 
 // Create a new product
-router.post('/', authenticateToken, productController.createProduct)
+router.post('/', authenticateToken, upload.single('product_image'), productController.createProduct)
 
 // Get all products from the shop of that user
 router.get('/shop', authenticateToken, productController.getProductShop)

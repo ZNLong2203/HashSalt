@@ -2,6 +2,7 @@ const { createCipheriv } = require('crypto')
 const User = require('../models/user')
 const {Products, Electronics, Clothing, Furniture} = require('../models/products')
 const ProductFactory = require('../services/products')
+const path = require('path');
 
 // Get all products to display on the home page
 exports.getAllProducts = async (req, res, next) => {
@@ -31,9 +32,14 @@ exports.getSingleProduct = async (req, res, next) => {
 // User creates a product
 exports.createProduct = async (req, res, next) => {
     try {
+        // Handle product_attributes, which is an string, convert it to an object
+        const productAttributes = JSON.parse(req.body.product_attributes);
+        // Change product_image to file path in local
+        req.body.product_image = req.file.path
         const productFactory = new ProductFactory({
             ...req.body,
-            product_shop: req.user._id
+            product_shop: req.user._id,
+            product_attributes: productAttributes
         })
         const newProduct = await productFactory.createProduct()
         res.status(201).json(newProduct)

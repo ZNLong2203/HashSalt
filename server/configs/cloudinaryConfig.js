@@ -1,5 +1,6 @@
 const cloudinary = require('cloudinary').v2
 const multer = require('multer')
+const fs = require('fs')
 const dotenv = require('dotenv').config()
 
 cloudinary.config({
@@ -8,11 +9,25 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      const dir = './uploads';
+      if (!fs.existsSync(dir)){
+          fs.mkdirSync(dir);
+      }
+      cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+      cb(null, `${Date.now()}-${file.originalname}`);
+  }
+});
+exports.upload = multer({ storage: storage });
+
 exports.uploadImage = async (imagePath, folder) => {
   try {
     const result = await cloudinary.uploader.upload(imagePath, {
       folder: folder,
-      upload_preset: uploadPreset,
+      upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET,
       timeout: 100000,
     });
     console.log("Upload successful: ", result);
