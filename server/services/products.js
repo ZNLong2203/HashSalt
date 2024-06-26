@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const {Products, Electronics, Clothings, Furnitures} = require('../models/products')
 const {removeUndefined} = require('../utils/getInfo')
-const {uploadImage} = require('../configs/cloudinaryConfig')
+const {uploadImage, deleteImage} = require('../configs/cloudinaryConfig')
 
 // Define factory class for product
 class ProductFactory {
@@ -41,6 +41,8 @@ class ProductFactory {
     }
 
     async deleteProduct() {
+        await deleteImage(this.product.product_image)
+
         switch(this.product.product_type) {
             case 'Electronics':
                 return await new Electronics_Class(this.product).deleteProduct()

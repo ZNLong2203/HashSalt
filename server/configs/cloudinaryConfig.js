@@ -40,7 +40,10 @@ exports.uploadImage = async (imagePath, folder) => {
 
 exports.deleteImage = async (imagePath) => {
   try {
-    const result = await cloudinary.uploader.destroy(imagePath, {
+    // Extract the public_id from the URL
+    const publicId = imagePath.split('/').slice(-2).join('/');
+    
+    const result = await cloudinary.uploader.destroy(publicId, {
       invalidate: true,
       timeout: 100000,
     });

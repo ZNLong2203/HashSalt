@@ -78,13 +78,18 @@ exports.updatedProduct = async (req, res, next) => {
 exports.deleteProduct = async (req, res, next) => {
     try {
         // Check if the user is the owner of the product
-        if(req.body.product_shop !== req.user._id) {
+        const productId = req.params.id
+        const product = await Products.findById(productId)
+        if(product.product_shop.toString() !== req.user._id) {
             return res.status(401).json({message: 'Access denied'})
         }
 
-        const productFactory = new ProductFactory(req.body)
+        const productFactory = new ProductFactory(product)
         const deletedProduct = await productFactory.deleteProduct()
-        res.status(200).json(deletedProduct)
+        res.status(200).json({
+            message: 'Product deleted',
+            metadata: deletedProduct
+        })
     } catch(err) {
         next(err);
     }
@@ -99,6 +104,22 @@ exports.searchProduct = async (req, res, next) => {
             isPublished: true
         }, {score: {$meta: "textScore"}})
         .sort({score: {$meta: "textScore"}})
+        .limit(20)
+        .lean()
+        res.status(200).json(products)
+    } catch(err) {
+        next(err);
+    }
+}
+
+exports.searchProductByCategory = async (req, res, next) => {
+    try {
+        const {type} = req.query
+        const products = await Products.find({
+            product_type: type,
+            isPublished: true
+        })
+        .sort({createdAt: -1})
         .limit(20)
         .lean()
         res.status(200).json(products)

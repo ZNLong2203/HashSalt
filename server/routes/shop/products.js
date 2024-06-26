@@ -14,7 +14,10 @@ router.post('/', authenticateToken, upload.single('product_image'), productContr
 router.get('/shop', authenticateToken, productController.getProductShop)
 
 // Search for a product using query ?name=product_name
-router.get('/search', productController.searchProduct)
+router.get('/name', productController.searchProduct)
+
+// Search for a product by type using query ?type=product_type
+router.get('/type', productController.searchProductByCategory)
 
 // Update a product when the user wants to edit it
 router.put('/:id', authenticateToken, productController.updatedProduct)
