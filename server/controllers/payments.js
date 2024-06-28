@@ -1,5 +1,4 @@
 const PaymentService = require('../services/payments')
-const { sendEmail } = require('../configs/nodemailerConfig')
  
 exports.createPaymentSession = async (req, res, next) => {
     try {

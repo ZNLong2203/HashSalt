@@ -2,7 +2,6 @@ const { createCipheriv } = require('crypto')
 const User = require('../models/user')
 const {Products, Electronics, Clothing, Furniture} = require('../models/products')
 const ProductFactory = require('../services/products')
-const path = require('path');
 
 // Get all products to display on the home page
 exports.getAllProducts = async (req, res, next) => {

@@ -23,12 +23,23 @@ const reviewSchema = new Schema({
         user: {
             type: Types.ObjectId,
             ref: 'User',
-            required: true
+            default: null
         },
-        cmt: {
+        content: {
             type: String,
-            required: true
+            default: null
         },
+        reply: [{
+            user: {
+                type: Types.ObjectId,
+                ref: 'User',
+                default: null
+            },
+            content: {
+                type: String,
+                default: null
+            }
+        }],
         createdAt: {
             type: Date,
             default: Date.now

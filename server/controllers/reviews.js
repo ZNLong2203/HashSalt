@@ -1,6 +1,7 @@
 const User = require('../models/user')
 const Reviews = require('../models/reviews')
 const Products = require('../models/products')
+const ReviewService = require('../services/reviews')
 
 exports.rating = async (req, res, next) => {
     try {
@@ -15,23 +16,48 @@ exports.rating = async (req, res, next) => {
             return res.status(400).json({message: 'Invalid rating'})
         }
 
-        // Create new rating or update existing rating 
-        const review = await Reviews.findOne({review_product: productId})
-        if(!review.review_user_rating.includes(user._id)) {
-            // Calculate new rating if user has not rated yet
-            const newRating = (review.review_rating * review.review_count + rating) / (review.review_count + 1)
-            review.review_rating = newRating
-            review.review_count += 1
-            review.review_user_rating.push({user: user._id, rating: rating})
-        } else {
-            // Find old rating of that user in review_user_rating array
-            const oldUserRating = review.review_user_rating.find(oldUserRating => oldUserRating.user === user._id)
-            const newRating = (review.review_rating * review.review_count - oldUserRating.rating + rating) / review.review_count
-            review.review_rating = newRating
-            oldUserRating.rating = rating
-        }
-        await review.save()
+        await ReviewService.rating(productId, rating, user)
         return res.status(201).json({message: 'Rating success'})
+    } catch (err) {
+        next(err);
+    }
+}
+
+exports.createComment = async (req, res, next) => {
+    try {
+        const {productId, content} = req.body
+        const user = req.user
+        
+        // Check required fields
+        if(!productId || !content) {
+            return res.status(400).json({message: 'Please fill in all fields'})
+        }
+
+        const newComment = await ReviewService.createComment(productId, content, user)
+        return res.status(201).json({
+            message: 'Comment created',
+            metadata: newComment
+        })
+    } catch (err) {
+        next(err);
+    }
+}
+
+exports.createReply = async (req, res, next) => {
+    try {
+        const {productId, userReply, content} = req.body
+        const user = req.user
+
+        // Check required fields
+        if(!productId || !userReply || !content) {
+            return res.status(400).json({message: 'Please fill in all fields'})
+        }
+
+        const newReply = await ReviewService.createReply(productId, userReply, content, user)
+        return res.status(201).json({
+            message: 'Reply created',
+            metadata: newReply    
+        })
     } catch (err) {
         next(err);
     }

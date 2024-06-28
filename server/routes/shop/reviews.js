@@ -7,7 +7,13 @@ const router = express.Router()
 // api/reviews/
 
 // Create and update a rating review
-router.patch('/rating', authenticateToken, reviewController.rating)
+router.post('/rating', authenticateToken, reviewController.rating)
+
+// Create a comment review
+router.post('/comment', authenticateToken, reviewController.createComment)
+
+// Create a reply review
+router.post('/reply', authenticateToken, reviewController.createReply)
 
 module.exports = router
 
