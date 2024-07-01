@@ -5,10 +5,11 @@ import { loadStripe } from "@stripe/stripe-js";
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
+  const [discounts, setDiscounts] = useState({});
   const [total, setTotal] = useState(0);
-  const [isLoading, setIsLoading] = useState(true); // Loading state
+  const [isLoading, setIsLoading] = useState(true);
 
-  const stripePromise = loadStripe("pk_test_51PQmYTIYYB20QSq1o1yZlZ61qHl6ZgNtOhgkHXGI14siKnCf9LEV23WAkK6sLnOheYO06ds9fXXJQZKC6Kn2u4k8005CXtvDgp")
+  const stripePromise = loadStripe("pk_test_51PQmYTIYYB20QSq1o1yZlZ61qHl6ZgNtOhgkHXGI14siKnCf9LEV23WAkK6sLnOheYO06ds9fXXJQZKC6Kn2u4k8005CXtvDgp");
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -18,16 +19,34 @@ const CartPage = () => {
             Authorization: "Bearer " + localStorage.getItem("accessToken"),
           },
         });
-        setCartItems(res.data.metadata.cart.cart_items);
-        setTotal(res.data.metadata.totalPrice);
+        const itemsWithDiscount = res.data.metadata.cart.cart_items.map(item => ({
+          ...item,
+          discount: null // Initialize discount to null for each item
+        }));
+        setCartItems(itemsWithDiscount);
+        setTotal(Math.round(res.data.metadata.totalPrice));
+        // Fetch discounts for each item
+        await fetchDiscounts(itemsWithDiscount);
       } catch (err) {
         console.error("Error fetching cart items:", err); 
-        if (err.response && err.response.status === 401) {
-          // await useRefreshAccess();
-          // await fetchCartItems(); // Retry after refresh
-        }
       } finally {
-        setIsLoading(false); // Data fetched, set loading to false
+        setIsLoading(false);
+      }
+    };
+
+    const fetchDiscounts = async (items) => {
+      try {
+        const discountPromises = items.map(item =>
+          axios.get(`http://localhost:3000/api/discounts/product/${item.cart_product._id}`)
+        );
+        const discountResults = await Promise.all(discountPromises);
+        const discountsData = discountResults.reduce((acc, res, index) => {
+          acc[items[index].cart_product._id] = res.data;
+          return acc;
+        }, {});
+        setDiscounts(discountsData);
+      } catch (err) {
+        console.error("Error fetching discounts:", err);
       }
     };
 
@@ -37,7 +56,7 @@ const CartPage = () => {
   const handleRemoveItem = async (itemId) => {
     try {
       await axios.delete(`http://localhost:3000/api/carts/one`, {
-        data: { cart_product: itemId }, // Send as request body
+        data: { cart_product: itemId },
         headers: {
           Authorization: "Bearer " + localStorage.getItem("accessToken"),
         },
@@ -47,6 +66,28 @@ const CartPage = () => {
     } catch(err) {
       console.error("Error removing item from cart:", err);
     }
+  };
+
+  const handleDiscountChange = (itemId, discountCode) => {
+    const selectedDiscount = discounts[itemId]?.find(discount => discount.discount_code === discountCode);
+    const updatedCartItems = cartItems.map(item => {
+      if (item.cart_product._id === itemId) {
+        return { ...item, discount: selectedDiscount };
+      }
+      return item;
+    });
+    setCartItems(updatedCartItems);
+  };
+
+  const calculateDiscountedPrice = (price, discount) => {
+    if (!discount) return price;
+    if (discount.discount_type === 'percentage') {
+      return price - (price * discount.discount_value / 100);
+    }
+    if (discount.discount_type === 'fixed') {
+      return price - discount.discount_value;
+    }
+    return price;
   };
 
   const handlePayment = async (cart_items) => {
@@ -94,10 +135,27 @@ const CartPage = () => {
                   />
                   <div className="ml-4">
                     <h2 className="text-lg font-medium">{item.cart_product.product_name}</h2>
-                    <p className="text-gray-500">Price: ${item.cart_product.product_price}</p>
+                    <p className="text-gray-500">
+                      Price: ${item.cart_product.product_price.toFixed(2)}
+                    </p>
+                    <p className="text-gray-500">
+                      Discounted Price: ${calculateDiscountedPrice(item.cart_product.product_price, item.discount).toFixed(2)}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center">
+                  <select
+                    value={item.discount ? item.discount.discount_code : ''}
+                    onChange={(e) => handleDiscountChange(item.cart_product._id, e.target.value)}
+                    className="mr-4 p-1 border rounded-md"
+                  >
+                    <option value="" disabled>Select discount</option>
+                    {discounts[item.cart_product._id]?.map(discount => (
+                      <option key={discount._id} value={discount.discount_code}>
+                        {discount.discount_description}
+                      </option>
+                    ))}
+                  </select>
                   <span className="text-gray-700 mr-4">Qty: {item.cart_quantity}</span>
                   <button
                     className="text-red-500 hover:text-red-700"
@@ -119,7 +177,6 @@ const CartPage = () => {
               <span>Total</span>
               <span>{total}</span>
             </p>
-            {/* Add more summaries if needed */}
           </div>
           <div className="mb-4">
             <button 

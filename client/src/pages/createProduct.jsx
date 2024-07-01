@@ -7,6 +7,7 @@ import ROUTES from '../routes/routes';
 
 const CreateProduct = () => {
     const navigate = useNavigate();
+    const [uploadedFileName, setUploadedFileName] = useState('');
 
     const [product, setProduct] = useState({
         product_name: '',
@@ -45,6 +46,9 @@ const CreateProduct = () => {
             ...prevState,
             product_image: e.target.files[0],
         }));
+        if (e.target.files.length > 0) {
+            setUploadedFileName(e.target.files[0].name);
+        }
     };
 
     const handleAttributeChange = (e) => {
@@ -122,9 +126,9 @@ const CreateProduct = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-custom-gradient text-white p-4">
-            <div className="max-w-2xl w-full bg-gray-600 bg-opacity-50 p-6 rounded-lg shadow-lg">
-                <h2 className="text-3xl font-bold mb-6 text-center">Create Product</h2>
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 p-8"> 
+            <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-4xl">
+                <h2 className="text-2xl font-bold mb-4 text-center">Create New Product</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                         <label className="block text-sm font-medium">Product Name</label>
@@ -133,7 +137,7 @@ const CreateProduct = () => {
                             name="product_name"
                             value={product.product_name}
                             onChange={handleChange}
-                            className="px-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm text-black"
+                            className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
                         />
                     </div>
                     <div>
@@ -149,6 +153,7 @@ const CreateProduct = () => {
                             <label htmlFor="product_image" className="cursor-pointer">
                                 <FiUpload className="text-3xl" />
                             </label>
+                            {uploadedFileName && <span className="ml-2">{uploadedFileName}</span>}
                         </div>
                     </div>
                     <div>
@@ -157,7 +162,7 @@ const CreateProduct = () => {
                             name="product_description"
                             value={product.product_description}
                             onChange={handleChange}
-                            className="px-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm text-black"
+                            className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
                         ></textarea>
                     </div>
                     <div>
@@ -167,7 +172,7 @@ const CreateProduct = () => {
                             name="product_price"
                             value={product.product_price}
                             onChange={handleChange}
-                            className="px-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm text-black"
+                            className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
                         />
                     </div>
                     <div>
@@ -177,7 +182,7 @@ const CreateProduct = () => {
                             name="product_quantity"
                             value={product.product_quantity}
                             onChange={handleChange}
-                            className="px-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm text-black"
+                            className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
                         />
                     </div>
                     <div>
@@ -186,7 +191,7 @@ const CreateProduct = () => {
                             name="product_type"
                             value={product.product_type}
                             onChange={handleChange}
-                            className="px-1 mt-1 block w-full border-gray-300 rounded-md shadow-sm text-black"
+                            className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
                         >
                             <option value="Electronics">Electronics</option>
                             <option value="Clothings">Clothings</option>
@@ -194,131 +199,27 @@ const CreateProduct = () => {
                         </select>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium">Brand</label>
-                        <input
-                            type="text"
-                            name="brand"
-                            value={product.product_attributes.brand}
-                            onChange={handleAttributeChange}
-                            className="px-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm text-black"
-                        />
-                    </div>
-                    {product.product_type === 'Electronics' && (
-                        <div>
-                            <label className="block text-sm font-medium">Model</label>
+                        {Object.entries(product.product_attributes).map(([attribute, value]) => (
+                            <div key={attribute} className="mb-2">
+                            <label className="block text-sm font-medium text-gray-700">{attribute}</label>
                             <input
-                                type="text"
-                                name="model"
-                                value={product.product_attributes.model}
+                                type="text" 
+                                name={attribute}
+                                value={value}
                                 onChange={handleAttributeChange}
-                                className="px-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm text-black"
+                                className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
                             />
-                            <label className="block text-sm font-medium">Color</label>
-                            <input
-                                type="text"
-                                name="color"
-                                value={product.product_attributes.color}
-                                onChange={handleAttributeChange}
-                                className="px-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm text-black"
-                            />
-                        </div>
-                    )}
-                    {product.product_type === 'Clothings' && (
-                        <>
-                            <div>
-                                <label className="block text-sm font-medium">Size</label>
-                                <input
-                                    type="text"
-                                    name="size"
-                                    value={product.product_attributes.size}
-                                    onChange={handleAttributeChange}
-                                    className="px-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm text-black"
-                                />
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium">Color</label>
-                                <input
-                                    type="text"
-                                    name="color"
-                                    value={product.product_attributes.color}
-                                    onChange={handleAttributeChange}
-                                    className="px-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm text-black"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium">Material</label>
-                                <input
-                                    type="text"
-                                    name="material"
-                                    value={product.product_attributes.material}
-                                    onChange={handleAttributeChange}
-                                    className="px-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm text-black"
-                                />
-                            </div>
-                        </>
-                    )}
-                    {product.product_type === 'Furnitures' && (
-                        <>
-                            <div>
-                                <label className="block text-sm font-medium">Material</label>
-                                <input
-                                    type="text"
-                                    name="material"
-                                    value={product.product_attributes.material}
-                                    onChange={handleAttributeChange}
-                                    className="px-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm text-black"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium">Color</label>
-                                <input
-                                    type="text"
-                                    name="color"
-                                    value={product.product_attributes.color}
-                                    onChange={handleAttributeChange}
-                                    className="px-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm text-black"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium">Width</label>
-                                <input
-                                    type="number"
-                                    name="width"
-                                    value={product.product_attributes.width}
-                                    onChange={handleAttributeChange}
-                                    className="px-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm text-black"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium">Height</label>
-                                <input
-                                    type="number"
-                                    name="height"
-                                    value={product.product_attributes.height}
-                                    onChange={handleAttributeChange}
-                                    className="px-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm text-black"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium">Depth</label>
-                                <input
-                                    type="number"
-                                    name="depth"
-                                    value={product.product_attributes.depth}
-                                    onChange={handleAttributeChange}
-                                    className="px-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm text-black"
-                                />
-                            </div>
-                        </>
-                    )}
-                    <div className="flex justify-center">
-                        <button
-                            type="submit"
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                        >
-                            Create Product
-                        </button>
+                        ))}
                     </div>
+                 <div className="flex justify-center">
+                    <button
+                    type="submit"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    >
+                    Create Product
+                    </button>
+                </div>
                 </form>
             </div>
         </div>

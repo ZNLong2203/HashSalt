@@ -24,7 +24,7 @@ exports.getAllDiscountsFromShop = async (req, res) => {
         const {shopId} = req.params
         
         const discounts = await DiscountService.getAllDiscountsFromShop(shopId)
-
+        
         return res.status(200).json(discounts)
     } catch(err) {
         next(err);
