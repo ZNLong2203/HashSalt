@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AiFillEye } from 'react-icons/ai';
 import { RiAddCircleLine } from 'react-icons/ri';
-import AddToCartDialog from '../components/addToCartDialog'; // Import the dialog component
+import AddToCartDialog from '../components/addToCartDialog'; 
 
 const Home = () => {
   const navigate = useNavigate();

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import ROUTES from '../routes/routes';
 import useRefreshAccess from '../hooks/useRefreshAccess';
-import {jwtDecode} from 'jwt-decode'; // Ensure correct import, it's a default export
+import {jwtDecode} from 'jwt-decode'; 
 import { FaRegSmile } from 'react-icons/fa';
 import { FiArrowRightCircle } from 'react-icons/fi';
 import { useNavigate, Link } from 'react-router-dom';
@@ -136,6 +136,13 @@ const MyDiscounts = () => {
                                     onChange={handleChange}
                                     className="mb-2 w-full p-2 border rounded"
                                 />
+                                <input
+                                    type="boolean"
+                                    name='discount_status'
+                                    value={editDiscount.discount_status}
+                                    onChange={handleChange}
+                                    className="mb-2 w-full p-2 border rounded"
+                                />
                                 <input 
                                     type="date"
                                     name="discount_start"
@@ -183,7 +190,7 @@ const MyDiscounts = () => {
                                 <div className="text-gray-500 mb-4">
                                     Valid from: {moment(discount.discount_start).format('MMM DD, YYYY')} to {moment(discount.discount_end).format('MMM DD, YYYY')}
                                 </div>
-                                <div className="flex justify-center space-x-20 mt-4">
+                                <div className="flex justify-center space-x-14 mt-4">
                                     <button
                                         onClick={() => handleEditClick(discount)}
                                         className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900"

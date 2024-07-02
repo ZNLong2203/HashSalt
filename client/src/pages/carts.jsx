@@ -21,7 +21,7 @@ const CartPage = () => {
         });
         const itemsWithDiscount = res.data.metadata.cart.cart_items.map(item => ({
           ...item,
-          discount: null // Initialize discount to null for each item
+          discount: null 
         }));
         setCartItems(itemsWithDiscount);
         setTotal(Math.round(res.data.metadata.totalPrice));

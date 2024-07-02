@@ -42,6 +42,7 @@ const discountSchema = new Schema({
     discount_status: {
         type: Boolean,
         required: true,
+        default: true,
     },
     discount_shopId: {
         type: Types.ObjectId,

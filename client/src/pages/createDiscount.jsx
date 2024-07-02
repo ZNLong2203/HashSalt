@@ -29,7 +29,6 @@ const CreateDiscount = () => {
                         Authorization: 'Bearer ' + token,
                     },
                 });
-                console.log(response.data);
                 setProducts(response.data);
             } catch (error) {
                 toast.error('Failed to fetch products');
@@ -57,11 +56,10 @@ const CreateDiscount = () => {
 
     const handleSaveClick = async () => {
         try {
-            const decodedToken = jwtDecode(token);
-            const userId = decodedToken._id;
+            console.log(newDiscount)
+
             await axios.post(`http://localhost:3000/api/discounts`, {
-                ...newDiscount,
-                discount_shopId: userId
+                newDiscount
             }, {
                 headers: {
                     Authorization: 'Bearer ' + token,

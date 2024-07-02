@@ -4,12 +4,11 @@ const Discounts = require('../models/discounts')
 const Carts = require('../models/carts')
 const DiscountService = require('../services/discounts')
 
-exports.createDiscount = async (req, res) => {
+exports.createDiscount = async (req, res, next) => {
     try {
-        const {discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_status, discount_productId} = req.body
+        const {discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_productId} = req.body.newDiscount
         const discount_shopId = req.user._id
-
-        const discount = await DiscountService.createDiscount(discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_status, discount_shopId, discount_productId)
+        const discount = await DiscountService.createDiscount(discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_shopId, discount_productId)
         return res.status(201).json({
             message: 'Discount created',
             metadata: discount
@@ -19,7 +18,7 @@ exports.createDiscount = async (req, res) => {
     }
 }
 
-exports.getAllDiscountsFromShop = async (req, res) => {
+exports.getAllDiscountsFromShop = async (req, res, next) => {
     try {
         const {shopId} = req.params
         
@@ -31,7 +30,7 @@ exports.getAllDiscountsFromShop = async (req, res) => {
     }
 }
 
-exports.getAllDiscountFromProduct = async (req, res) => {
+exports.getAllDiscountFromProduct = async (req, res, next) => {
     try {
         const {productId} = req.params
         
@@ -43,7 +42,7 @@ exports.getAllDiscountFromProduct = async (req, res) => {
     }
 }
 
-exports.updateDiscount = async (req, res) => {
+exports.updateDiscount = async (req, res, next) => {
     try {
         const id = req.params.id
         const discount_shopId = req.user._id
@@ -57,7 +56,7 @@ exports.updateDiscount = async (req, res) => {
     }
 }
 
-exports.deleteDiscount = async (req, res) => {
+exports.deleteDiscount = async (req, res, next) => {
     try {
         const id = req.params.id
         const discount_shopId = req.user._id

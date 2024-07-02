@@ -212,14 +212,20 @@ const CreateProduct = () => {
                             </div>
                         ))}
                     </div>
-                 <div className="flex justify-center">
-                    <button
-                    type="submit"
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    >
-                    Create Product
-                    </button>
-                </div>
+                    <div className="flex space-x-20 justify-center">
+                        <button
+                        type="submit"
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        >
+                        Create Product
+                        </button>
+                        <button
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        onClick={() => navigate(ROUTES.MYSHOP)}
+                        >
+                        Back
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

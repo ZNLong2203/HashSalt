@@ -4,10 +4,10 @@ const Discounts = require('../models/discounts')
 const Carts = require('../models/carts')
 
 class DiscountService{
-    async createDiscount(discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_status, discount_shopId, discount_productId){
+    async createDiscount(discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_shopId, discount_productId){
         try{
             // Check if all fields are filled
-            if(!discount_code || !discount_type || !discount_description || !discount_value || !discount_max_uses || !discount_start || !discount_end || !discount_status || !discount_shopId || !discount_productId){
+            if(!discount_code || !discount_type || !discount_description || !discount_value || !discount_max_uses || !discount_start || !discount_end || !discount_shopId || !discount_productId){
                 throw new Error('Please fill in all fields')
             }
             // Check if discount data is valid
@@ -30,7 +30,6 @@ class DiscountService{
                 discount_max_uses,
                 discount_start,
                 discount_end,
-                discount_status,
                 discount_shopId,
                 discount_productId
             })
@@ -127,10 +126,7 @@ class DiscountService{
             }
 
             // Delete discount
-            await Discounts.findOneAndDelete({
-                discount_code,
-                discount_shopId
-            })
+            await Discounts.findByIdAndDelete(id)
         } catch(err) {
             throw new Error(err.message || 'Something went wrong')
         }

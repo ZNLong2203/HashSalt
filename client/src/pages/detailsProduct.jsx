@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import useRefreshAccess from '../hooks/useRefreshAccess';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaEdit, FaSave, FaTimes } from 'react-icons/fa';
+import ROUTES from '../routes/routes';
 
 const DetailsProduct = () => {
   const navigate = useNavigate();
