@@ -47,8 +47,8 @@ exports.updateDiscount = async (req, res, next) => {
         const id = req.params.id
         const discount_shopId = req.user._id
         const {discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_status,  discount_productId} = req.body
-        
-        await DiscountService.updateDiscount(id, discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_status, discount_shopId, discount_productId)
+
+        await DiscountService.updateDiscount(id, discount_shopId, discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_status, discount_productId)
 
         return res.status(200).json({message: 'Discount updated'})
     } catch(err) {

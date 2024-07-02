@@ -80,10 +80,10 @@ class DiscountService{
         try{
             // Check required fields
             if(!discount_code || !discount_type || !discount_description || !discount_value || !discount_max_uses || !discount_start || !discount_end || !discount_status || !discount_shopId || !discount_productId) {
-                return res.status(400).json({message: 'Please fill in all fields'})
+                throw new Error('Please fill in all fields')
             }
             if(new Date(discount_end) < new Date(discount_start) || new Date() > new Date(discount_end)) {
-                return res.status(400).json({message: 'Invalid date'})
+                throw new Error('Invalid date')
             }
 
             // Check if that code is for that shop
@@ -99,6 +99,7 @@ class DiscountService{
             const discount = await Discounts.findByIdAndUpdate({
                 _id: id
             }, {
+                discount_code,
                 discount_type,
                 discount_value,
                 discount_description,   
