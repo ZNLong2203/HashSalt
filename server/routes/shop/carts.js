@@ -10,7 +10,7 @@ const router = express.Router();
 router.get('/', authenticateToken, cartController.getListInCart);
 
 // User click on product to add to cart
-router.post('/add', authenticateToken, cartController.addCart);
+router.post('/', authenticateToken, cartController.addCart);
 
 // User change quantity of product in cart
 router.patch('/', authenticateToken, cartController.changeQuantityCart);

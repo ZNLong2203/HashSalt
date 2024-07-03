@@ -17,8 +17,13 @@ const Home = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/api/products');
-        setProducts(res.data);
+        if(category === 'home') {
+          const res = await axios.get('http://localhost:3000/api/products');
+          setProducts(res.data);
+        } else {
+          const res = await axios.get(`http://localhost:3000/api/products/type?type=${category}`);
+          setProducts(res.data);
+        }
       } catch (err) {
         console.error(err);
       }
@@ -39,7 +44,7 @@ const Home = () => {
   const handleAddToCart = async (quantity) => {
     try {
       await axios.post(
-        'http://localhost:3000/api/carts/add',
+        'http://localhost:3000/api/carts',
         { cart_product: selectedProduct._id, cart_quantity: quantity },
         {
           headers: {

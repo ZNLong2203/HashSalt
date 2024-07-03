@@ -1,28 +1,38 @@
 import axios from 'axios';
+import toast from 'react-hot-toast';
 import { useState, useEffect } from 'react';
-import useRefreshAccess from '../hooks/useRefreshAccess';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FaEdit, FaSave, FaTimes } from 'react-icons/fa';
-import ROUTES from '../routes/routes';
+import { FaEdit, FaSave, FaTimes, FaStar } from 'react-icons/fa';
 
 const DetailsProduct = () => {
   const navigate = useNavigate();
   const { product_id } = useParams();
   const [product, setProduct] = useState({});
+  const [overallRating, setOverallRating] = useState(0); 
+  const [rating, setRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/products/${product_id}`, {}, {
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem('accessToken')
-            }
+        const res = await axios.get(`http://localhost:3000/api/products/${product_id}`, {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+          }
         });
         setProduct(res.data);
+        setRating(res.data.rating || 0);  // Assume the rating is part of the product data
+
+        const resRating = await axios.get(`http://localhost:3000/api/reviews/rating/${product_id}`, {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        });
+        setOverallRating(resRating.data.rating);
       } catch (err) {
-        console.log(err);
-        if(err.response.status === 401) {
+        toast.error('Failed to fetch product details')
+        if (err.response.status === 401) {
           // await useRefreshAccess();
           // await fetchProduct();
         }
@@ -42,16 +52,39 @@ const DetailsProduct = () => {
   const handleSave = async () => {
     try {
       await axios.put(`http://localhost:3000/api/products/${product_id}`, product, {
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('accessToken')
-          }
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+        }
       });
       setIsEditing(false);
     } catch (err) {
       console.log(err);
-      if(err.response.status === 401) {
+      if (err.response.status === 401) {
         // await useRefreshAccess();
         // await handleSave();
+      }
+    }
+  };
+
+  const handleRatingChange = async (newRating) => {
+    try {
+      await axios.post(`http://localhost:3000/api/reviews/rating`, 
+        { 
+          productId: product_id, 
+          rating: newRating 
+        }, 
+        {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+        }
+      });
+      setRating(newRating);
+      toast.success('Rating submitted successfully');
+    } catch (err) {
+      toast.error('Failed to submit rating')
+      if (err.response.status === 401) {
+        // await useRefreshAccess();
+        // await handleRatingChange(newRating);
       }
     }
   };
@@ -126,26 +159,25 @@ const DetailsProduct = () => {
               <div className="text-lg mb-4">
                 Quantity: {product.product_quantity}
               </div>
-              {/* Ratting */}
-              <div class="flex items-center mb-10">
-                  <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                      <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-                  </svg>
-                  <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                      <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-                  </svg>
-                  <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                      <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-                  </svg>
-                  <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                      <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-                  </svg>
-                  <svg class="w-4 h-4 text-gray-300 me-1 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                      <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
-                  </svg>
-                  <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">4.95</p>
-                  <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">out of</p>
-                  <p class="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400">5</p>
+              {/* Overall Rating */}
+              <div className="flex items-center mb-4 mt-20">
+                <p className="flex flex-row text-lg font-semibold mr-4">Overall rating: 
+                  <FaStar className="text-yellow-300 ml-2 mt-1" />
+                  <span className="ml-2">{overallRating} out of 5</span>
+                </p>
+              </div>
+              {/* Individual Rating */}
+              <div className="flex items-center mb-10">
+                <p className="text-lg font-semibold mr-4">Rate this product:</p>
+                {[...Array(5)].map((_, index) => (
+                  <FaStar
+                    key={index}
+                    className={(index < (hoverRating || rating)) ? 'text-yellow-300' : 'text-gray-300'}
+                    onClick={() => handleRatingChange(index + 1)}
+                    onMouseEnter={() => setHoverRating(index + 1)}
+                    onMouseLeave={() => setHoverRating(0)}
+                  />
+                ))}
               </div>
               <div className="flex justify-start space-x-4">
                 <button

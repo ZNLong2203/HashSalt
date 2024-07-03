@@ -6,6 +6,9 @@ const router = express.Router()
 
 // api/reviews/
 
+// Get rating overall for product
+router.get('/rating/:productId', reviewController.getRatingProducts)
+
 // Create and update a rating review
 router.post('/rating', authenticateToken, reviewController.rating)
 

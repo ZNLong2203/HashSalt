@@ -3,11 +3,33 @@ const Reviews = require('../models/reviews')
 const Products = require('../models/products')
 
 class ReviewService {
+    async getRatingProducts(productId) {
+        try {
+            const rating = await Reviews.findOne({review_product: productId})
+            if(!rating) {
+                return 0
+            }
+            return rating.review_rating
+        } catch (err) {
+            throw new Error(err.message || 'Something went wrong')
+        }
+    }
+
     async rating(productId, rating, user) {
         try {
             // Create new rating or update existing rating 
 
             const review = await Reviews.findOne({review_product: productId})
+            if(!review) {
+                const newReview = new Reviews({
+                    review_product: productId,
+                    review_rating: rating,
+                    review_count: 1,
+                    review_user_rating: [{user: user._id, rating}]
+                })
+                await newReview.save()
+                return newReview
+            }
             if(!review.review_user_rating.includes(user._id)) {
                 // Calculate new rating if user has not rated yet
 
@@ -25,6 +47,7 @@ class ReviewService {
             }
             
             await review.save()
+            return review
         } catch(err) {
             throw new Error(err.message || 'Something went wrong');
         }

@@ -3,6 +3,17 @@ const Reviews = require('../models/reviews')
 const Products = require('../models/products')
 const ReviewService = require('../services/reviews')
 
+exports.getRatingProducts = async (req, res, next) => {
+    try {
+        const {productId} = req.params
+
+        const rating = await ReviewService.getRatingProducts(productId)
+        return res.status(200).json({rating})
+    } catch (err) {
+        next(err);
+    }
+}
+
 exports.rating = async (req, res, next) => {
     try {
         const {productId, rating} = req.body
@@ -16,8 +27,11 @@ exports.rating = async (req, res, next) => {
             return res.status(400).json({message: 'Invalid rating'})
         }
 
-        await ReviewService.rating(productId, rating, user)
-        return res.status(201).json({message: 'Rating success'})
+        const review = await ReviewService.rating(productId, rating, user)
+        return res.status(201).json({
+            message: 'Rating success',
+            metadata: review
+        })
     } catch (err) {
         next(err);
     }
