@@ -19,6 +19,7 @@ passport.use(new GoogleStrategy({
             user = new User({
                 name: profile.displayName,
                 email: profile.emails[0].value,
+                image: profile.photos[0].value,
                 hashPassword: randomBytes(64 ).toString('hex'),
                 provider: 'google',
                 provider_id: profile.id,

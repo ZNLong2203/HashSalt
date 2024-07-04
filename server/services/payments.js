@@ -1,6 +1,7 @@
 const User = require('../models/user')
 const Carts = require('../models/carts')
 const Products = require('../models/products')
+const Payments = require('../models/payments')
 const { sendEmail } = require('../configs/nodemailerConfig')
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
@@ -41,11 +42,18 @@ class PaymentService{
             // Retrieve the session to check if the payment is successful
             const session = await stripe.checkout.sessions.retrieve(session_id)
             if(session.payment_status === 'paid') {
-                await Carts.findOneAndUpdate({
+                const cartCompleted = await Carts.findOneAndUpdate({
                     cart_userId: userId,
                     cart_status: 'active'
                 }, {cart_status: 'completed'}, {new: true})
                 
+                // Insert cart completed into payment collection
+                const payment = new Payments({
+                    payment_user: userId,
+                    payment_carts: cartCompleted._id
+                })
+                await payment.save()
+
                 // Send email to user to confirm the payment
                 await sendEmail(session)
 

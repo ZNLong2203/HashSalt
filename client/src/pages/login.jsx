@@ -32,6 +32,20 @@ const Login = () => {
             toast.error('Login failed')
         }
     }
+
+    // const googleLogin = async () => {
+    //     try {
+    //         const res = await axios.get('http://localhost:3000/auth/google')
+    //         toast.success('Login successful')
+    //         localStorage.setItem('accessToken', res.data.accessToken)
+    //         setRole(res.data.role)
+    //         setAuthenticated(true)
+    //         navigate(ROUTES.HOME)
+    //     } catch(err) {
+    //         toast.error('Login failed')
+    //     }
+    // }
+
     return (
         <div className="bg-sky-500/50 flex flex-col md:flex-row items-center justify-center w-full h-screen">
             <div className="w-full flex items-center justify-center">
@@ -74,7 +88,7 @@ const Login = () => {
                         </form>
                         <div>
                             <button className="bg-gray-200 text-black w-full py-2 mt-4 rounded-lg hover:bg-gray-300 transition duration-200"
-                                onClick={() => window.location.href = "http://localhost:3000/auth/google"}
+                                onClick={() => window.location.href = 'http://localhost:3000/auth/google'}
                                 >Login with Google
                             </button>
                         </div>

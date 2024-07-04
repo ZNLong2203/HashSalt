@@ -43,6 +43,7 @@ exports.googleLogout = async (req, res, next) => {
 exports.googleSuccess = async (req, res, next) => {
     try {
         res.redirect(process.env.FRONTEND_URL)
+        return res.status(200).json({message: 'Login success'})
     } catch(err) {
         next(err);
     }
