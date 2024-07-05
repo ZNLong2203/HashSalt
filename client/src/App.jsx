@@ -18,6 +18,7 @@ import ProductDetails from './pages/detailsProduct'
 import EditProducts from './pages/editProduct'
 import CartPage from './pages/carts'
 import PaymentSuccessPage from './pages/paymentSuccess';
+import OrdersPage from './pages/orderHistory';
 
 function Main() {
   const location = useLocation()
@@ -41,6 +42,7 @@ function Main() {
           <Route path="/edit/:product_id" element={<EditProducts />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/paymentsuccess" element={<PaymentSuccessPage />} />
+          <Route path="/orders" element={<OrdersPage />} />
         </Routes>
       </main>
       {hideFooterOnPages.includes(location.pathname) ? null : <Footer />}

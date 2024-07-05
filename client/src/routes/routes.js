@@ -10,6 +10,7 @@ const ROUTES = {
     CREATEDISCOUNT: '/creatediscount',
     CART: '/cart',
     PAYMENTSUCCESS: '/paymentsuccess?session_id=',
+    ORDERS: '/orders',
 }
 
 export default ROUTES;

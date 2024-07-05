@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { FaTrash } from 'react-icons/fa'; 
+import { FaTrash } from 'react-icons/fa';
 import { loadStripe } from "@stripe/stripe-js";
 
 const CartPage = () => {
@@ -21,14 +21,13 @@ const CartPage = () => {
         });
         const itemsWithDiscount = res.data.metadata.cart.cart_items.map(item => ({
           ...item,
-          discount: null 
+          discount: null
         }));
         setCartItems(itemsWithDiscount);
         setTotal(Math.round(res.data.metadata.totalPrice));
-        // Fetch discounts for each item
         await fetchDiscounts(itemsWithDiscount);
       } catch (err) {
-        console.error("Error fetching cart items:", err); 
+        console.error("Error fetching cart items:", err);
       } finally {
         setIsLoading(false);
       }
@@ -63,7 +62,7 @@ const CartPage = () => {
       });
       const updatedCartItems = cartItems.filter((item) => item.cart_product._id !== itemId);
       setCartItems(updatedCartItems);
-    } catch(err) {
+    } catch (err) {
       console.error("Error removing item from cart:", err);
     }
   };
@@ -123,8 +122,8 @@ const CartPage = () => {
         ) : (
           <div className="bg-white rounded-lg shadow-md">
             {cartItems.map(item => (
-              <div 
-                key={item.cart_product._id} 
+              <div
+                key={item.cart_product._id}
                 className="flex items-center justify-between p-4 border-b"
               >
                 <div className="flex items-center">
@@ -147,7 +146,7 @@ const CartPage = () => {
                   <select
                     value={item.discount ? item.discount.discount_code : ''}
                     onChange={(e) => handleDiscountChange(item.cart_product._id, e.target.value)}
-                    className="mr-4 p-1 border rounded-md"
+                    className="mr-4 p-1 border rounded-md w-44"  
                   >
                     <option value="" disabled>Select discount</option>
                     {discounts[item.cart_product._id]?.map(discount => (
@@ -179,7 +178,7 @@ const CartPage = () => {
             </p>
           </div>
           <div className="mb-4">
-            <button 
+            <button
               className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"
               onClick={() => handlePayment(cartItems)}>
               Payment
