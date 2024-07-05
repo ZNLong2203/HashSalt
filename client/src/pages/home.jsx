@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { AiFillEye } from 'react-icons/ai';
 import { RiAddCircleLine } from 'react-icons/ri';
 import AddToCartDialog from '../components/addToCartDialog';
 import CategoryBar from '../components/categorybar';
 
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+}
+
 const Home = () => {
+  const query = useQuery();
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -15,6 +20,10 @@ const Home = () => {
   const [category, setCategory] = useState('home');
 
   useEffect(() => {
+    const accessToken = query.get('accessToken')
+    if(accessToken) {
+      localStorage.setItem('accessToken', accessToken)
+    }
     const fetchProducts = async () => {
       try {
         if(category === 'home') {
@@ -50,6 +59,7 @@ const Home = () => {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
           },
+          withCredentials: true
         }
       );
       handleClosePopup();

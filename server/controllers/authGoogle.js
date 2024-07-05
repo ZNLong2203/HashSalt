@@ -21,7 +21,8 @@ exports.googleCallback = async (req, res, next) => {
                 return res.status(400).json({message: 'User not found'})
             }
             res.cookie('refreshToken', user.refreshToken, {httpOnly: true})
-            return res.redirect(process.env.FRONTEND_URL)
+            const frontendUrl = `${process.env.FRONTEND_URL}?accessToken=${encodeURIComponent(user.accessToken)}`
+            res.redirect(frontendUrl)
         })(req, res, next)
     } catch(err) {
         next(err);

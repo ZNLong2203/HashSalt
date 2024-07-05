@@ -24,6 +24,8 @@ const Login = () => {
             });
             if (res.status === 200) {
                 toast.success('Login successful');
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('token-storage');
                 localStorage.setItem('accessToken', res.data.accessToken);
                 setRole(res.data.role);
                 setAuthenticated(true);
