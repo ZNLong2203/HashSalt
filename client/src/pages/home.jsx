@@ -5,6 +5,7 @@ import { AiFillEye } from 'react-icons/ai';
 import { RiAddCircleLine } from 'react-icons/ri';
 import AddToCartDialog from '../components/addToCartDialog';
 import CategoryBar from '../components/categorybar';
+import useStoreToken from '../hooks/useStoreToken';
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -18,11 +19,13 @@ const Home = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [category, setCategory] = useState('home');
+  const { setAuthenticated, setRole } = useStoreToken();
 
   useEffect(() => {
     const accessToken = query.get('accessToken')
     if(accessToken) {
       localStorage.setItem('accessToken', accessToken)
+      setAuthenticated(true)
     }
     const fetchProducts = async () => {
       try {
@@ -59,7 +62,6 @@ const Home = () => {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
           },
-          withCredentials: true
         }
       );
       handleClosePopup();

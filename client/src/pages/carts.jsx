@@ -24,7 +24,6 @@ const CartPage = () => {
           discount: null
         }));
         setCartItems(itemsWithDiscount);
-        setTotal(Math.round(res.data.metadata.totalPrice));
         await fetchDiscounts(itemsWithDiscount);
       } catch (err) {
         console.error("Error fetching cart items:", err);
@@ -44,6 +43,7 @@ const CartPage = () => {
           return acc;
         }, {});
         setDiscounts(discountsData);
+        updateTotal(items, discountsData);
       } catch (err) {
         console.error("Error fetching discounts:", err);
       }
@@ -51,6 +51,15 @@ const CartPage = () => {
 
     fetchCartItems();
   }, []);
+
+  const updateTotal = (items, discountsData) => {
+    const totalAmount = items.reduce((acc, item) => {
+      const discount = item.discount;
+      const discountedPrice = calculateDiscountedPrice(item.cart_product.product_price, discount);
+      return acc + (discountedPrice * item.cart_quantity);
+    }, 0);
+    setTotal(totalAmount);
+  };
 
   const handleRemoveItem = async (itemId) => {
     try {
@@ -62,6 +71,7 @@ const CartPage = () => {
       });
       const updatedCartItems = cartItems.filter((item) => item.cart_product._id !== itemId);
       setCartItems(updatedCartItems);
+      updateTotal(updatedCartItems, discounts);
     } catch (err) {
       console.error("Error removing item from cart:", err);
     }
@@ -76,6 +86,7 @@ const CartPage = () => {
       return item;
     });
     setCartItems(updatedCartItems);
+    updateTotal(updatedCartItems, discounts);
   };
 
   const calculateDiscountedPrice = (price, discount) => {
@@ -89,10 +100,18 @@ const CartPage = () => {
     return price;
   };
 
-  const handlePayment = async (cart_items) => {
+  const handlePayment = async () => {
     try {
+      const itemsWithDiscountedPrice = cartItems.map(item => ({
+        ...item,
+        cart_product: {
+          ...item.cart_product,
+          product_price: Math.round(calculateDiscountedPrice(item.cart_product.product_price, item.discount), 2) 
+        }
+      }));
+
       const res = await axios.post("http://localhost:3000/api/payments", {
-        cart_items: cart_items,
+        cart_items: itemsWithDiscountedPrice,
       }, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("accessToken"),
@@ -146,7 +165,7 @@ const CartPage = () => {
                   <select
                     value={item.discount ? item.discount.discount_code : ''}
                     onChange={(e) => handleDiscountChange(item.cart_product._id, e.target.value)}
-                    className="mr-4 p-1 border rounded-md w-44"  
+                    className="mr-4 p-1 border rounded-md w-44"
                   >
                     <option value="" disabled>Select discount</option>
                     {discounts[item.cart_product._id]?.map(discount => (
@@ -174,13 +193,14 @@ const CartPage = () => {
           <div className="mb-4">
             <p className="flex justify-between text-lg font-medium">
               <span>Total</span>
-              <span>{total}</span>
+              <span>${total.toFixed(2)}</span>
             </p>
           </div>
           <div className="mb-4">
             <button
               className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"
-              onClick={() => handlePayment(cartItems)}>
+              onClick={handlePayment}
+            >
               Payment
             </button>
           </div>
@@ -188,6 +208,6 @@ const CartPage = () => {
       </div>
     </div>
   );
-}
+};
 
 export default CartPage;

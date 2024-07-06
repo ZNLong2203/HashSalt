@@ -3,11 +3,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../routes/routes';
+import useStoreToken from '../hooks/useStoreToken';
 
 const UserMenu = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
+  const { setAuthenticated, setRole } = useStoreToken();
 
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -35,10 +37,11 @@ const UserMenu = () => {
       });
       localStorage.removeItem('accessToken');
       localStorage.removeItem('token-storage');
+      setAuthenticated(false);
       toast.success('Logout successful');
       
       setTimeout(() => {
-        window.location.reload() 
+        navigate(ROUTES.HOME)
       }, 500); // 0.5 second delay to allow the toast to be visible
     } catch (err) {
       toast.error('Logout failed');
