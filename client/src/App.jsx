@@ -14,7 +14,8 @@ import MyShop from './pages/myShop'
 import CreateProduct from './pages/createProduct';
 import MyDiscount from './pages/myDiscount'
 import CreateDiscount from './pages/createDiscount'
-import ProductDetails from './pages/detailsProduct'
+import DetailsProduct from './pages/detailsProduct'
+import MyDetailsProduct from './pages/myProduct'
 import EditProducts from './pages/editProduct'
 import CartPage from './pages/carts'
 import PaymentSuccessPage from './pages/paymentSuccess';
@@ -38,7 +39,8 @@ function Main() {
           <Route path="/createproduct" element={<CreateProduct />} />
           <Route path="/mydiscount" element={<MyDiscount />} />
           <Route path="/creatediscount" element={<CreateDiscount />} />
-          <Route path="/product/:product_id" element={<ProductDetails />} />
+          <Route path="/product/:product_id" element={<DetailsProduct />} />
+          <Route path="/myproduct/:product_id" element={<MyDetailsProduct />} />
           <Route path="/edit/:product_id" element={<EditProducts />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/paymentsuccess" element={<PaymentSuccessPage />} />

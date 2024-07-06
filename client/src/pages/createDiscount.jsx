@@ -66,7 +66,9 @@ const CreateDiscount = () => {
                 },
             });
             toast.success('Discount created successfully');
-            navigate(ROUTES.MYDISCOUNT);
+            setTimeout(() => {
+                navigate(ROUTES.MYDISCOUNT);
+            }, 1000)
         } catch (error) {
             toast.error('Failed to create discount');
         }

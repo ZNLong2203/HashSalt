@@ -92,7 +92,7 @@ const Home = () => {
               <CardActions className="justify-center p-4 space-x-5">
                 <button
                   className="flex items-center justify-center bg-orange-500 text-white rounded-md px-4 py-2"
-                  onClick={() => navigate(`/product/${product._id}`)}
+                  onClick={() => navigate(`/myproduct/${product._id}`)}
                 >
                   <AiFillEye className="me-2" />
                   View

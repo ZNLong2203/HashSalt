@@ -119,6 +119,9 @@ const CreateProduct = () => {
                 throw new Error(response.data.message);
             }
             toast.success("Product Created Successfully");
+            setTimeout(() => {
+                navigate(ROUTES.MYSHOP);
+            }, 1000)
         } catch (error) {
             console.log(error);
             toast.error("Create Product Error:", error.message);
