@@ -160,13 +160,27 @@ const MyDetailsProduct = () => {
               <div className="text-lg mb-4">
                 Quantity: {product.product_quantity}
               </div>
+              
+              {/* Highlighted Attributes */}
+              <div className="mb-4">
+                <h3 className="text-xl font-semibold mb-2">Attributes:</h3>
+                <ul className="list-disc list-inside bg-gray-100 p-4 rounded-lg shadow-inner">
+                  {product.product_attributes && Object.entries(product.product_attributes).map(([key, value]) => (
+                    <li key={key} className="text-gray-700 mb-1">
+                      <span className="font-semibold">{key}:</span> {value}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              
               {/* Overall Rating */}
-              <div className="flex items-center mb-4 mt-20">
+              <div className="flex items-center mb-4">
                 <p className="flex flex-row text-lg font-semibold mr-4">Overall rating: 
                   <FaStar className="text-yellow-300 ml-2 mt-1" />
                   <span className="ml-2">{overallRating} out of 5</span>
                 </p>
               </div>
+              
               {/* Individual Rating */}
               <div className="flex items-center mb-10">
                 <p className="text-lg font-semibold mr-4">Rate this product:</p>
@@ -180,6 +194,7 @@ const MyDetailsProduct = () => {
                   />
                 ))}
               </div>
+              
               <div className="flex justify-start space-x-4">
                 <button
                   onClick={() => setIsEditing(true)}

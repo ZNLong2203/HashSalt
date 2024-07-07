@@ -88,9 +88,9 @@ const MyDiscounts = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 p-8">
+        <div className="min-h-screen p-8 mt-16 mx-auto">
             <h1 className="text-4xl font-bold text-center mb-8">My Discounts</h1>
-            <div className="space-x-4">
+            <div className="flex justify-center space-x-4 mx-auto">
                 <button
                     onClick={() => navigate(ROUTES.CREATEDISCOUNT)}
                     className="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
@@ -106,7 +106,7 @@ const MyDiscounts = () => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
                 {discounts.map((discount) => (
-                    <div key={discount._id} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                    <div key={discount._id} className="bg-zinc-200 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                         {isEditing === discount._id ? (
                             <div>
                                 <input
