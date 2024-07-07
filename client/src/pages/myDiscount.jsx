@@ -62,7 +62,6 @@ const MyDiscounts = () => {
 
     const handleSaveClick = async () => {
         try {
-            console.log(editDiscount)
             await axios.put(`http://localhost:3000/api/discounts/${editDiscount._id}`, editDiscount, {
                 headers: {
                     Authorization: 'Bearer ' + token,

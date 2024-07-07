@@ -6,10 +6,23 @@ const ProductFactory = require('../services/products')
 // Get all products to display on the home page
 exports.getAllProducts = async (req, res, next) => {
     try {
+        const page = parseInt(req.query.page) || 1
+        const limit = 12;
+        const skip = (page - 1) * limit
+
+        const totalDocs = await Products.countDocuments({isPublished: true})
+        const totalPages = Math.ceil(totalDocs / limit)
+
         const products = await Products
                         .find({isPublished: true})
                         .select('product_name product_image product_description product_price product_quantity product_shop')
-        res.status(200).json(products)
+                        .skip(skip)
+                        .limit(limit)
+        res.status(200).json({
+            products,
+            page,
+            totalPages
+        })
     } catch(err) {
         next(err);
     }
@@ -51,7 +64,6 @@ exports.createProduct = async (req, res, next) => {
 // Get all products from the shop of that user
 exports.getProductShop = async (req, res, next) => {
     try {
-        console.log(req.user._id)
         const products =  await Products.find({product_shop: req.user._id})
         res.status(200).json(products)
     } catch(err) {
@@ -113,15 +125,31 @@ exports.searchProduct = async (req, res, next) => {
 
 exports.searchProductByCategory = async (req, res, next) => {
     try {
-        const {type} = req.query
+        const { type } = req.query
+        const { page } = req.query || 1
+        const limit = 12
+        const skip = (page - 1) * limit
+
+        // Get total number of documents and pages
+        const totalDocs = await Products.countDocuments({
+            product_type: type,
+            isPublished: true
+        })
+        const totalPages = Math.ceil(totalDocs / limit)
+
         const products = await Products.find({
             product_type: type,
             isPublished: true
         })
         .sort({createdAt: -1})
-        .limit(20)
+        .skip(skip)
+        .limit(limit)
         .lean()
-        res.status(200).json(products)
+        res.status(200).json({
+            products,
+            page,
+            totalPages
+        })
     } catch(err) {
         next(err);
     }

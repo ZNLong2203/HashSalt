@@ -5,7 +5,7 @@ const ReviewService = require('../services/reviews')
 
 exports.getRatingProducts = async (req, res, next) => {
     try {
-        const {productId} = req.params
+        const { productId } = req.params
 
         const rating = await ReviewService.getRatingProducts(productId)
         return res.status(200).json({rating})
@@ -16,7 +16,7 @@ exports.getRatingProducts = async (req, res, next) => {
 
 exports.rating = async (req, res, next) => {
     try {
-        const {productId, rating} = req.body
+        const { productId, rating } = req.body
         const user = req.user
 
         // Check required fields
@@ -39,7 +39,7 @@ exports.rating = async (req, res, next) => {
 
 exports.createComment = async (req, res, next) => {
     try {
-        const {productId, content} = req.body
+        const { productId, content } = req.body
         const user = req.user
         
         // Check required fields
@@ -59,7 +59,7 @@ exports.createComment = async (req, res, next) => {
 
 exports.createReply = async (req, res, next) => {
     try {
-        const {productId, userReply, content} = req.body
+        const { productId, userReply, content } = req.body
         const user = req.user
 
         // Check required fields

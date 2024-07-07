@@ -6,7 +6,7 @@ const DiscountService = require('../services/discounts')
 
 exports.createDiscount = async (req, res, next) => {
     try {
-        const {discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_productId} = req.body.newDiscount
+        const { discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_productId } = req.body.newDiscount
         const discount_shopId = req.user._id
         const discount = await DiscountService.createDiscount(discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_shopId, discount_productId)
         return res.status(201).json({
@@ -20,7 +20,7 @@ exports.createDiscount = async (req, res, next) => {
 
 exports.getAllDiscountsFromShop = async (req, res, next) => {
     try {
-        const {shopId} = req.params
+        const { shopId } = req.params
         
         const discounts = await DiscountService.getAllDiscountsFromShop(shopId)
         
@@ -32,7 +32,7 @@ exports.getAllDiscountsFromShop = async (req, res, next) => {
 
 exports.getAllDiscountFromProduct = async (req, res, next) => {
     try {
-        const {productId} = req.params
+        const { productId } = req.params
         
         const discounts = await DiscountService.getAllDiscountFromProduct(productId)
 
@@ -44,9 +44,9 @@ exports.getAllDiscountFromProduct = async (req, res, next) => {
 
 exports.updateDiscount = async (req, res, next) => {
     try {
-        const id = req.params.id
+        const { id } = req.params
         const discount_shopId = req.user._id
-        const {discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_status,  discount_productId} = req.body
+        const { discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_status,  discount_productId } = req.body
 
         await DiscountService.updateDiscount(id, discount_shopId, discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_status, discount_productId)
 
@@ -58,7 +58,7 @@ exports.updateDiscount = async (req, res, next) => {
 
 exports.deleteDiscount = async (req, res, next) => {
     try {
-        const id = req.params.id
+        const { id } = req.params
         const discount_shopId = req.user._id
 
         await DiscountService.deleteDiscount(id, discount_shopId)
@@ -71,7 +71,7 @@ exports.deleteDiscount = async (req, res, next) => {
 
 exports.useDiscount = async (req, res, next) => {
     try {
-        const {discount_code, productId} = req.body
+        const { discount_code, productId } = req.body
         const user = req.user
         
         const {Price, Discount, Type, AfterDiscount} = await DiscountService.useDiscount(discount_code, productId, user)
@@ -84,7 +84,7 @@ exports.useDiscount = async (req, res, next) => {
 
 exports.cancelUseDiscount = async (req, res, next) => {
     try {
-        const {discount_code, productId} = req.body
+        const { discount_code, productId } = req.body
         const user = req.user
 
         await DiscountService.cancelUseDiscount(discount_code, productId, user)

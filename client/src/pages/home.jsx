@@ -15,6 +15,8 @@ const Home = () => {
   const query = useQuery();
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -29,19 +31,20 @@ const Home = () => {
     }
     const fetchProducts = async () => {
       try {
+        let res;
         if(category === 'home') {
-          const res = await axios.get('http://localhost:3000/api/products');
-          setProducts(res.data);
+          res = await axios.get(`http://localhost:3000/api/products?page=${currentPage}`);
         } else {
-          const res = await axios.get(`http://localhost:3000/api/products/type?type=${category}`);
-          setProducts(res.data);
+          res = await axios.get(`http://localhost:3000/api/products/type?type=${category}&page=${currentPage}`);
         }
+        setProducts(res.data.products);
+        setTotalPage(res.data.totalPages);
       } catch (err) {
         console.error(err);
       }
     };
     fetchProducts();
-  }, [category]);
+  }, [category, currentPage]);
 
   const handleOpenPopup = (product) => {
     setSelectedProduct(product);
@@ -67,6 +70,12 @@ const Home = () => {
       handleClosePopup();
     } catch (err) {
       console.error('Failed to add to cart:', err);
+    }
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPage) {
+      setCurrentPage(newPage);
     }
   };
 
@@ -108,6 +117,25 @@ const Home = () => {
             </div>
           </div>
         ))}
+      </div>
+      <div className="flex justify-center mt-6">
+        <button
+          className="px-4 py-2 mx-2 bg-gray-200 rounded"
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span className="px-4 py-2">
+          Page {currentPage} of {totalPage}
+        </span>
+        <button
+          className="px-4 py-2 mx-2 bg-gray-200 rounded"
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPage}
+        >
+          Next
+        </button>
       </div>
       {selectedProduct && (
         <AddToCartDialog
