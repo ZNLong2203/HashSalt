@@ -5,6 +5,7 @@ import { AiFillEye } from 'react-icons/ai';
 import { RiAddCircleLine } from 'react-icons/ri';
 import AddToCartDialog from '../components/addToCartDialog';
 import CategoryBar from '../components/categorybar';
+import Pagination from '../components/pagination';
 import useStoreToken from '../hooks/useStoreToken';
 
 const useQuery = () => {
@@ -12,8 +13,9 @@ const useQuery = () => {
 }
 
 const Home = () => {
-  const query = useQuery();
   const navigate = useNavigate();
+  const query = useQuery();
+  const token = localStorage.getItem('accessToken');
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
@@ -63,7 +65,7 @@ const Home = () => {
         { cart_product: selectedProduct._id, cart_quantity: quantity },
         {
           headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+            Authorization: 'Bearer ' + token,
           },
         }
       );
@@ -118,25 +120,7 @@ const Home = () => {
           </div>
         ))}
       </div>
-      <div className="flex justify-center mt-6">
-        <button
-          className="px-4 py-2 mx-2 bg-gray-200 rounded"
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-        <span className="px-4 py-2">
-          Page {currentPage} of {totalPage}
-        </span>
-        <button
-          className="px-4 py-2 mx-2 bg-gray-200 rounded"
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPage}
-        >
-          Next
-        </button>
-      </div>
+      <Pagination currentPage={currentPage} totalPage={totalPage} handlePageChange={handlePageChange} />
       {selectedProduct && (
         <AddToCartDialog
           isPopupOpen={isPopupOpen}

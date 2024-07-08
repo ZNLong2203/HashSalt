@@ -1,6 +1,3 @@
-const User = require('../models/user');
-const Carts = require('../models/carts');
-const { Products } = require('../models/products');
 const CartService = require('../services/carts');
 
 exports.getListInCart = async (req, res, next) => {

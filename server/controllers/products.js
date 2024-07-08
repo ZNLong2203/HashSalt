@@ -1,5 +1,3 @@
-const { createCipheriv } = require('crypto')
-const User = require('../models/user')
 const {Products, Electronics, Clothing, Furniture} = require('../models/products')
 const ProductFactory = require('../services/products')
 
@@ -7,7 +5,7 @@ const ProductFactory = require('../services/products')
 exports.getAllProducts = async (req, res, next) => {
     try {
         const page = parseInt(req.query.page) || 1
-        const limit = 12;
+        const limit = 12
         const skip = (page - 1) * limit
 
         const totalDocs = await Products.countDocuments({isPublished: true})
@@ -20,7 +18,6 @@ exports.getAllProducts = async (req, res, next) => {
                         .limit(limit)
         res.status(200).json({
             products,
-            page,
             totalPages
         })
     } catch(err) {
@@ -64,8 +61,25 @@ exports.createProduct = async (req, res, next) => {
 // Get all products from the shop of that user
 exports.getProductShop = async (req, res, next) => {
     try {
-        const products =  await Products.find({product_shop: req.user._id})
-        res.status(200).json(products)
+        const { page } = req.query || 1
+        const limit = 9
+        const skip = (page - 1) * limit
+
+        const totalDocs = await Products.countDocuments({
+            product_shop: req.user._id
+        })
+        const totalPages = Math.ceil(totalDocs / limit)
+
+        const products =  await Products.find({
+            product_shop: req.user._id
+        })
+        .skip(skip)
+        .limit(limit)
+        .lean()
+        res.status(200).json({
+            products,
+            totalPages
+        })
     } catch(err) {
         next(err);
     }

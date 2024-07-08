@@ -6,6 +6,7 @@ import { FaStar } from 'react-icons/fa';
 
 const DetailsProduct = () => {
   const { product_id } = useParams();
+  const token = localStorage.getItem('accessToken');
   const [product, setProduct] = useState({});
   const [overallRating, setOverallRating] = useState(0); 
   const [rating, setRating] = useState(0);
@@ -16,7 +17,7 @@ const DetailsProduct = () => {
       try {
         const res = await axios.get(`http://localhost:3000/api/products/${product_id}`, {
           headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+            Authorization: 'Bearer ' + token,
           }
         });
         setProduct(res.data);
@@ -24,7 +25,7 @@ const DetailsProduct = () => {
 
         const resRating = await axios.get(`http://localhost:3000/api/reviews/rating/${product_id}`, {
           headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+            Authorization: 'Bearer ' + token,
           }
         });
         setOverallRating(resRating.data.rating);
@@ -44,7 +45,7 @@ const DetailsProduct = () => {
         }, 
         {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+          Authorization: 'Bearer ' + token,
         }
       });
       setRating(newRating);

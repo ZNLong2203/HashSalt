@@ -1,6 +1,3 @@
-const User = require('../models/user')
-const Reviews = require('../models/reviews')
-const Products = require('../models/products')
 const ReviewService = require('../services/reviews')
 
 exports.getRatingProducts = async (req, res, next) => {

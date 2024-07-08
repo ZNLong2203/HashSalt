@@ -6,20 +6,24 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AiFillEye } from 'react-icons/ai';
 import { IoTrashBinOutline } from "react-icons/io5";
+import Pagination from '../components/pagination';
 
 const Home = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/api/products/shop', {
+        const res = await axios.get(`http://localhost:3000/api/products/shop?page=${currentPage}`, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('accessToken')
             }
         });
-        setProducts(res.data);
+        setProducts(res.data.products);
+        setTotalPage(res.data.totalPages);
       } catch(err) {
         console.log(err);
         if(err.response.status === 401) {
@@ -47,6 +51,12 @@ const Home = () => {
         // await useRefreshAccess();
         // await handleDeleteProduct(product_id);
       }
+    }
+  }
+
+  const handlePageChange = (newPage) => {
+    if(newPage > 0 && newPage <= totalPage) {
+      setCurrentPage(newPage);
     }
   }
 
@@ -99,6 +109,7 @@ const Home = () => {
           </div>
         ))}
       </div>
+      <Pagination currentPage={currentPage} totalPage={totalPage} handlePageChange={handlePageChange} />
     </div>
   );
 }

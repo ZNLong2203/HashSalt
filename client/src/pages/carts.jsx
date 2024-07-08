@@ -4,6 +4,7 @@ import { FaTrash } from 'react-icons/fa';
 import { loadStripe } from "@stripe/stripe-js";
 
 const CartPage = () => {
+  const token = localStorage.getItem('accessToken');
   const [cartItems, setCartItems] = useState([]);
   const [discounts, setDiscounts] = useState({});
   const [total, setTotal] = useState(0);
@@ -16,7 +17,7 @@ const CartPage = () => {
       try {
         const res = await axios.get("http://localhost:3000/api/carts", {
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("accessToken"),
+            Authorization: "Bearer " + token,
           },
         });
         const itemsWithDiscount = res.data.metadata.cart.cart_items.map(item => ({
@@ -66,7 +67,7 @@ const CartPage = () => {
       await axios.delete(`http://localhost:3000/api/carts/one`, {
         data: { cart_product: itemId },
         headers: {
-          Authorization: "Bearer " + localStorage.getItem("accessToken"),
+          Authorization: "Bearer " + token,
         },
       });
       const updatedCartItems = cartItems.filter((item) => item.cart_product._id !== itemId);
@@ -114,7 +115,7 @@ const CartPage = () => {
         cart_items: itemsWithDiscountedPrice,
       }, {
         headers: {
-          Authorization: "Bearer " + localStorage.getItem("accessToken"),
+          Authorization: "Bearer " + token,
         },
       });
 

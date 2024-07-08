@@ -1,33 +1,37 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 import ROUTES from '../routes/routes';
 import useRefreshAccess from '../hooks/useRefreshAccess';
-import {jwtDecode} from 'jwt-decode'; 
+import { jwtDecode } from 'jwt-decode'; 
 import { FaRegSmile } from 'react-icons/fa';
-import { FiArrowRightCircle } from 'react-icons/fi';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import Pagination from '../components/pagination';
 
 const MyDiscounts = () => {
+    const navigate = useNavigate();
+    const token = localStorage.getItem('accessToken');
     const [discounts, setDiscounts] = useState([]);
     const [isEditing, setIsEditing] = useState(null); // Track the discount being edited
     const [editDiscount, setEditDiscount] = useState({}); // Store the edited discount values
-    const navigate = useNavigate();
-    const token = localStorage.getItem('accessToken');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(1);
 
     useEffect(() => {
         const fetchDiscounts = async () => {
             try {
                 const decodedToken = jwtDecode(token);
                 const userId = decodedToken._id;
-                const response = await axios.get(`http://localhost:3000/api/discounts/shop/${userId}`, {
+                const response = await axios.get(`http://localhost:3000/api/discounts/shop?shopId=${userId}&page=${currentPage}`, {
                     headers: {
                         Authorization: 'Bearer ' + token,
                     },
                 });
-                setDiscounts(response.data);
+                setDiscounts(response.data.discounts);
+                setTotalPage(response.data.totalPages);
             } catch (error) {
-                console.error('Error fetching discounts or decoding token:', error);
+                toast.error('Error fetching discounts or decoding token:', error);
                 if(error.response.status === 401) {
                     // await useRefreshAccess();
                     // await fetchDiscounts();
@@ -85,6 +89,12 @@ const MyDiscounts = () => {
             [name]: value,
         });
     };
+
+    const handlePageChange = (newPage) => {
+        if(newPage > 0 && newPage <= totalPage) {
+            setCurrentPage(newPage);
+        }
+    }
 
     return (
         <div className="min-h-screen p-8 mt-16 mx-auto">
@@ -209,6 +219,7 @@ const MyDiscounts = () => {
                     </div>
                 ))}
             </div>
+            <Pagination currentPage={currentPage} totalPage={totalPage} handlePageChange={handlePageChange} />
         </div>
     );
 };

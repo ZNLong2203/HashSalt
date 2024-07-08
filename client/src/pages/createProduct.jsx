@@ -7,6 +7,7 @@ import ROUTES from '../routes/routes';
 
 const CreateProduct = () => {
     const navigate = useNavigate();
+    const token = localStorage.getItem('accessToken');
     const [uploadedFileName, setUploadedFileName] = useState('');
 
     const [product, setProduct] = useState({
@@ -111,19 +112,15 @@ const CreateProduct = () => {
         try {
             const response = await axios.post('http://localhost:3000/api/products', formData, {
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),
+                    'Authorization': 'Bearer ' + token,
                     'Content-Type': 'multipart/form-data',
                 }
             });
-            if (response.status !== 201) {
-                throw new Error(response.data.message);
-            }
             toast.success("Product Created Successfully");
             setTimeout(() => {
                 navigate(ROUTES.MYSHOP);
             }, 1000)
         } catch (error) {
-            console.log(error);
             toast.error("Create Product Error:", error.message);
         }
     };

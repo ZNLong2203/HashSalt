@@ -7,6 +7,7 @@ import ROUTES from '../routes/routes';
 
 const MyDetailsProduct = () => {
   const navigate = useNavigate();
+  const token = localStorage.getItem('accessToken');
   const { product_id } = useParams();
   const [product, setProduct] = useState({});
   const [overallRating, setOverallRating] = useState(0); 
@@ -19,7 +20,7 @@ const MyDetailsProduct = () => {
       try {
         const res = await axios.get(`http://localhost:3000/api/products/${product_id}`, {
           headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+            Authorization: 'Bearer ' + token,
           }
         });
         setProduct(res.data);
@@ -27,7 +28,7 @@ const MyDetailsProduct = () => {
 
         const resRating = await axios.get(`http://localhost:3000/api/reviews/rating/${product_id}`, {
           headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+            Authorization: 'Bearer ' + token,
           }
         });
         setOverallRating(resRating.data.rating);
@@ -54,7 +55,7 @@ const MyDetailsProduct = () => {
     try {
       await axios.put(`http://localhost:3000/api/products/${product_id}`, product, {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+          Authorization: 'Bearer ' + token,
         }
       });
       setIsEditing(false);
@@ -76,7 +77,7 @@ const MyDetailsProduct = () => {
         }, 
         {
         headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+          Authorization: 'Bearer ' + token,
         }
       });
       setRating(newRating);

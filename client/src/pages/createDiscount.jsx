@@ -7,6 +7,8 @@ import moment from 'moment';
 import Select from 'react-select';
 
 const CreateDiscount = () => {
+    const navigate = useNavigate();
+    const token = localStorage.getItem('accessToken');
     const [newDiscount, setNewDiscount] = useState({
         discount_code: '',
         discount_type: 'fixed',
@@ -18,8 +20,6 @@ const CreateDiscount = () => {
         discount_productId: [], 
     });
     const [products, setProducts] = useState([]);
-    const token = localStorage.getItem('accessToken');
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProducts = async () => {

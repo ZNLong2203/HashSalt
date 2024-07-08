@@ -1,4 +1,3 @@
-const User = require('../models/user')
 const KeyToken = require('../models/keytoken')
 const ggPassport = require('../configs/googleAuthConfig')
 

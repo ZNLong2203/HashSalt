@@ -40,19 +40,26 @@ class DiscountService{
         }
     }
 
-    async getAllDiscountsFromShop(shopId) {
+    async getAllDiscountsFromShop(shopId, skip, limit) {
         try {
             // Get all discounts from shop
             const discounts = await Discounts.find({
                 discount_shopId: shopId
             })
             .select('-discount_users_used -discount_shopId -createdAt -updatedAt -__v')
-            .sort({ createdAt: -1 });
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit);
 
             if(!discounts) {
                 throw new Error('No discounts found')
             }
-            return discounts
+
+            const totalDocs = await Discounts.countDocuments({
+                discount_shopId: shopId
+            })
+            const totalPage = Math.ceil(totalDocs / limit)
+            return { discounts, totalPage }
         } catch(err) {
             throw new Error(err.message || 'Something went wrong')
         }

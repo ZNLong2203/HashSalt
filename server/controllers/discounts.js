@@ -1,7 +1,3 @@
-const User = require('../models/user')
-const {Products} = require('../models/products')
-const Discounts = require('../models/discounts')
-const Carts = require('../models/carts')
 const DiscountService = require('../services/discounts')
 
 exports.createDiscount = async (req, res, next) => {
@@ -20,11 +16,16 @@ exports.createDiscount = async (req, res, next) => {
 
 exports.getAllDiscountsFromShop = async (req, res, next) => {
     try {
-        const { shopId } = req.params
+        const { shopId, page } = req.query
+        const limit = 9
+        const skip = (page - 1) * limit
+
+        const { discounts, totalPage } = await DiscountService.getAllDiscountsFromShop(shopId, skip, limit)
         
-        const discounts = await DiscountService.getAllDiscountsFromShop(shopId)
-        
-        return res.status(200).json(discounts)
+        return res.status(200).json({
+            discounts,
+            totalPage
+        })
     } catch(err) {
         next(err);
     }

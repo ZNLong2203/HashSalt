@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const PaymentSuccessPage = () => {
+  const token = localStorage.getItem('accessToken');
 
   useEffect(() => {
     const fetchSuccess = async () => {
@@ -12,7 +13,7 @@ const PaymentSuccessPage = () => {
         const sessionId = queryParams.get('session_id');
         const res = await axios.post(`http://localhost:3000/api/payments/success?session_id=${sessionId}`, {}, {
             headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+                Authorization: 'Bearer ' + token,
             }
         });
         console.log(res.data);
