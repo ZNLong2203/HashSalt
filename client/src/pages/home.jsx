@@ -37,7 +37,7 @@ const Home = () => {
         if(category === 'home') {
           res = await axios.get(`http://localhost:3000/api/products?page=${currentPage}`);
         } else {
-          res = await axios.get(`http://localhost:3000/api/products/type?type=${category}&page=${currentPage}`);
+          res = await axios.get(`http://localhost:3000/api/products/type/${category}?page=${currentPage}`);
         }
         setProducts(res.data.products);
         setTotalPage(res.data.totalPages);

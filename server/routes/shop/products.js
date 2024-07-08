@@ -16,8 +16,8 @@ router.get('/shop', authenticateToken, productController.getProductShop)
 // Search for a product using query ?name=product_name
 router.get('/name', productController.searchProduct)
 
-// Search for a product by type using query ?type=product_type
-router.get('/type', productController.searchProductByCategory)
+// Search for a product by type using params type=product_type
+router.get('/type/:type', productController.searchProductByCategory)
 
 // Update a product when the user wants to edit it
 router.put('/:id', authenticateToken, productController.updatedProduct)

@@ -139,7 +139,7 @@ exports.searchProduct = async (req, res, next) => {
 
 exports.searchProductByCategory = async (req, res, next) => {
     try {
-        const { type } = req.query
+        const { type } = req.params
         const { page } = req.query || 1
         const limit = 12
         const skip = (page - 1) * limit
