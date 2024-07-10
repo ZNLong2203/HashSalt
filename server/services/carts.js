@@ -10,6 +10,10 @@ class CartService {
                 cart_userId: userId,
                 cart_status: 'active'
             }).populate('cart_items.cart_product');
+
+            if(!cart) {
+                return {cart: null, totalPrice: 0};
+            }
             
             // Caculate total price
             let totalPrice = 0;

@@ -54,15 +54,17 @@ class OrderService {
                 }, { 
                     cart_status: 'completed',
                     cart_total: session.amount_total / 100
-                }, { new: true });
+                }, { new: true, returnDocument: 'after' });
 
                 // Insert cart completed into payment collection
                 await Order.findOneAndUpdate({
                     order_user: userId,
                 }, {
                     $push: {
-                        "order_delivery.order_carts": cartCompleted._id,
-                        "order_delivery.order_status": "pending",
+                        "order_delivery": {
+                            order_carts: cartCompleted._id,
+                            order_status: "Delivered"
+                        }
                     }
                 }, {upsert: true, new: true})
 
@@ -94,11 +96,10 @@ class OrderService {
             }).populate({
                 "path": "order_delivery.order_carts",
                 "populate": {
-                    "path": "cart_items.cart_product",
-                    "model": "Products"
+                    "path": "cart_items.cart_product"
                 }
-            })
-            console.log(orders)
+            });
+            
             return orders;
         } catch (err) {
             throw new Error(err.message || 'Something went wrong');
