@@ -101,7 +101,7 @@ const CartPage = () => {
     return price;
   };
 
-  const handlePayment = async () => {
+  const handleOrder = async () => {
     try {
       const itemsWithDiscountedPrice = cartItems.map(item => ({
         ...item,
@@ -111,7 +111,7 @@ const CartPage = () => {
         }
       }));
 
-      const res = await axios.post("http://localhost:3000/api/payments", {
+      const res = await axios.post("http://localhost:3000/api/orders", {
         cart_items: itemsWithDiscountedPrice,
       }, {
         headers: {
@@ -200,7 +200,7 @@ const CartPage = () => {
           <div className="mb-4">
             <button
               className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"
-              onClick={handlePayment}
+              onClick={handleOrder}
             >
               Payment
             </button>

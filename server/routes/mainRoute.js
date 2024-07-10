@@ -7,7 +7,7 @@ const products = require('./shop/products')
 const discounts = require('./shop/discounts')
 const reviews = require('./shop/reviews')
 const carts = require('./shop/carts')
-const payments = require('./pay/payments')
+const orders = require('./order/order')
 
 router.use('/auth', auth)
 router.use('/auth', authGoogle)
@@ -15,6 +15,6 @@ router.use('/api/products', products)
 router.use('/api/discounts', discounts)
 router.use('/api/reviews', reviews)
 router.use('/api/carts', carts)
-router.use('/api/payments', payments)
+router.use('/api/orders', orders)
 
 module.exports = router

@@ -11,7 +11,7 @@ const PaymentSuccessPage = () => {
       try {
         const queryParams = new URLSearchParams(window.location.search);
         const sessionId = queryParams.get('session_id');
-        const res = await axios.post(`http://localhost:3000/api/payments/success?session_id=${sessionId}`, {}, {
+        const res = await axios.post(`http://localhost:3000/api/orders/success?session_id=${sessionId}`, {}, {
             headers: {
                 Authorization: 'Bearer ' + token,
             }
