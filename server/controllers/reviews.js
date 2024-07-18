@@ -16,7 +16,6 @@ exports.rating = async (req, res, next) => {
         const { productId, rating } = req.body
         const user = req.user
 
-        // Check required fields
         if(!productId || !rating) {
             return res.status(400).json({message: 'Please fill in all fields'})
         }
@@ -39,7 +38,6 @@ exports.createComment = async (req, res, next) => {
         const { productId, content } = req.body
         const user = req.user
         
-        // Check required fields
         if(!productId || !content) {
             return res.status(400).json({message: 'Please fill in all fields'})
         }
@@ -59,7 +57,6 @@ exports.createReply = async (req, res, next) => {
         const { productId, userReply, content } = req.body
         const user = req.user
 
-        // Check required fields
         if(!productId || !userReply || !content) {
             return res.status(400).json({message: 'Please fill in all fields'})
         }

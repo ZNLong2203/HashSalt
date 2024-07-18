@@ -1,7 +1,6 @@
 const {Products, Electronics, Clothing, Furniture} = require('../models/products')
 const ProductFactory = require('../services/products')
 
-// Get all products to display on the home page
 exports.getAllProducts = async (req, res, next) => {
     try {
         const page = parseInt(req.query.page) || 1
@@ -25,7 +24,6 @@ exports.getAllProducts = async (req, res, next) => {
     }
 }
 
-// Get a single product
 exports.getSingleProduct = async (req, res, next) => {
     try {
         const product = await Products.findById(req.params.id)
@@ -38,7 +36,6 @@ exports.getSingleProduct = async (req, res, next) => {
     }
 }
 
-// User creates a product
 exports.createProduct = async (req, res, next) => {
     try {
         // Handle product_attributes, which is an string, convert it to an object
@@ -58,7 +55,6 @@ exports.createProduct = async (req, res, next) => {
     }
 }
 
-// Get all products from the shop of that user
 exports.getProductShop = async (req, res, next) => {
     try {
         const { page } = req.query || 1
@@ -87,7 +83,6 @@ exports.getProductShop = async (req, res, next) => {
 
 exports.updatedProduct = async (req, res, next) => {
     try {
-        // Check if the user is the owner of the product
         if(req.body.product_shop !== req.user._id) {
             return res.status(401).json({message: 'Access denied'})
         }
@@ -102,7 +97,6 @@ exports.updatedProduct = async (req, res, next) => {
 
 exports.deleteProduct = async (req, res, next) => {
     try {
-        // Check if the user is the owner of the product
         const productId = req.params.id
         const product = await Products.findById(productId)
         if(product.product_shop.toString() !== req.user._id) {
@@ -144,7 +138,6 @@ exports.searchProductByCategory = async (req, res, next) => {
         const limit = 12
         const skip = (page - 1) * limit
 
-        // Get total number of documents and pages
         const totalDocs = await Products.countDocuments({
             product_type: type,
             isPublished: true
@@ -169,7 +162,6 @@ exports.searchProductByCategory = async (req, res, next) => {
     }
 }
 
-// Publish a product
 exports.publishedProduct = async (req, res, next) => {
     try {
         const product = await Products.findByIdAndUpdate(
@@ -186,7 +178,6 @@ exports.publishedProduct = async (req, res, next) => {
     }
 }
 
-// Unpublish a product
 exports.unpublishedProduct = async (req, res, next) => {
     try {
         const product = await Products.findByIdAndUpdate(

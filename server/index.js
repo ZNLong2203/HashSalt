@@ -13,10 +13,8 @@ const compression = require('compression')
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 const mainRoute = require('./routes/mainRoute');
 
-// Creating the express app
 const app = express();
 
-// Configuring CORS
 corsOptions = {
     origin: process.env.FRONTEND_URL,
     nethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'HEAD'],
@@ -25,7 +23,6 @@ corsOptions = {
     optionsSuccessStatus: 200
 }
 
-// Init middleware
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cookieParser())
@@ -40,7 +37,7 @@ app.use(session({ // Express session middleware to store session data
 }))
 app.use(passport.initialize())
 app.use(passport.session())
-app.use('/', mainRoute) // Main route
+app.use('/', mainRoute) 
 
 // Error handler
 app.use((err, req, res, next) => {

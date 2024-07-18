@@ -6,15 +6,14 @@ const Carts = require('../models/carts')
 class DiscountService{
     async createDiscount(discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_shopId, discount_productId){
         try{
-            // Check if all fields are filled
             if(!discount_code || !discount_type || !discount_description || !discount_value || !discount_max_uses || !discount_start || !discount_end || !discount_shopId || !discount_productId){
                 throw new Error('Please fill in all fields')
             }
-            // Check if discount data is valid
+
             if(new Date(discount_end) < new Date(discount_start) || new Date() > new Date(discount_end)){
                 throw new Error('Invalid date')
             }
-            // Check if code already exists
+
             const checkCode = await Discounts.findOne({
                 discount_code,
                 discount_shopId
@@ -42,7 +41,6 @@ class DiscountService{
 
     async getAllDiscountsFromShop(shopId, skip, limit) {
         try {
-            // Get all discounts from shop
             const discounts = await Discounts.find({
                 discount_shopId: shopId
             })
@@ -67,7 +65,6 @@ class DiscountService{
 
     async getAllDiscountFromProduct(productId) {
         try {
-            // Get all discounts from product
             const discounts = await Discounts.find({
                 discount_productId: productId
             })
@@ -85,15 +82,14 @@ class DiscountService{
 
     async updateDiscount(id, discount_shopId, discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_status, discount_productId) {
         try{
-            // Check required fields
             if(!discount_code || !discount_type || !discount_description || !discount_value || !discount_max_uses || !discount_start || !discount_end || !discount_status || !discount_shopId || !discount_productId) {
                 throw new Error('Please fill in all fields')
             }
+
             if(new Date(discount_end) < new Date(discount_start) || new Date() > new Date(discount_end)) {
                 throw new Error('Invalid date')
             }
 
-            // Check if that code is for that shop
             const checkCode = await Discounts.findOne({
                 _id: id,
                 discount_shopId
@@ -102,7 +98,6 @@ class DiscountService{
                 return res.status(400).json({message: 'Access denied'})
             }
 
-            // Update discount
             const discount = await Discounts.findByIdAndUpdate({
                 _id: id
             }, {
@@ -124,7 +119,6 @@ class DiscountService{
 
     async deleteDiscount(id, discount_shopId) {
         try {
-            // Check if that code is for that shop
             const checkCode = await Discounts.findOne({
                 _id: id,
                 discount_shopId
@@ -133,7 +127,6 @@ class DiscountService{
                 return res.status(400).json({message: 'Access denied'})
             }
 
-            // Delete discount
             await Discounts.findByIdAndDelete(id)
         } catch(err) {
             throw new Error(err.message || 'Something went wrong')
@@ -142,22 +135,25 @@ class DiscountService{
 
     async useDiscount(discount_code, productId, user) {
         try {
-            // Check code
             const discount = await Discounts.findOne({
                 discount_code,
                 discount_productId: productId
             })
+
             if(!discount || discount.discount_status === false) {
                 return res.status(400).json({message: 'Invalid code'})
             }
+            
             if(discount.discount_uses_count >= discount.discount_max_uses) {
                 return res.status(400).json({message: 'Code has reached its limit'})
             }
+            
             if(new Date() > new Date(discount.discount_end)) {
                 discount.discount_status = false
                 await discount.save()
                 return res.status(400).json({message: 'Code is expired'})
             }
+
             // Check if user already used that code
             const checkUser = discount.discount_users_used.includes(user._id)
             if(checkUser) {
@@ -172,7 +168,6 @@ class DiscountService{
             discount.discount_users_used.push(user._id)
             await discount.save()
             
-            // Return discount and total after discount
             const product = await Products.findById(productId).lean()
 
             let AfterDiscount = 0
@@ -201,7 +196,6 @@ class DiscountService{
 
     async cancelUseDiscount(discount_code, productId, user) {
         try {
-            // Check code
             const discount = await Discounts.findOne({
                 discount_code,
                 discount_productId: productId

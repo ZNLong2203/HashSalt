@@ -28,14 +28,12 @@ class CartService {
 
     async addCart(cart_product, cart_quantity, userId) {
         try {
-            // Check cart existence (efficiently using findOneAndUpdate)
             const cart = await Carts.findOneAndUpdate(
                 {cart_userId: userId, cart_status: 'active'},
                 {$setOnInsert: {cart_userId: userId, cart_items: []}},
                 {upsert: true, new: true}
             );
 
-            // Find existing product in cart (using cart_product)
             const existingItemIndex = cart.cart_items.findIndex(
                 item => item.cart_product.toString() === cart_product
             );
