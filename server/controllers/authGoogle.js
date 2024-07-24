@@ -1,7 +1,6 @@
 const KeyToken = require('../models/keytoken')
 const ggPassport = require('../configs/googleAuthConfig')
 
-// Google OAuth2.0
 exports.google = async (req, res, next) => {
     try {
         ggPassport.authenticate('google', {scope: ['profile', 'email']})(req, res, next)

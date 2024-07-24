@@ -7,7 +7,6 @@ const KeyToken = require('../models/keytoken');
 
 exports.signup = async (req, res, next) => {
     try {
-        // Check if email already exists
         const checkEmail = await User.findOne({email: req.body.email}).lean();
         if(checkEmail) {
             return res.status(400).json({message: 'Email already exists'});

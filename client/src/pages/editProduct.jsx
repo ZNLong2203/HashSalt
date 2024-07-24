@@ -66,7 +66,6 @@ const EditProduct = () => {
           onChange={handleInputChange}
           placeholder="Product Name"
         />
-        {/* Include other input fields similarly */}
         <div className="flex justify-end space-x-4">
           <button
             onClick={() => history.goBack()}

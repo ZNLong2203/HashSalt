@@ -21,7 +21,7 @@ const DetailsProduct = () => {
           }
         });
         setProduct(res.data);
-        setRating(res.data.rating || 0);  // Assume the rating is part of the product data
+        setRating(res.data.rating || 0);  
 
         const resRating = await axios.get(`http://localhost:3000/api/reviews/rating/${product_id}`, {
           headers: {
