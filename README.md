@@ -1,4 +1,3 @@
-# Hash and Salt Website login
 ## Client
 1. npm create vite@latest
 2. npm install -D tailwindcss postcss autoprefixer \
