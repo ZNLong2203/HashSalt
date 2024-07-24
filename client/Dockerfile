@@ -1,9 +1,10 @@
-# Dockerfile for client
-FROM node:22 AS build
+# Build stage
+FROM node:16 AS build
 
 WORKDIR /app
 
 COPY package.json ./
+COPY package-lock.json ./
 
 RUN npm install
 
@@ -11,10 +12,10 @@ COPY . ./
 
 RUN npm run build
 
-# Nginx server
+# Production stage
 FROM nginx:alpine
 
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
 
