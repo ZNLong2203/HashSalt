@@ -13,9 +13,7 @@ RUN npm run build
 FROM nginx:alpine
 
 COPY --from=build /app/build /usr/share/nginx/html
-
-RUN ls -la /usr/share/nginx/html
-RUN echo "worker_processes 1;" > /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 5173
 
