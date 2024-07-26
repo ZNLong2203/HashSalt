@@ -26,7 +26,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cookieParser())
-app.use(cors(corsOptions))
+// app.use(cors(corsOptions))
 app.use(morgan('dev')) // HTTP request logger middleware for node.js
 app.use(helmet()) // Secure Express apps by setting various HTTP headers
 app.use(compression()) // Compress all routes to reduce the size of the response body
