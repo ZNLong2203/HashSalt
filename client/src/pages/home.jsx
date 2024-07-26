@@ -28,6 +28,10 @@ const Home = () => {
 
   useEffect(() => {
     const accessToken = query.get('accessToken')
+    const searchName = query.get('name')
+    if(searchName) {
+      setCategory('name')
+    }
     if(accessToken) {
       localStorage.setItem('accessToken', accessToken)
       setAuthenticated(true)
@@ -37,6 +41,8 @@ const Home = () => {
         let res;
         if(category === 'home') {
           res = await axios.get(`${ROUTES.BE}/api/products?page=${currentPage}`);
+        } else if(category === 'name') {
+          res = await axios.get(`${ROUTES.BE}/api/products/name?name=${searchName}&page=${currentPage}`);
         } else {
           res = await axios.get(`${ROUTES.BE}/api/products/type/${category}?page=${currentPage}`);
         }

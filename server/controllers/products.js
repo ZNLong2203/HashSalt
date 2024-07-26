@@ -125,7 +125,9 @@ exports.searchProduct = async (req, res, next) => {
         .sort({score: {$meta: "textScore"}})
         .limit(20)
         .lean()
-        res.status(200).json(products)
+        res.status(200).json({
+            products
+        })
     } catch(err) {
         next(err);
     }

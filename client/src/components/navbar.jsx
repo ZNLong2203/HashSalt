@@ -1,4 +1,5 @@
-import React from 'react';
+import axios from 'axios';
+import { useState } from 'react';
 import ROUTES from '../routes/routes';
 import { useNavigate } from 'react-router-dom';
 import useStoreToken from '../hooks/useStoreToken';
@@ -7,7 +8,19 @@ import { FaShoppingCart } from "react-icons/fa";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const [searchItem, setSearchItem] = useState('');
   const { isAuthenticated } = useStoreToken();
+
+  const handleInputChange = (e) => {
+    setSearchItem(e.target.value);
+  }
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchItem) {
+      navigate(`${ROUTES.HOME}?name=${searchItem}`);
+    }
+  };
 
   return (
     <nav className="sticky top-0 z-40 bg-white shadow-md">
@@ -26,8 +39,14 @@ const Navbar = () => {
             type="text"
             className="bg-gray-100 h-10 px-5 pr-10 rounded-full text-sm focus:outline-none"
             placeholder="Search..."
+            value={searchItem}
+            onChange={handleInputChange}
           />
-          <button type="submit" className="absolute right-0 top-0 mt-2 mr-4">
+          <button 
+            type="submit" 
+            className="absolute right-0 top-0 mt-2 mr-4" 
+            onClick={handleSearch}
+          >
             <svg className="h-4 w-4 fill-current text-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
               <path d="M12.9 14.32l4.3 4.3-1.42 1.42-4.3-4.3a8 8 0 111.42-1.42zm-5.4 2.28a6 6 0 100-12 6 6 0 000 12z"/>
             </svg>
