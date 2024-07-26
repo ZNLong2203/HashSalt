@@ -1,6 +1,4 @@
-import { useState } from 'react'
 import './App.css'
-import 'tailwindcss/tailwind.css';
 import {BrowserRouter, Routes, Route, useLocation} from 'react-router-dom'
 import {Toaster} from 'react-hot-toast'
 import ROUTES from './routes/routes'
