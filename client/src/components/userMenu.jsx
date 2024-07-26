@@ -30,7 +30,7 @@ const UserMenu = () => {
 
   const logOut = async () => {
     try {
-      await axios.post('http://localhost:3000/auth/logout', {}, {
+      await axios.post(`${ROUTES.BE}/auth/logout`, {}, {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('accessToken')
         }

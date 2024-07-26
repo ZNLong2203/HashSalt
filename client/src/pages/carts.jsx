@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { FaTrash } from 'react-icons/fa';
 import { loadStripe } from "@stripe/stripe-js";
+import ROUTES from '../routes/routes';
 
 const CartPage = () => {
   const token = localStorage.getItem('accessToken');
@@ -15,7 +16,7 @@ const CartPage = () => {
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/carts", {
+        const res = await axios.get(`${ROUTES.BE}/api/carts`, {
           headers: {
             Authorization: "Bearer " + token,
           },
@@ -36,7 +37,7 @@ const CartPage = () => {
     const fetchDiscounts = async (items) => {
       try {
         const discountPromises = items.map(item =>
-          axios.get(`http://localhost:3000/api/discounts/product/${item.cart_product._id}`)
+          axios.get(`${ROUTES.BE}/api/discounts/product/${item.cart_product._id}`)
         );
         const discountResults = await Promise.all(discountPromises);
         const discountsData = discountResults.reduce((acc, res, index) => {
@@ -64,7 +65,7 @@ const CartPage = () => {
 
   const handleRemoveItem = async (itemId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/carts/one`, {
+      await axios.delete(`${ROUTES.BE}/api/carts/one`, {
         data: { cart_product: itemId },
         headers: {
           Authorization: "Bearer " + token,
@@ -111,7 +112,7 @@ const CartPage = () => {
         }
       }));
 
-      const res = await axios.post("http://localhost:3000/api/orders", {
+      const res = await axios.post(`${ROUTES.BE}/api/orders`, {
         cart_items: itemsWithDiscountedPrice,
       }, {
         headers: {

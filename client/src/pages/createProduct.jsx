@@ -110,7 +110,7 @@ const CreateProduct = () => {
         formData.append('product_attributes', JSON.stringify(Object.fromEntries(attribute)));
 
         try {
-            const response = await axios.post('http://localhost:3000/api/products', formData, {
+            await axios.post(`${ROUTES.BE}/api/products`, formData, {
                 headers: {
                     'Authorization': 'Bearer ' + token,
                     'Content-Type': 'multipart/form-data',

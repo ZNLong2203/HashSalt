@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaStar } from 'react-icons/fa';
+import ROUTES from '../routes/routes';
 
 const DetailsProduct = () => {
   const { product_id } = useParams();
@@ -15,7 +16,7 @@ const DetailsProduct = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/products/${product_id}`, {
+        const res = await axios.get(`${ROUTES.BE}/api/products/${product_id}`, {
           headers: {
             Authorization: 'Bearer ' + token,
           }
@@ -23,7 +24,7 @@ const DetailsProduct = () => {
         setProduct(res.data);
         setRating(res.data.rating || 0);  
 
-        const resRating = await axios.get(`http://localhost:3000/api/reviews/rating/${product_id}`, {
+        const resRating = await axios.get(`${ROUTES.BE}/api/reviews/rating/${product_id}`, {
           headers: {
             Authorization: 'Bearer ' + token,
           }
@@ -38,7 +39,7 @@ const DetailsProduct = () => {
 
   const handleRatingChange = async (newRating) => {
     try {
-      await axios.post(`http://localhost:3000/api/reviews/rating`, 
+      await axios.post(`${ROUTES.BE}/api/reviews/rating`, 
         { 
           productId: product_id, 
           rating: newRating 

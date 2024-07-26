@@ -23,7 +23,7 @@ const MyDiscounts = () => {
             try {
                 const decodedToken = jwtDecode(token);
                 const userId = decodedToken._id;
-                const response = await axios.get(`http://localhost:3000/api/discounts/shop?shopId=${userId}&page=${currentPage}`, {
+                const response = await axios.get(`${ROUTES.BE}/api/discounts/shop?shopId=${userId}&page=${currentPage}`, {
                     headers: {
                         Authorization: 'Bearer ' + token,
                     },
@@ -49,7 +49,7 @@ const MyDiscounts = () => {
 
     const handleDeleteClick = async (discountId) => {
         try {
-            await axios.delete(`http://localhost:3000/api/discounts/${discountId}`, {
+            await axios.delete(`${ROUTES.BE}/api/discounts/${discountId}`, {
                 headers: {
                     Authorization: 'Bearer ' + token,
                 },
@@ -66,7 +66,7 @@ const MyDiscounts = () => {
 
     const handleSaveClick = async () => {
         try {
-            await axios.put(`http://localhost:3000/api/discounts/${editDiscount._id}`, editDiscount, {
+            await axios.put(`${ROUTES.BE}/api/discounts/${editDiscount._id}`, editDiscount, {
                 headers: {
                     Authorization: 'Bearer ' + token,
                 },

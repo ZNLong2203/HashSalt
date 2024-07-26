@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import useRefreshAccess from '../hooks/useRefreshAccess'; 
 import { FaSave, FaTimes } from 'react-icons/fa';
+import ROUTES from '../routes/routes';
 
 const EditProduct = () => {
   const token = localStorage.getItem('accessToken');
@@ -12,7 +13,7 @@ const EditProduct = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/products/${product_id}`, {}, {
+        const res = await axios.get(`${ROUTES.BE}/api/products/${product_id}`, {}, {
             headers: {
               Authorization: 'Bearer ' + token,
             }
@@ -39,7 +40,7 @@ const EditProduct = () => {
 
   const handleSave = async () => {
     try {
-      await axios.put(`http://localhost:3000/api/products/${product_id}`, product, {
+      await axios.put(`${ROUTES.BE}/api/products/${product_id}`, product, {
           headers: {
               Authorization: 'Bearer ' + token,
           }

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { FaCheckCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import ROUTES from '../routes/routes';
 
 const PaymentSuccessPage = () => {
   const token = localStorage.getItem('accessToken');
@@ -11,7 +12,7 @@ const PaymentSuccessPage = () => {
       try {
         const queryParams = new URLSearchParams(window.location.search);
         const sessionId = queryParams.get('session_id');
-        const res = await axios.post(`http://localhost:3000/api/orders/success?session_id=${sessionId}`, {}, {
+        const res = await axios.post(`${ROUTES.BE}/api/orders/success?session_id=${sessionId}`, {}, {
             headers: {
                 Authorization: 'Bearer ' + token,
             }

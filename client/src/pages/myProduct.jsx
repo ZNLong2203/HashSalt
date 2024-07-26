@@ -18,7 +18,7 @@ const MyDetailsProduct = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/products/${product_id}`, {
+        const res = await axios.get(`${ROUTES.BE}/api/products/${product_id}`, {
           headers: {
             Authorization: 'Bearer ' + token,
           }
@@ -26,7 +26,7 @@ const MyDetailsProduct = () => {
         setProduct(res.data);
         setRating(res.data.rating || 0);  
 
-        const resRating = await axios.get(`http://localhost:3000/api/reviews/rating/${product_id}`, {
+        const resRating = await axios.get(`${ROUTES.BE}/api/reviews/rating/${product_id}`, {
           headers: {
             Authorization: 'Bearer ' + token,
           }
@@ -53,7 +53,7 @@ const MyDetailsProduct = () => {
 
   const handleSave = async () => {
     try {
-      await axios.put(`http://localhost:3000/api/products/${product_id}`, product, {
+      await axios.put(`${ROUTES.BE}/api/products/${product_id}`, product, {
         headers: {
           Authorization: 'Bearer ' + token,
         }
@@ -70,7 +70,7 @@ const MyDetailsProduct = () => {
 
   const handleRatingChange = async (newRating) => {
     try {
-      await axios.post(`http://localhost:3000/api/reviews/rating`, 
+      await axios.post(`${ROUTES.BE}/api/reviews/rating`, 
         { 
           productId: product_id, 
           rating: newRating 

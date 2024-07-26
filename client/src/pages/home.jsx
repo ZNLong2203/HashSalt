@@ -7,6 +7,7 @@ import AddToCartDialog from '../components/addToCartDialog';
 import CategoryBar from '../components/categorybar';
 import Pagination from '../components/pagination';
 import useStoreToken from '../hooks/useStoreToken';
+import ROUTES from '../routes/routes';
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -35,9 +36,9 @@ const Home = () => {
       try {
         let res;
         if(category === 'home') {
-          res = await axios.get(`http://localhost:3000/api/products?page=${currentPage}`);
+          res = await axios.get(`${ROUTES.BE}/api/products?page=${currentPage}`);
         } else {
-          res = await axios.get(`http://localhost:3000/api/products/type/${category}?page=${currentPage}`);
+          res = await axios.get(`${ROUTES.BE}/api/products/type/${category}?page=${currentPage}`);
         }
         setProducts(res.data.products);
         setTotalPage(res.data.totalPages);
@@ -61,7 +62,7 @@ const Home = () => {
   const handleAddToCart = async (quantity) => {
     try {
       await axios.post(
-        'http://localhost:3000/api/carts',
+        `${ROUTES.BE}/api/carts`,
         { cart_product: selectedProduct._id, cart_quantity: quantity },
         {
           headers: {

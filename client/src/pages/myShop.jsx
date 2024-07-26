@@ -17,7 +17,7 @@ const Home = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/products/shop?page=${currentPage}`, {
+        const res = await axios.get(`${ROUTES.BE}/api/products/shop?page=${currentPage}`, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('accessToken')
             }
@@ -37,7 +37,7 @@ const Home = () => {
 
   const handleDeleteProduct = async (product_id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/products/${product_id}`, {
+      await axios.delete(`${ROUTES.BE}/api/products/${product_id}`, {
           headers: {
               Authorization: 'Bearer ' + localStorage.getItem('accessToken')
           }

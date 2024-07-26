@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { FaBoxOpen, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import ROUTES from '../routes/routes';
 
 const OrdersPage = () => {
   const token = localStorage.getItem('accessToken');
@@ -9,7 +10,7 @@ const OrdersPage = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/api/orders', {
+        const res = await axios.get(`${ROUTES.BE}/api/orders`, {
           headers: {
             Authorization: 'Bearer ' + token,
           },

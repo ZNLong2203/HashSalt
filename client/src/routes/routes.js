@@ -12,6 +12,7 @@ const ROUTES = {
     CART: '/cart',
     PAYMENTSUCCESS: '/paymentsuccess?session_id=',
     ORDERS: '/orders',
+    BE: 'http://localhost:3000',
 }
 
 export default ROUTES;

@@ -18,7 +18,7 @@ const Login = () => {
             return;
         }
         try {
-            const res = await axios.post('http://localhost:3000/auth/login', {
+            const res = await axios.post(`${ROUTES.BE}/auth/login`, {
                 email,
                 password,
             });
@@ -76,7 +76,7 @@ const Login = () => {
                     </form>
                     <button
                         className="bg-gray-200 text-gray-700 w-full py-3 mt-4 rounded-lg hover:bg-gray-300 transition duration-200"
-                        onClick={() => window.location.href = 'http://localhost:3000/auth/google'}
+                        onClick={() => window.location.href = `${ROUTES.BE}/auth/google`}
                     >
                         Login with Google
                     </button>

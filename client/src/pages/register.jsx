@@ -21,7 +21,7 @@ const Register = () => {
             return;
         }
         try {
-            const res = await axios.post('http://localhost:3000/auth/signup', {
+            const res = await axios.post(`${ROUTES.BE}/auth/signup`, {
                 name,
                 email,
                 password,
