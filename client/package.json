@@ -9,9 +9,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "startCommand": "nginx -g 'daemon off;'",
-    "buildCommand": "npm run build",
-    "dockerfilePath": "./client/Dockerfile",
-    "projectPath": "./client"
+    "buildCommand": "npm run build"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
