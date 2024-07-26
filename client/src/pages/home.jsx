@@ -53,7 +53,7 @@ const Home = () => {
       }
     };
     fetchProducts();
-  }, [category, currentPage]);
+  }, [category, currentPage, query]);
 
   const handleOpenPopup = (product) => {
     setSelectedProduct(product);

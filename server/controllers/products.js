@@ -118,15 +118,31 @@ exports.deleteProduct = async (req, res, next) => {
 // Using text index to search for products, only return products that are published
 exports.searchProduct = async (req, res, next) => {
     try {
+        const { name, page } = req.query
+        const limit = 12
+        const skip = (page - 1) * limit
+
+        const totalDocs = await Products.countDocuments({
+            $text: {$search: name},
+            isPublished: true
+        })
+        const totalPages = Math.ceil(totalDocs / limit)
+
         const products = await Products.find({
-            $text: {$search: req.query.name},
+            name: { 
+                $regex: name,
+                $options: 'i'
+            },
             isPublished: true
         }, {score: {$meta: "textScore"}})
-        .sort({score: {$meta: "textScore"}})
-        .limit(20)
+        .sort({ name: {$meta: "textScore"}})
+        .skil(skip)
+        .limit(limit)
         .lean()
         res.status(200).json({
-            products
+            products,
+            page,
+            totalPages
         })
     } catch(err) {
         next(err);
