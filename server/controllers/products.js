@@ -123,20 +123,23 @@ exports.searchProduct = async (req, res, next) => {
         const skip = (page - 1) * limit
 
         const totalDocs = await Products.countDocuments({
-            $text: {$search: name},
+            product_name: {
+                $regex: name,
+                $options: 'i'
+            },
             isPublished: true
         })
         const totalPages = Math.ceil(totalDocs / limit)
 
         const products = await Products.find({
-            name: { 
+            product_name: { 
                 $regex: name,
                 $options: 'i'
             },
             isPublished: true
         })
         .sort({ name: 1 })
-        .skil(skip)
+        .skip(skip)
         .limit(limit)
         .lean()
         res.status(200).json({
