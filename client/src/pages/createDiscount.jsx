@@ -24,7 +24,7 @@ const CreateDiscount = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/products/shop`, {
+                const response = await axios.get(`${ROUTES.BE}/api/products/shop`, {
                     headers: {
                         Authorization: 'Bearer ' + token,
                     },
@@ -58,7 +58,7 @@ const CreateDiscount = () => {
         try {
             console.log(newDiscount)
 
-            await axios.post(`http://localhost:3000/api/discounts`, {
+            await axios.post(`${ROUTES.BE}/api/discounts`, {
                 newDiscount
             }, {
                 headers: {
