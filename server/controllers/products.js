@@ -134,8 +134,8 @@ exports.searchProduct = async (req, res, next) => {
                 $options: 'i'
             },
             isPublished: true
-        }, {score: {$meta: "textScore"}})
-        .sort({ name: {$meta: "textScore"}})
+        })
+        .sort({ name: 1 })
         .skil(skip)
         .limit(limit)
         .lean()
