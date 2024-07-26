@@ -15,13 +15,13 @@ const mainRoute = require('./routes/mainRoute');
 
 const app = express();
 
-corsOptions = {
-    origin: process.env.FRONTEND_URL,
-    method: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'HEAD'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
-    optionsSuccessStatus: 200
-}
+// corsOptions = {
+//     origin: process.env.FRONTEND_URL,
+//     method: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'HEAD'],
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+//     credentials: true,
+//     optionsSuccessStatus: 200
+// }
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
