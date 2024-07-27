@@ -1,6 +1,4 @@
 const mongoose = require('mongoose')
-const express = require('express')
-const app = express()
 
 // Connect to DB with singleton pattern
 class Database {
@@ -12,9 +10,6 @@ class Database {
         mongoose.connect(process.env.MONGODB_URL)
             .then(() => {
                 console.log("Database connection successful")
-                app.listen(process.env.PORT || 3000, () => {
-                    console.log(`Server is running on port ${process.env.PORT || 3000}`)
-                })
             })
             .catch(err => {
                 console.log("Database connection error")
