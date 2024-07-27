@@ -1,7 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv').config()
-const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const passport = require('passport')
@@ -12,10 +11,11 @@ const helmet = require('helmet')
 const compression = require('compression')
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 const mainRoute = require('./routes/mainRoute');
+const Database = require('./configs/database')
 
 const app = express();
 
-const allowedOrigins = [process.env.FRONTEND_URL, "http://localhost:5173"];
+const allowedOrigins = [process.env.FRONTEND_URL, process.env.LOCAL];
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -31,14 +31,13 @@ const corsOptions = {
   optionsSuccessStatus: 200
 };
 
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(express.json())
 app.use(cookieParser())
 app.use(cors(corsOptions))
 app.use(morgan('dev')) // HTTP request logger middleware for node.js
 app.use(helmet()) // Secure Express apps by setting various HTTP headers
 app.use(compression()) // Compress all routes to reduce the size of the response body
-app.use(session({ // Express session middleware to store session data
+app.use(session({ 
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
@@ -56,31 +55,4 @@ app.use((err, req, res, next) => {
     })
 })
 
-// Connect to DB with singleton pattern
-class Database {
-    constructor() {
-        this.connect()
-    }
-
-    connect() {
-        mongoose.connect(process.env.MONGODB_URL)
-            .then(() => {
-                console.log("Database connection successful")
-                app.listen(process.env.PORT || 3000, () => {
-                    console.log(`Server is running on port ${process.env.PORT || 3000}`)
-                })
-            })
-            .catch(err => {
-                console.log("Database connection error")
-                console.log(err)
-            })
-    }
-
-    static getInstance() {
-        if(!Database.instance) {
-            Database.instance = new Database()
-        }
-        return Database.instance
-    }
-}
 Database.getInstance()
