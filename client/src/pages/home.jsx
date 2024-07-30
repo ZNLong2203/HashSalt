@@ -99,7 +99,7 @@ const Home = () => {
           >
             <img
               className="w-full h-56 object-cover"
-              src="https://applecenter.com.vn/uploads/cms/16632365177447.jpg"
+              src={product.product_image || "https://applecenter.com.vn/uploads/cms/16632365177447.jpg"}
               alt={product.product_name}
             />
             <div className="p-4">
