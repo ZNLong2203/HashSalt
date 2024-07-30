@@ -10,8 +10,8 @@ const morgan = require('morgan')
 const helmet = require('helmet')
 const compression = require('compression')
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
-const mainRoute = require('./routes/mainRoute');
-const Database = require('./configs/database')
+const mainRoute = require('./routes/index.route');
+const Database = require('./database/index')
 
 const app = express();
 

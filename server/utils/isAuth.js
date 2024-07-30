@@ -1,5 +1,5 @@
-const User = require("../models/user")
-const KeyToken = require("../models/keytoken")
+const User = require("../models/users.model")
+const KeyToken = require("../models/keytoken.model")
 const jwt = require("jsonwebtoken")
 
 exports.authenticateToken = async (req, res, next) => {

@@ -1,5 +1,5 @@
-const {Products, Electronics, Clothing, Furniture} = require('../models/products')
-const ProductFactory = require('../services/products')
+const {Products, Electronics, Clothing, Furniture} = require('../models/products.model')
+const ProductFactory = require('../services/products.service')
 
 exports.getAllProducts = async (req, res, next) => {
     try {

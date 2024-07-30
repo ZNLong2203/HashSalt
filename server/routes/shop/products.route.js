@@ -1,7 +1,7 @@
 const express = require('express')
 const {authenticateToken, isAdmin} = require('../../utils/isAuth')
-const productController = require('../../controllers/products')
-const {upload} = require('../../configs/cloudinaryConfig')
+const productController = require('../../controllers/products.controller')
+const {upload} = require('../../configs/cloudinary.config')
 
 const router = express.Router()
 

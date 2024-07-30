@@ -1,5 +1,5 @@
 const express = require('express')
-const reviewController = require('../../controllers/reviews')
+const reviewController = require('../../controllers/reviews.controller')
 const {authenticateToken, isAdmin} = require('../../utils/isAuth')
 
 const router = express.Router()

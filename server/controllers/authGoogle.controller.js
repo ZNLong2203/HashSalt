@@ -1,5 +1,5 @@
-const KeyToken = require('../models/keytoken')
-const ggPassport = require('../configs/googleAuthConfig')
+const KeyToken = require('../models/keytoken.model')
+const ggPassport = require('../configs/googleAuth.config')
 
 exports.google = async (req, res, next) => {
     try {

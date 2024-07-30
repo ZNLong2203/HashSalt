@@ -2,8 +2,8 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const {getInfoJson} = require('../utils/getInfo');
 const {createTokenPair} = require('../utils/createToken');
-const User = require('../models/user');
-const KeyToken = require('../models/keytoken');
+const User = require('../models/users.model');
+const KeyToken = require('../models/keytoken.model');
 
 exports.signup = async (req, res, next) => {
     try {

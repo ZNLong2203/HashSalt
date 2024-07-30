@@ -1,6 +1,6 @@
 const express = require('express')
 const {authenticateToken, isAdmin} = require('../../utils/isAuth')
-const OrderController = require('../../controllers/orders')
+const OrderController = require('../../controllers/orders.controller')
 
 const router = express.Router()
 

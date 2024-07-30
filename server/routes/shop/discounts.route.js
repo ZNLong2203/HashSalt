@@ -1,6 +1,6 @@
 const express = require('express')
 const {authenticateToken, isAdmin} = require('../../utils/isAuth')
-const discountController = require('../../controllers/discounts')
+const discountController = require('../../controllers/discounts.controller')
 
 const router = express.Router()
 

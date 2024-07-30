@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
-const {Products, Electronics, Clothings, Furnitures} = require('../models/products')
+const {Products, Electronics, Clothings, Furnitures} = require('../models/products.model')
 const {removeUndefined} = require('../utils/getInfo')
-const {uploadImage, deleteImage} = require('../configs/cloudinaryConfig')
+const {uploadImage, deleteImage} = require('../configs/cloudinary.config')
 
 // Define factory class for product
 class ProductFactory {

@@ -1,8 +1,8 @@
-const User = require('../models/user');
-const Carts = require('../models/carts');
-const { Products } = require('../models/products');
-const Order = require('../models/orders');
-const { sendEmail } = require('../configs/nodemailerConfig');
+const User = require('../models/users.model');
+const Carts = require('../models/carts.model');
+const { Products } = require('../models/products.model');
+const Order = require('../models/orders.model');
+const { sendEmail } = require('../configs/nodeMailer.config');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 class OrderService {

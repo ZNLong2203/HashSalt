@@ -1,4 +1,4 @@
-const OrderService = require('../services/orders')
+const OrderService = require('../services/orders.service')
  
 exports.createOrderSession = async (req, res, next) => {
     try {

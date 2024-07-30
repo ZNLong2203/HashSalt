@@ -1,6 +1,6 @@
-const User = require('../models/user');
-const Carts = require('../models/carts');
-const {Products} = require('../models/products');
+const User = require('../models/users.model');
+const Carts = require('../models/carts.model');
+const {Products} = require('../models/products.model');
 
 class CartService {
     async getListInCart(userId) {

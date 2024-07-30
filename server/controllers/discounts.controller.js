@@ -1,4 +1,4 @@
-const DiscountService = require('../services/discounts')
+const DiscountService = require('../services/discounts.service')
 
 exports.createDiscount = async (req, res, next) => {
     try {

@@ -1,7 +1,7 @@
-const User = require('../models/user')
-const {Products} = require('../models/products')
-const Discounts = require('../models/discounts')
-const Carts = require('../models/carts')
+const User = require('../models/users.model')
+const {Products} = require('../models/products.model')
+const Discounts = require('../models/discounts.model')
+const Carts = require('../models/carts.model')
 
 class DiscountService{
     async createDiscount(discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_shopId, discount_productId){

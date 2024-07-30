@@ -1,6 +1,6 @@
-const User = require('../models/user')
-const Reviews = require('../models/reviews')
-const Products = require('../models/products')
+const User = require('../models/users.model')
+const Reviews = require('../models/reviews.model')
+const Products = require('../models/products.model')
 
 class ReviewService {
     async getRatingProducts(productId) {

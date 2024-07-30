@@ -1,6 +1,6 @@
 const express = require('express');
 const {authenticateToken, isAdmin} = require('../../utils/isAuth');
-const cartController = require('../../controllers/carts');
+const cartController = require('../../controllers/carts.controller');
 
 const router = express.Router();
 
