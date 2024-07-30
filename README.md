@@ -1,9 +1,6 @@
-## Client
-1. npm create vite@latest
-2. npm install -D tailwindcss postcss autoprefixer \
-npx tailwindcss init -p
-3. Configure template [https://tailwindcss.com/docs/guides/nextjs]
+# Ecommerce website
+## Overview:
+- This project focuses on developing a robust backend with features like JWT authentication, product CRUD operations, discount management, rating, using Cloudinary and Multer to save image in cloud, Stripe payment integration, and post-payment notifications via Nodemailer,...
 
-## Server
-1. npm init
-2. Config start in package.json
+- Technology: Nodejs, MongoDB, Cloudinary, Reactjs, Tailwind
+
