@@ -98,7 +98,7 @@ const MyDetailsProduct = () => {
         <div className="md:w-1/2">
           <img 
             className="w-full rounded-lg shadow-lg" 
-            src={'https://applecenter.com.vn/uploads/cms/16632365177447.jpg'} 
+            src={product.product_image || 'https://applecenter.com.vn/uploads/cms/16632365177447.jpg'} 
             alt={product.product_name}
           />
         </div>

@@ -29,8 +29,15 @@ const CreateDiscount = () => {
                         Authorization: 'Bearer ' + token,
                     },
                 });
-                setProducts(response.data);
+
+                if (Array.isArray(response.data.products)) {
+                    setProducts(response.data.products);
+                } else {
+                    console.error('Products data is not an array:', response.data.products);
+                    toast.error('Failed to fetch products');
+                }
             } catch (error) {
+                console.error('Error fetching products:', error);
                 toast.error('Failed to fetch products');
             }
         };
@@ -56,11 +63,9 @@ const CreateDiscount = () => {
 
     const handleSaveClick = async () => {
         try {
-            console.log(newDiscount)
+            console.log('New Discount:', newDiscount);
 
-            await axios.post(`${ROUTES.BE}/api/discounts`, {
-                newDiscount
-            }, {
+            await axios.post(`${ROUTES.BE}/api/discounts`, newDiscount, {
                 headers: {
                     Authorization: 'Bearer ' + token,
                 },
@@ -68,13 +73,13 @@ const CreateDiscount = () => {
             toast.success('Discount created successfully');
             setTimeout(() => {
                 navigate(ROUTES.MYDISCOUNT);
-            }, 1000)
+            }, 1000);
         } catch (error) {
+            console.error('Error creating discount:', error);
             toast.error('Failed to create discount');
         }
     };
 
-    // Format options for react-select
     const productOptions = products.map(product => ({
         value: product._id,
         label: product.product_name,
