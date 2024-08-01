@@ -2,6 +2,7 @@ const DiscountService = require('../services/discounts.service')
 
 exports.createDiscount = async (req, res, next) => {
     try {
+        console.log(req.body.newDiscount)
         const { discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_productId } = req.body.newDiscount
         const discount_shopId = req.user._id
         const discount = await DiscountService.createDiscount(discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_shopId, discount_productId)

@@ -21,14 +21,13 @@ const AddToCartDialog = ({ isPopupOpen, handleClosePopup, handleSubmit, quantity
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-shrink-0">
               <img
-                src={'https://applecenter.com.vn/uploads/cms/16632365177447.jpg'}
+                src={product.product_image || 'https://applecenter.com.vn/uploads/cms/16632365177447.jpg'}
                 alt={product.product_name}
                 className="w-full sm:w-48 h-auto rounded-lg"
               />
             </div>
             <div className="flex-grow">
               <h3 className="text-2xl font-bold mb-2">{product.product_name}</h3>
-              <p className="text-gray-600 mb-2">{product.product_description}</p>
               <p className="text-lg text-primary-600 font-semibold mb-4">${product.product_price}</p>
               <label className="block text-gray-700 mb-1">Quantity</label>
               <input

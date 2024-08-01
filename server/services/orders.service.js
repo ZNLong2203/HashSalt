@@ -15,7 +15,7 @@ class OrderService {
                             currency: 'usd',
                             product_data: {
                                 name: item.cart_product.product_name,
-                                images: ["https://applecenter.com.vn/uploads/cms/16632365177447.jpg"],
+                                images: [item.cart_product.product_image || "https://applecenter.com.vn/uploads/cms/16632365177447.jpg"],
                                 metadata: { 
                                     product_id: item.cart_product._id.toString()
                                 }

@@ -149,7 +149,7 @@ const CartPage = () => {
               >
                 <div className="flex items-center">
                   <img
-                    src={"https://applecenter.com.vn/uploads/cms/16632365177447.jpg"}
+                    src={item.cart_product.product_image || "https://applecenter.com.vn/uploads/cms/16632365177447.jpg"}
                     alt={item.cart_product.product_name}
                     className="h-16 w-16 object-cover rounded-md"
                   />

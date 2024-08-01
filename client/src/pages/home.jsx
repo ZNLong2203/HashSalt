@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AiFillEye } from 'react-icons/ai';
@@ -24,36 +24,45 @@ const Home = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [category, setCategory] = useState('home');
+  const [flag, setFlag] = useState(false);
   const { setAuthenticated, setRole } = useStoreToken();
+  const prevCategory = useRef(category);
+  const prevPage = useRef(currentPage);
 
   useEffect(() => {
-    const accessToken = query.get('accessToken')
-    const searchName = query.get('name')
-    if(searchName) {
-      setCategory('name')
+    const accessToken = query.get('accessToken');
+    const searchName = query.get('name');
+    if (searchName) {
+      setCategory('name');
     }
-    if(accessToken) {
-      localStorage.setItem('accessToken', accessToken)
-      setAuthenticated(true)
+    if (accessToken) {
+      localStorage.setItem('accessToken', accessToken);
+      setAuthenticated(true);
     }
-    const fetchProducts = async () => {
-      try {
-        let res;
-        if(category === 'home') {
-          res = await axios.get(`${ROUTES.BE}/api/products?page=${currentPage}`);
-        } else if(category === 'name') {
-          res = await axios.get(`${ROUTES.BE}/api/products/name?name=${searchName}&page=${currentPage}`);
-        } else {
-          res = await axios.get(`${ROUTES.BE}/api/products/type/${category}?page=${currentPage}`);
+
+    if (prevCategory.current !== category || prevPage.current !== currentPage || (category === 'home' && flag === false)) {
+      const fetchProducts = async () => {
+        try {
+          let res;
+          if (category === 'home') {
+            res = await axios.get(`${ROUTES.BE}/api/products?page=${currentPage}`);
+            setFlag(true);
+          } else if (category === 'name') {
+            res = await axios.get(`${ROUTES.BE}/api/products/name?name=${searchName}&page=${currentPage}`);
+          } else {
+            res = await axios.get(`${ROUTES.BE}/api/products/type/${category}?page=${currentPage}`);
+          }
+          setProducts(res.data.products);
+          setTotalPage(res.data.totalPages);
+        } catch (err) {
+          console.error(err);
         }
-        setProducts(res.data.products);
-        setTotalPage(res.data.totalPages);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchProducts();
-  }, [category, currentPage, query]);
+      };
+      fetchProducts();
+      prevCategory.current = category;
+      prevPage.current = currentPage;
+    }
+  }, [category, currentPage, query, setAuthenticated]);
 
   const handleOpenPopup = (product) => {
     setSelectedProduct(product);

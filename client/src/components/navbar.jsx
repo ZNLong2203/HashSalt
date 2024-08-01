@@ -1,10 +1,9 @@
-import axios from 'axios';
 import { useState } from 'react';
-import ROUTES from '../routes/routes';
 import { useNavigate } from 'react-router-dom';
 import useStoreToken from '../hooks/useStoreToken';
-import UserMenu from './userMenu';
+import ROUTES from '../routes/routes';
 import { FaShoppingCart } from "react-icons/fa";
+import UserMenu from './userMenu';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -13,7 +12,7 @@ const Navbar = () => {
 
   const handleInputChange = (e) => {
     setSearchItem(e.target.value);
-  }
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -79,6 +78,6 @@ const Navbar = () => {
       </div>
     </nav>
   );
-}
+};
 
 export default Navbar;

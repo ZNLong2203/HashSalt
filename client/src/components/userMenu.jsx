@@ -51,7 +51,7 @@ const UserMenu = () => {
   return (
     <div className="relative">
       <img
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJj_hJio5ylUnx6cGiuu86AiZYQ3GDTEaA-CayVU-7akEfnYfvm15YCK4NxA8O6OVy9CU&usqp=CAU" // Replace with the user's profile image URL
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJj_hJio5ylUnx6cGiuu86AiZYQ3GDTEaA-CayVU-7akEfnYfvm15YCK4NxA8O6OVy9CU&usqp=CAU" 
         alt="User"
         className="h-10 w-10 rounded-full cursor-pointer"
         onClick={handleDropdownToggle}

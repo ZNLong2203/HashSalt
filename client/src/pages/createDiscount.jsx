@@ -65,7 +65,7 @@ const CreateDiscount = () => {
         try {
             console.log('New Discount:', newDiscount);
 
-            await axios.post(`${ROUTES.BE}/api/discounts`, newDiscount, {
+            await axios.post(`${ROUTES.BE}/api/discounts`, { newDiscount }, {
                 headers: {
                     Authorization: 'Bearer ' + token,
                 },
