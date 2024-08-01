@@ -3,6 +3,7 @@ const ROUTES = {
     LOGIN: '/login',
     REGISTER: '/register',
     ERROR: '/error',
+    PROFILE: '/profile',
     DETAILS_PRODUCT: '/product/:product_id',
     MY_DETAILS_PRODUCT: '/myproduct/:product_id',
     MYSHOP: '/myshop',

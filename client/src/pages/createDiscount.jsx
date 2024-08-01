@@ -86,8 +86,8 @@ const CreateDiscount = () => {
     }));
 
     return (
-        <div className="min-h-screen bg-gradient-to-r from-blue-500 to-green-500 p-8">
-            <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <div className="min-h-screen bg-gradient-to-r bg-teal-300 p-8">
+            <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg mt-20">
                 <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">Create Discount</h1>
                 <div className="mb-8 p-6 bg-gray-100 rounded-lg shadow-inner">
                     <h2 className="text-2xl font-bold mb-6 text-gray-700">Create New Discount</h2>
