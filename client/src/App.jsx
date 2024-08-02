@@ -5,8 +5,8 @@ import ROUTES from './routes/routes'
 import Navbar from './components/navbar'
 import Footer from './components/footer'
 import Home from './pages/home'
-import Login from './pages/login'
-import Register from './pages/register'
+import Login from './pages/auth/login'
+import Register from './pages/auth/register'
 import ErrorPage from './pages/error';
 import MyShop from './pages/myShop'
 import CreateProduct from './pages/createProduct';

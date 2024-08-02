@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaStar } from 'react-icons/fa';
+import formatDescription from '../utils/convertDes';
 import ROUTES from '../routes/routes';
 
 const DetailsProduct = () => {
@@ -69,17 +70,20 @@ const DetailsProduct = () => {
         </div>
         <div className="md:w-1/2 md:ml-8 mt-6 md:mt-0">
           <h2 className="text-3xl font-semibold mb-4">{product.product_name}</h2>
-          <p className="text-gray-700 mb-4">{product.product_description}</p>
+          <div 
+            className="product-description mb-4"
+            dangerouslySetInnerHTML={{ __html: formatDescription(product.product_description) }}
+          />
           <div className="text-2xl font-bold text-green-600 mb-4">
-            ${product.product_price}
+            Price: ${product.product_price}
           </div>
-          <div className="text-lg mb-4">
+          <div className="text-2xl font-semibold mb-4 text-blue-600">
             Quantity: {product.product_quantity}
           </div>
           
           {/* Highlighted Attributes */}
           <div className="mb-4">
-            <h3 className="text-xl font-semibold mb-2">Attributes:</h3>
+            <h3 className="text-xl font-semibold mb-4">Attributes:</h3>
             <ul className="list-disc list-inside bg-gray-100 p-4 rounded-lg shadow-inner">
               {product.product_attributes && Object.entries(product.product_attributes).map(([key, value]) => (
                 <li key={key} className="text-gray-700 mb-1">

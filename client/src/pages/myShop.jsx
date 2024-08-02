@@ -1,14 +1,13 @@
 import axios from 'axios';
 import ROUTES from '../routes/routes';
 import toast from 'react-hot-toast';
-import useRefreshAccess from '../hooks/useRefreshAccess';
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AiFillEye } from 'react-icons/ai';
 import { IoTrashBinOutline } from "react-icons/io5";
 import Pagination from '../components/pagination';
 
-const Home = () => {
+const MYSHOP = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,36 +17,36 @@ const Home = () => {
     const fetchProducts = async () => {
       try {
         const res = await axios.get(`${ROUTES.BE}/api/products/shop?page=${currentPage}`, {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('accessToken')
-            }
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+          }
         });
         setProducts(res.data.products);
         setTotalPage(res.data.totalPages);
-      } catch(err) {
+      } catch (err) {
         console.log(err);
-        if(err.response.status === 401) {
+        if (err.response.status === 401) {
           // await useRefreshAccess();
           // await fetchProducts();
         }
       }
     };
     fetchProducts();
-  }, []);
+  }, [currentPage]);
 
   const handleDeleteProduct = async (product_id) => {
     try {
       await axios.delete(`${ROUTES.BE}/api/products/${product_id}`, {
-          headers: {
-              Authorization: 'Bearer ' + localStorage.getItem('accessToken')
-          }
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+        }
       });
       const newProducts = products.filter((product) => product._id !== product_id);
       setProducts(newProducts);
       toast.success('Product deleted successfully');
-    } catch(err) {
+    } catch (err) {
       toast.error('Failed to delete product');
-      if(err.response.status === 401) {
+      if (err.response.status === 401) {
         // await useRefreshAccess();
         // await handleDeleteProduct(product_id);
       }
@@ -55,7 +54,7 @@ const Home = () => {
   }
 
   const handlePageChange = (newPage) => {
-    if(newPage > 0 && newPage <= totalPage) {
+    if (newPage > 0 && newPage <= totalPage) {
       setCurrentPage(newPage);
     }
   }
@@ -86,9 +85,8 @@ const Home = () => {
               alt={product.product_name}
             />
             <div className="p-4">
-              <h2 className="text-xl font-bold text-gray-900 mb-2">{product.product_name}</h2>
-              <p className="text-gray-700 mb-2">{product.product_description}</p>
-              <p className="text-orange-600 font-semibold mb-4">Price: ${product.product_price}</p>
+              <h2 className="text-xl font-bold text-gray-900 truncate h-16">{product.product_name}</h2>
+              <p className="text-orange-600 font-semibold mb-4">Price: ${product.product_price} / per</p>
               <div className="flex justify-center space-x-4">
                 <button
                   className="flex items-center justify-center bg-orange-500 text-white rounded-md px-4 py-2"
@@ -114,4 +112,4 @@ const Home = () => {
   );
 }
 
-export default Home;
+export default MYSHOP;

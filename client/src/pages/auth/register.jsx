@@ -2,7 +2,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ROUTES from '../routes/routes.js';
+import ROUTES from '../../routes/routes.js';
 
 const Register = () => {
     const navigate = useNavigate();

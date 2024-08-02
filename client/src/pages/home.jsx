@@ -117,8 +117,8 @@ const Home = () => {
             />
             <div className="p-4">
               <h2 className="text-xl font-bold mb-2 text-gray-900">{product.product_name}</h2>
-              <p className="text-lg font-semibold mb-4 text-purple-900 underline underline-offset-4">
-                Price: ${product.product_price}
+              <p className="text-orange-500 font-semibold mb-4">
+                Price: ${product.product_price} / per
               </p>
               <div className="flex justify-center space-x-6">
                 <button

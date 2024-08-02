@@ -2,8 +2,8 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ROUTES from '../routes/routes';
-import useStoreToken from '../hooks/useStoreToken';
+import ROUTES from '../../routes/routes';
+import useStoreToken from '../../hooks/useStoreToken';
 
 const Login = () => {
     const navigate = useNavigate();
