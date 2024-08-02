@@ -25,6 +25,7 @@ const Home = () => {
   const [quantity, setQuantity] = useState(1);
   const [category, setCategory] = useState('home');
   const [flag, setFlag] = useState(false);
+  const [searchName, setSearchName] = useState('');
   const { setAuthenticated, setRole } = useStoreToken();
   const prevCategory = useRef(category);
   const prevPage = useRef(currentPage);
@@ -32,15 +33,18 @@ const Home = () => {
   useEffect(() => {
     const accessToken = query.get('accessToken');
     const searchName = query.get('name');
-    if (searchName) {
-      setCategory('name');
-    }
-    if (accessToken) {
+    if (accessToken && localStorage.getItem('accessToken') !== accessToken) {
       localStorage.setItem('accessToken', accessToken);
       setAuthenticated(true);
     }
+    if (searchName && category !== 'name') {
+      setCategory('name');
+      setSearchName(searchName);
+    }
+  }, [query, setAuthenticated, category]);
 
-    if (prevCategory.current !== category || prevPage.current !== currentPage || (category === 'home' && flag === false)) {
+  useEffect(() => {
+    if (prevCategory.current !== category || prevPage.current !== currentPage || flag === false) {
       const fetchProducts = async () => {
         try {
           let res;
@@ -62,7 +66,7 @@ const Home = () => {
       prevCategory.current = category;
       prevPage.current = currentPage;
     }
-  }, [category, currentPage, query, setAuthenticated]);
+  }, [category, currentPage, query, searchName]);
 
   const handleOpenPopup = (product) => {
     setSelectedProduct(product);
