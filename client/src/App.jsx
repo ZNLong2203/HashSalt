@@ -7,18 +7,18 @@ import Footer from './components/footer'
 import Home from './pages/home'
 import Login from './pages/auth/login'
 import Register from './pages/auth/register'
-import ErrorPage from './pages/error';
-import MyShop from './pages/myShop'
-import CreateProduct from './pages/createProduct';
-import MyDiscount from './pages/myDiscount'
-import CreateDiscount from './pages/createDiscount'
-import DetailsProduct from './pages/detailsProduct'
-import MyDetailsProduct from './pages/myProduct'
-import EditProducts from './pages/editProduct'
-import CartPage from './pages/carts'
-import PaymentSuccessPage from './pages/paymentSuccess';
-import OrdersPage from './pages/orderHistory';
-import ProfilePage from './pages/profile';
+import ErrorPage from './pages/status/error';
+import MyShop from './pages/products/myShop';
+import CreateProduct from './pages/products/createProduct';
+import MyDiscount from './pages/discounts/myDiscount'
+import CreateDiscount from './pages/discounts/createDiscount'
+import DetailsProduct from './pages/products/detailsProduct'
+import MyDetailsProduct from './pages/products/myProduct'
+import EditProducts from './pages/products/editProduct'
+import CartPage from './pages/orders/carts'
+import PaymentSuccessPage from './pages/orders/paymentSuccess';
+import OrdersPage from './pages/orders/orderHistory';
+import ProfilePage from './pages/profile/profile';
 
 function Main() {
   const location = useLocation()

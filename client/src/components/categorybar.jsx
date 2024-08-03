@@ -3,7 +3,7 @@ import { FaCouch, FaTshirt, FaLaptop } from 'react-icons/fa';
 
 const CategoryBar = ({ setCategory }) => {
   return (
-    <div className="static bg-white py-2 z-50 mb-4">
+    <div className="bg-white py-2 z-50 mb-8">
       <div className="flex justify-around divide-x divide-gray-500">
         <div className="absolute right-0 top-0 h-full w-px bg-gray-500"></div>
         <button onClick={() => setCategory('Furnitures')} className="flex flex-col items-center justify-center bg-white px-4 py-2 relative">

@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import { useState } from 'react';
 import { FiUpload } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-import ROUTES from '../routes/routes';
+import ROUTES from '../../routes/routes';
 
 const CreateProduct = () => {
     const navigate = useNavigate();

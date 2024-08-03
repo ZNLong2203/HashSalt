@@ -3,8 +3,8 @@ import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaEdit, FaSave, FaTimes, FaStar } from "react-icons/fa";
-import formatDescription from "../utils/convertDes";
-import ROUTES from "../routes/routes";
+import formatDescription from "../../utils/convertDes";
+import ROUTES from "../../routes/routes";
 
 const MyDetailsProduct = () => {
   const navigate = useNavigate();

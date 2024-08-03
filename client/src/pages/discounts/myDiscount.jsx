@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import ROUTES from '../routes/routes';
-import useRefreshAccess from '../hooks/useRefreshAccess';
+import ROUTES from '../../routes/routes';
+import useRefreshAccess from '../../hooks/useRefreshAccess';
 import { jwtDecode } from 'jwt-decode'; 
 import { FaRegSmile } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
-import Pagination from '../components/pagination';
+import Pagination from '../../components/pagination';
 
 const MyDiscounts = () => {
     const navigate = useNavigate();

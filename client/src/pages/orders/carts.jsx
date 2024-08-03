@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { FaTrash } from 'react-icons/fa';
 import { loadStripe } from "@stripe/stripe-js";
-import ROUTES from '../routes/routes';
+import ROUTES from '../../routes/routes';
 
 const CartPage = () => {
   const token = localStorage.getItem('accessToken');

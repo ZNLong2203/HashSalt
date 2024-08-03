@@ -1,11 +1,11 @@
 import axios from 'axios';
-import ROUTES from '../routes/routes';
+import ROUTES from '../../routes/routes';
 import toast from 'react-hot-toast';
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AiFillEye } from 'react-icons/ai';
 import { IoTrashBinOutline } from "react-icons/io5";
-import Pagination from '../components/pagination';
+import Pagination from '../../components/pagination';
 
 const MYSHOP = () => {
   const navigate = useNavigate();

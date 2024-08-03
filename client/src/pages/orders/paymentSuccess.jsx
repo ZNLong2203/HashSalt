@@ -2,7 +2,7 @@ import axios from 'axios';
 import { FaCheckCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import ROUTES from '../routes/routes';
+import ROUTES from '../../routes/routes';
 
 const PaymentSuccessPage = () => {
   const token = localStorage.getItem('accessToken');

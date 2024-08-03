@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { FaBoxOpen, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
-import ROUTES from '../routes/routes';
+import ROUTES from '../../routes/routes';
 
 const OrdersPage = () => {
   const token = localStorage.getItem('accessToken');
