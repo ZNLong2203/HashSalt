@@ -26,7 +26,9 @@ const Login = () => {
                 toast.success('Login successful');
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('token-storage');
+                localStorage.removeItem('expired');
                 localStorage.setItem('accessToken', res.data.accessToken);
+                localStorage.setItem('expired', res.data.expired);
                 setRole(res.data.role);
                 setAuthenticated(true);
                 navigate(ROUTES.HOME);

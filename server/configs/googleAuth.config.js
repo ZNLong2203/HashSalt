@@ -54,6 +54,7 @@ const strategy = new GoogleStrategy({
             token_type: 'Bearer',
             accessToken,
             refreshToken,
+            expired: Date.now() + 86400000,
             name: user.name,
             role: user.role
         }

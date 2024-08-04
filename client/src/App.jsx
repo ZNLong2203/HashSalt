@@ -1,4 +1,5 @@
 import './App.css'
+import React, { useEffect } from 'react'
 import {BrowserRouter, Routes, Route, useLocation} from 'react-router-dom'
 import {Toaster} from 'react-hot-toast'
 import ROUTES from './routes/routes'
@@ -23,6 +24,15 @@ import ProfilePage from './pages/profile/profile';
 function Main() {
   const location = useLocation()
   const hideFooterOnPages = [ROUTES.LOGIN, ROUTES.REGISTER]
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken')
+    if(!token) {
+      localStorage.removeItem('accessToken')
+      localStorage.removeItem('token-storage')
+      localStorage.removeItem('expired')
+    }
+  }, [])
 
   return (
     <div className="min-h-screen flex flex-col">

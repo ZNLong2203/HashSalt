@@ -20,6 +20,7 @@ const CartPage = () => {
           headers: {
             Authorization: "Bearer " + token,
           },
+          withCredentials: true,
         });
         const itemsWithDiscount = res.data.metadata.cart.cart_items.map(item => ({
           ...item,

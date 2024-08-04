@@ -56,13 +56,14 @@ exports.login = async (req, res, next) => {
             await keyToken.save();
         }
         
-        res.clearCookie('refreshToken', { httpOnly: true });
-        res.cookie('refreshToken', refreshToken, {httpOnly: true})
+        res.clearCookie('refreshToken', { httpOnly: true, secure: true, sameSite: 'strict' });
+        res.cookie('refreshToken', refreshToken, {httpOnly: true, secure: true, sameSite: 'strict', secure: true, sameSite: 'strict' });
         return res.status(200).json({
             message: 'Login success',
             token_type: 'Bearer',
             accessToken,
             refreshToken,
+            expired: Date.now() + 86400000,
             name: user.name,
             role: user.role
         });
@@ -88,6 +89,7 @@ exports.refreshAccessToken = async (req, res, next) => {
     try {
         // Get refresh token from cookies and find user
         const refreshToken = req.cookies.refreshToken;
+        console.log(refreshToken);
         const keyToken = await KeyToken.findOne({refreshToken: refreshToken});
         if(!keyToken) {
             return res.status(401).json({message: 'Access denied'});
