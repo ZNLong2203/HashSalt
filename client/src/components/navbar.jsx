@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useStoreToken from '../hooks/useStoreToken';
 import ROUTES from '../routes/routes';
@@ -10,7 +10,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [searchItem, setSearchItem] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { isAuthenticated } = useStoreToken();
+  const { isAuthenticated, role } = useStoreToken();
 
   const handleInputChange = (e) => {
     setSearchItem(e.target.value);
@@ -38,6 +38,9 @@ const Navbar = () => {
           <a href="/" className="text-gray-600 hover:text-gray-800">Shop</a>
           <a href="#footer" className="text-gray-600 hover:text-gray-800">About</a>
           <a href="#footer" className="text-gray-600 hover:text-gray-800">Contact</a>
+          {role === 'admin' && (
+            <a href={ROUTES.DASHBOARD} className="text-gray-600 hover:text-gray-800">Dashboard</a>
+          )}
         </div>
         <div className="relative">
           <input

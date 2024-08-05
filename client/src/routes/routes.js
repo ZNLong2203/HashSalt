@@ -13,6 +13,7 @@ const ROUTES = {
     CART: '/cart',
     PAYMENTSUCCESS: '/paymentsuccess?session_id=',
     ORDERS: '/orders',
+    DASHBOARD: '/dashboard',
     // BE: 'http://localhost:3000',
     BE: 'https://hashsalt.onrender.com',
 }
