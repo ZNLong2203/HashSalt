@@ -5,7 +5,6 @@ const {Products} = require('../models/products.model');
 class CartService {
     async getListInCart(userId) {
         try {
-            console.log(userId);
             const cart = await Carts.findOne({
                 cart_userId: userId,
                 cart_status: 'active'

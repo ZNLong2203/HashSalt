@@ -38,7 +38,12 @@ const CartPage = () => {
     const fetchDiscounts = async (items) => {
       try {
         const discountPromises = items.map(item =>
-          axios.get(`${ROUTES.BE}/api/discounts/product/${item.cart_product._id}`)
+          axios.get(`${ROUTES.BE}/api/discounts/product/${item.cart_product._id}`, {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+            withCredentials: true,
+          })
         );
         const discountResults = await Promise.all(discountPromises);
         const discountsData = discountResults.reduce((acc, res, index) => {

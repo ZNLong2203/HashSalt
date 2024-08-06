@@ -2,9 +2,17 @@ const DiscountService = require('../services/discounts.service')
 
 exports.createDiscount = async (req, res, next) => {
     try {
-        console.log(req.body.newDiscount)
         const { discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_productId } = req.body.newDiscount
         const discount_shopId = req.user._id
+
+        if(!discount_code || !discount_type || !discount_description || !discount_value || !discount_max_uses || !discount_start || !discount_end || !discount_shopId || !discount_productId){
+            return res.status(400).json({message: 'Please fill in all fields'})
+        }
+
+        if(new Date(discount_end) < new Date(discount_start) || new Date() > new Date(discount_end)){
+            return res.status(400).json({message: 'Invalid date'})
+        }
+
         const discount = await DiscountService.createDiscount(discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_shopId, discount_productId)
         return res.status(201).json({
             message: 'Discount created',
@@ -49,9 +57,16 @@ exports.updateDiscount = async (req, res, next) => {
         const { id } = req.params
         const discount_shopId = req.user._id
         const { discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_status,  discount_productId } = req.body
+        
+        if(!discount_code || !discount_type || !discount_description || !discount_value || !discount_max_uses || !discount_start || !discount_end || !discount_status || !discount_shopId || !discount_productId) {
+            return res.status(400).json({message: 'Please fill in all fields'})
+        }
+
+        if(new Date(discount_end) < new Date(discount_start) || new Date() > new Date(discount_end)) {
+            return res.status(400).json({message: 'Invalid date'})
+        }
 
         await DiscountService.updateDiscount(id, discount_shopId, discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_status, discount_productId)
-
         return res.status(200).json({message: 'Discount updated'})
     } catch(err) {
         next(err);

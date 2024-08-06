@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
+import ROUTES from '../../routes/routes';
+import { cn } from "../../lib/utils";
+import { Button } from "../../components/ui/button";
+import { addDays, format, set } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { Calendar } from "../../components/ui/calendar";
+import { FaProductHunt } from "react-icons/fa";
 import {
   FiUser,
   FiDollarSign,
   FiBarChart,
-  FiActivity,
   FiDownload,
 } from "react-icons/fi";
-import { cn } from "../../lib/utils";
-import { Button } from "../../components/ui/button";
-import { addDays, format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
-import { Calendar } from "../../components/ui/calendar";
 import {
   ChartContainer,
   ChartLegend,
@@ -46,10 +48,34 @@ const chartConfig = {
 };
 
 const Dashboard = ({ className }) => {
+  const token = localStorage.getItem("accessToken");
+  const [totalRevenue, setTotalRevenue] = useState(0);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [totalOrders, setTotalOrders] = useState(0);
   const [date, setDate] = useState({
     from: new Date(2022, 0, 20),
     to: addDays(new Date(2022, 0, 20), 20),
   });
+
+  useEffect(() => {
+    const fetchOverview = async () => {
+      try {
+        const res = await axios.get(`${ROUTES.BE}/api/dashboard/overview`, {
+          headers: {
+            Authorization: `Bearer ` + token,
+          },
+        })
+        setTotalRevenue(res.data.totalRevenue);
+        setTotalUsers(res.data.totalUsers);
+        setTotalProducts(res.data.totalProducts);
+        setTotalOrders(res.data.totalOrders);
+      } catch(err) {
+        console.log(err);
+      }
+    }
+    fetchOverview();
+  }, [token]);
 
   return (
     <div className="p-12 px-20">
@@ -106,7 +132,7 @@ const Dashboard = ({ className }) => {
           <div className="flex items-center">
             <FiDollarSign className="text-3xl text-green-500 mr-2" />
             <div>
-              <h2 className="text-xl font-bold">$45,231.89</h2>
+              <h2 className="text-xl font-bold">{totalRevenue}</h2>
               <p>Total Revenue</p>
             </div>
           </div>
@@ -115,7 +141,7 @@ const Dashboard = ({ className }) => {
           <div className="flex items-center">
             <FiUser className="text-3xl text-purple-500 mr-2" />
             <div>
-              <h2 className="text-xl font-bold">+2350</h2>
+              <h2 className="text-xl font-bold">+{totalUsers}</h2>
               <p>Subscriptions</p>
             </div>
           </div>
@@ -124,17 +150,17 @@ const Dashboard = ({ className }) => {
           <div className="flex items-center">
             <FiBarChart className="text-3xl text-blue-500 mr-2" />
             <div>
-              <h2 className="text-xl font-bold">+12,234</h2>
-              <p>Sales</p>
+              <h2 className="text-xl font-bold">+{totalOrders}</h2>
+              <p>Orders</p>
             </div>
           </div>
         </div>
         <div className="p-4 bg-white rounded-lg shadow">
           <div className="flex items-center">
-            <FiActivity className="text-3xl text-red-500 mr-2" />
+            <FaProductHunt className="text-3xl text-red-500 mr-2" />
             <div>
-              <h2 className="text-xl font-bold">+573</h2>
-              <p>Active Now</p>
+              <h2 className="text-xl font-bold">{totalProducts}</h2>
+              <p>Products</p>
             </div>
           </div>
         </div>

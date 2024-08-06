@@ -6,14 +6,6 @@ const Carts = require('../models/carts.model')
 class DiscountService{
     async createDiscount(discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_shopId, discount_productId){
         try{
-            if(!discount_code || !discount_type || !discount_description || !discount_value || !discount_max_uses || !discount_start || !discount_end || !discount_shopId || !discount_productId){
-                throw new Error('Please fill in all fields')
-            }
-
-            if(new Date(discount_end) < new Date(discount_start) || new Date() > new Date(discount_end)){
-                throw new Error('Invalid date')
-            }
-
             const checkCode = await Discounts.findOne({
                 discount_code,
                 discount_shopId
@@ -21,6 +13,7 @@ class DiscountService{
             if(checkCode){
                 throw new Error('Code already exists')
             }
+
             const discount = new Discounts({
                 discount_code,
                 discount_type,
@@ -72,7 +65,7 @@ class DiscountService{
             .sort({ createdAt: -1 })
 
             if(!discounts) {
-                throw new Error('No discounts found')
+                discounts = []
             }
             return discounts
         } catch(err) {
@@ -82,14 +75,6 @@ class DiscountService{
 
     async updateDiscount(id, discount_shopId, discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_status, discount_productId) {
         try{
-            if(!discount_code || !discount_type || !discount_description || !discount_value || !discount_max_uses || !discount_start || !discount_end || !discount_status || !discount_shopId || !discount_productId) {
-                throw new Error('Please fill in all fields')
-            }
-
-            if(new Date(discount_end) < new Date(discount_start) || new Date() > new Date(discount_end)) {
-                throw new Error('Invalid date')
-            }
-
             const checkCode = await Discounts.findOne({
                 _id: id,
                 discount_shopId
