@@ -7,5 +7,6 @@ const router = express.Router();
 // api/dashboard/
 
 router.get('/overview', authenticateToken, isAdmin, dashboardController.getOverview);
+router.get('/barchart', authenticateToken, isAdmin, dashboardController.getBarChartData);
 
 module.exports = router;

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import ROUTES from '../../routes/routes';
 import { cn } from "../../lib/utils";
 import { Button } from "../../components/ui/button";
-import { addDays, format, set } from "date-fns";
+import { addDays, format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import { Calendar } from "../../components/ui/calendar";
@@ -26,6 +26,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "../../components/ui/popover";
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
@@ -53,10 +55,13 @@ const Dashboard = ({ className }) => {
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalProducts, setTotalProducts] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
+ 
   const [date, setDate] = useState({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
+    from: new Date(2024, 7, 1),
+    to: addDays(new Date(2024, 7, 20), 20),
   });
+  
+  const dashboardRef = useRef(null); // Reference to the dashboard
 
   useEffect(() => {
     const fetchOverview = async () => {
@@ -65,20 +70,62 @@ const Dashboard = ({ className }) => {
           headers: {
             Authorization: `Bearer ` + token,
           },
-        })
+        });
         setTotalRevenue(res.data.totalRevenue);
         setTotalUsers(res.data.totalUsers);
         setTotalProducts(res.data.totalProducts);
         setTotalOrders(res.data.totalOrders);
-      } catch(err) {
+      } catch (err) {
         console.log(err);
       }
-    }
+    };
     fetchOverview();
   }, [token]);
 
+  useEffect(() => {
+    const fetchBarChart = async () => {
+      try {
+        const res = await axios.get(`${ROUTES.BE}/api/dashboard/barchart`, {
+          headers: {
+            Authorization: `Bearer ` + token,
+          },
+          params: {
+            startDate: date.from.toISOString(),
+            endDate: date.to.toISOString(),
+          } 
+        });
+        console.log(res.data.chartData);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchBarChart();
+  }, [date.from, date.to, token]);
+
+  const downloadPDF = () => {
+    const input = dashboardRef.current;
+    html2canvas(input)
+      .then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('l', 'mm', 'a4'); // create A4 pdf in landscape orientation
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        const height = Math.min(pdfHeight, imgHeight);
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, height);
+
+        const now = new Date();
+        const dateTimeString = now.toLocaleString();
+
+        pdf.text(`Date and Time: ${dateTimeString}`, 10, 10);
+        pdf.save("dashboard.pdf");
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
-    <div className="p-12 px-20">
+    <div ref={dashboardRef} className="p-12 px-20">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold">Dashboard</h1>
         <div className="flex items-center space-x-2">
@@ -120,7 +167,7 @@ const Dashboard = ({ className }) => {
               </PopoverContent>
             </Popover>
           </div>
-          <Button>
+          <Button onClick={downloadPDF}>
             <FiDownload className="mr-2" />
             Download
           </Button>

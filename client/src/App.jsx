@@ -28,7 +28,12 @@ function Main() {
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken')
+    const expired = localStorage.getItem('expired')
     if(!token) {
+      localStorage.removeItem('accessToken')
+      localStorage.removeItem('token-storage')
+      localStorage.removeItem('expired')
+    } else if(expired && Date.now() > expired) {
       localStorage.removeItem('accessToken')
       localStorage.removeItem('token-storage')
       localStorage.removeItem('expired')

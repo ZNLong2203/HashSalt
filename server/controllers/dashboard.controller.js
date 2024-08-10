@@ -14,3 +14,14 @@ exports.getOverview = async (req, res, next) => {
     }
 }
 
+exports.getBarChartData = async (req, res, next) => {
+    try {
+        const { startDate, endDate } = req.query;
+        const chartData = await DashboardService.getBarChartData(startDate, endDate);
+        return res.status(200).json({
+            chartData
+        })
+    } catch(err) {
+        next(err);
+    }
+}
