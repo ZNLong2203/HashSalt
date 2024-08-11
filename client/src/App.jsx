@@ -20,6 +20,8 @@ import CartPage from './pages/orders/carts'
 import PaymentSuccessPage from './pages/orders/paymentSuccess';
 import OrdersPage from './pages/orders/orderHistory';
 import ProfilePage from './pages/profile/profile';
+import AboutPage from './pages/common/about'
+import ContactPage from './pages/common/contact'
 import Dashboard from './pages/admin/dashboard'
 
 function Main() {
@@ -49,6 +51,8 @@ function Main() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="/error" element={<ErrorPage />} />
           <Route path="/myshop" element={<MyShop />} />
           <Route path="/createproduct" element={<CreateProduct />} />

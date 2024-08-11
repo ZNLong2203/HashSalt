@@ -2,6 +2,8 @@ const ROUTES = {
     HOME: '/',
     LOGIN: '/login',
     REGISTER: '/register',
+    ABOUT: '/about',
+    CONTACT: '/contact',
     ERROR: '/error',
     PROFILE: '/profile',
     DETAILS_PRODUCT: '/product/:product_id',
