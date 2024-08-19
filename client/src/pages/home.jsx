@@ -35,6 +35,7 @@ const Home = () => {
     const searchName = query.get('name');
     if (accessToken && localStorage.getItem('accessToken') !== accessToken) {
       localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('expired', Date.now() + 86400000);
       setAuthenticated(true);
     }
     if (searchName && category !== 'name') {
@@ -116,7 +117,7 @@ const Home = () => {
               alt={product.product_name}
             />
             <div className="p-4">
-              <h2 className="text-xl font-bold mb-2 text-gray-900">{product.product_name}</h2>
+              <h2 className="text-xl font-bold mb-2 text-gray-900 truncate">{product.product_name}</h2>
               <p className="text-orange-500 font-semibold mb-4">
                 Price: ${product.product_price} / per
               </p>

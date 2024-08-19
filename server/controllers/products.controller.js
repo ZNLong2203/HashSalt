@@ -26,10 +26,17 @@ exports.getAllProducts = async (req, res, next) => {
 
 exports.getSingleProduct = async (req, res, next) => {
     try {
-        const product = await Products.findById(req.params.id)
+        const product = await Products.findById({
+            _id:req.params.id,
+            isPublished: true,
+        })
+        .populate('product_shop', 'name image')
+        .lean()
+
         if(!product) {
             return res.status(404).json({message: 'Product not found'})
         }
+        
         res.status(200).json(product)
     } catch(err) {
         next(err);

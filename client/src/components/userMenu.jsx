@@ -9,7 +9,7 @@ const UserMenu = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
-  const { setAuthenticated, setRole } = useStoreToken();
+  const { setAuthenticated } = useStoreToken();
 
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);

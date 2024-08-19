@@ -2,7 +2,7 @@ import axios from 'axios';
 import ROUTES from '../../routes/routes';
 import toast from 'react-hot-toast';
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AiFillEye } from 'react-icons/ai';
 import { IoTrashBinOutline } from "react-icons/io5";
 import Pagination from '../../components/pagination';
@@ -85,7 +85,7 @@ const MYSHOP = () => {
               alt={product.product_name}
             />
             <div className="p-4">
-              <h2 className="text-xl font-bold text-gray-900 truncate h-16">{product.product_name}</h2>
+              <h2 className="text-xl font-bold text-gray-900 truncate h-12">{product.product_name}</h2>
               <p className="text-orange-600 font-semibold mb-4">Price: ${product.product_price} / per</p>
               <div className="flex justify-center space-x-4">
                 <button
