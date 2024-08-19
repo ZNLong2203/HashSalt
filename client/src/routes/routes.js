@@ -17,7 +17,7 @@ const ROUTES = {
     ORDERS: '/orders',
     DASHBOARD: '/dashboard',
     // BE: 'http://localhost:3000',
-    BE: 'https://hashsalt.onrender.com',
+    BE: 'https://hashsalt.up.railway.app',
 }
 
 export default ROUTES;
