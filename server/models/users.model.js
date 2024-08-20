@@ -30,7 +30,23 @@ const userSchema = new Schema({
         type: String,
         enum: ['user', 'admin'],
         default: 'user',
-    }
+    },
+    phoneNumber: {
+        type: String,
+        default: null,
+    },
+    zipCode: {
+        type: String,
+        default: null,
+    },
+    country: {
+        type: Object,
+        default: null,
+    },
+    city: {
+        type: Object,
+        defauly: null,
+    },
 }, {
     timestamps: true
 })
