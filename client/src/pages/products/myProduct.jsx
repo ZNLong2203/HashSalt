@@ -223,13 +223,13 @@ const MyDetailsProduct = () => {
               <div className="flex justify-start space-x-4">
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600 flex items-center"
+                  className="select-none rounded-lg bg-amber-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-black shadow-md shadow-amber-500/20 transition-all hover:shadow-lg hover:shadow-amber-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none flex"
                 >
                   <FaEdit className="mr-2" /> Edit
                 </button>
                 <button
                   onClick={() => navigate(ROUTES.MYSHOP)}
-                  className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600"
+                  className="select-none rounded-lg bg-blue-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 >
                   Back to Products
                 </button>

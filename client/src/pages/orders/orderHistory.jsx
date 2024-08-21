@@ -31,7 +31,7 @@ const OrdersPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-4xl font-bold text-center text-gray-800 mb-10">My Orders</h1>
+      <h1 className="text-4xl font-bold text-center text-gray-800 mb-10 mt-10">My Orders</h1>
       <div className="container mx-auto">
         {orders.length === 0 ? (
           <div className="text-center text-gray-700">
