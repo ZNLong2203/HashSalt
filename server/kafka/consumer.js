@@ -19,27 +19,26 @@ const runConsumer = async() => {
         fromBeginning: true,
     })
 
-    const processMessages = async () => {
-        await consumer.run({
-            eachMessage: async({ partition, message }) => {
-                console.log({
-                    value: message.value.toString(),
-                })
-                await Notification.create({
-                    notification_title: message.value.toString(),
-                    notification_status: true,
-                })
-            }
-        })
-    }
 
-    setInterval(async () => {
-        try {
-            await processMessages();    
-        } catch(err) {
-            console.log(`Error processing messages: ${err.message}`)
+    await consumer.run({
+        eachMessage: async({ partition, message }) => {
+            console.log({
+                value: message.value.toString(),
+            })
+            await Notification.create({
+                notification_title: message.value.toString(),
+                notification_status: true,
+            })
         }
-    }, 30000)
+    })
+
+    // setInterval(async () => {
+    //     try {
+    //         await processMessages();    
+    //     } catch(err) {
+    //         console.log(`Error processing messages: ${err.message}`)
+    //     }
+    // }, 30000)
 }
 
 
