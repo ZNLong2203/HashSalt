@@ -20,4 +20,20 @@
 
 ## Architecture
 
-![alt text](img/Architecture.png)
+![alt text](zimg/Architecture.png)
+
+1. Client Interaction:
+
+Users interact with the application through a web client. This client sends requests over the internet to the backend server, which is responsible for handling various functionalities, such as product management, user authentication, and more.
+
+2. Backend Server:
+
+The backend server processes incoming data requests from the client. This server is built using Node.js, which provides a scalable and efficient platform for handling HTTPS requests, interacting with the database, and managing other backend services.
+
+3. Data Storage - MongoDB:
+
+The application’s data, including user information, product details, discount management, cart details, order details,... is stored in MongoDB. MongoDB is a NoSQL database that efficiently handles large amounts of data, providing flexibility and scalability for the ecommerce platform.
+
+4. Notification System - Kafka:
+
+Apache Kafka is integrated into the architecture to handle real-time notifications. For instance, when a new discount is created or a product is purchased, Kafka is responsible for broadcasting these events to interested consumers, ensuring that users are notified promptly. This setup allows for scalable and reliable message brokering.
