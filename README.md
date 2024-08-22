@@ -16,3 +16,8 @@
 - Technology: Nodejs, MongoDB, Cloudinary, Kafka, Reactjs, Tailwind
 
 - Website: [https://hash-salt.vercel.app]
+
+
+## Architecture
+
+![alt text](img/Architecture.png)
