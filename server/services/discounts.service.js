@@ -34,9 +34,9 @@ class DiscountService{
             }).lean();
 
              // Send notifications for each product name
-            products.forEach((product) => {
-                runProducer(product.product_name);
-            });
+            // products.forEach((product) => {
+            //     runProducer(product.product_name);
+            // });
 
             return discount
         } catch(err){

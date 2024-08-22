@@ -57,7 +57,7 @@ app.use((err, req, res, next) => {
 })
 
 Database.getInstance()
-runConsumer()
+// runConsumer()
 
 mongoose.connection.once('open', () => {
     app.listen(process.env.PORT || 3000, () => {
