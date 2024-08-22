@@ -3,7 +3,8 @@ const dotenv = require("dotenv").config();
 
 const kafka = new Kafka({
     clientId: "zkare",
-    brokers: [process.env.KAFKA_BROKER, process.env.KAFKA_BROKER],
+    brokers: [process.env.KAFKA_BROKER],
+    connectionTimeout: 10000,
 })
 
 const producer = kafka.producer();
