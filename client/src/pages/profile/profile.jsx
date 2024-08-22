@@ -3,6 +3,7 @@ import axios from 'axios';
 import Select from 'react-select';
 import { FaBell, FaEdit, FaEnvelope } from 'react-icons/fa';
 import toast from 'react-hot-toast';
+import ROUTES from '../../routes/routes';
 import useCountries from '../../hooks/useCountries';
 
 
@@ -24,7 +25,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUserData = async() => {
       try {
-        const response = await axios.get('http://localhost:3000/api/users', {
+        const response = await axios.get(`${ROUTES.BE}/api/users`, {
           headers: {
             Authorization: 'Bearer ' + token
           }
@@ -83,7 +84,7 @@ const Profile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
-      axios.patch('http://localhost:3000/api/users', userInfo, {
+      axios.patch(`${ROUTES.BE}/api/users`, userInfo, {
         headers: {
           Authorization: 'Bearer ' + token
         }

@@ -2,6 +2,7 @@ const User = require('../models/users.model')
 const {Products} = require('../models/products.model')
 const Discounts = require('../models/discounts.model')
 const Carts = require('../models/carts.model')
+const runProducer = require('../kafka/producer')
 
 class DiscountService{
     async createDiscount(discount_code, discount_type, discount_description, discount_value, discount_max_uses, discount_start, discount_end, discount_shopId, discount_productId){
@@ -26,6 +27,17 @@ class DiscountService{
                 discount_productId
             })
             await discount.save()
+
+            // Find the product names based on the array of product IDs
+            const products = await Products.find({
+                _id: { $in: discount_productId },
+            }).lean();
+
+             // Send notifications for each product name
+            products.forEach((product) => {
+                runProducer(product.product_name);
+            });
+
             return discount
         } catch(err){
             throw new Error(err.message || 'Something went wrong')

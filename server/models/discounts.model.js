@@ -17,7 +17,7 @@ const discountSchema = new Schema({
     },
     discount_description: {
         type: String,
-        required: true,
+        default: '',
     },
     discount_max_uses: {
         type: Number,

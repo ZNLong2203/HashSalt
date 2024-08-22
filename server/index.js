@@ -12,6 +12,7 @@ const compression = require('compression')
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 const mainRoute = require('./routes/index.route');
 const Database = require('./database/index')
+const runConsumer = require('./kafka/consumer')
 
 const app = express();
 
@@ -56,9 +57,11 @@ app.use((err, req, res, next) => {
 })
 
 Database.getInstance()
+runConsumer()
 
 mongoose.connection.once('open', () => {
     app.listen(process.env.PORT || 3000, () => {
         console.log(`Server is running on port ${process.env.PORT || 3000}`)
     })
 })
+
