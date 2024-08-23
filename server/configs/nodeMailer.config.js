@@ -11,12 +11,6 @@ const transporter = nodemailer.createTransport({
 
 exports.sendEmail = async(session) => {
     try {
-        const orderItems = session.items.map(item => `
-            <li>
-                <strong>${item.name}</strong> - ${item.quantity} x $${item.price.toFixed(2)} 
-                = $${(item.quantity * item.price).toFixed(2)}
-            </li>`).join('');
-
         const mailOptions = {
             from: process.env.NODEMAILER_EMAIL,
             to: session.customer_email,
@@ -26,7 +20,6 @@ exports.sendEmail = async(session) => {
                 <p>Dear ${session.customer_name},</p>
                 <p>We are excited to confirm your order. Below are the details:</p>
                 <h3>Order Number: ${session.id}</h3>
-                <ul>${orderItems}</ul>
                 <p><strong>Total: $${session.total_amount.toFixed(2)}</strong></p>
                 <p>We will notify you once your items are shipped. If you have any questions, feel free to reply to this email.</p>
                 <p>Thank you for shopping with us!</p>
