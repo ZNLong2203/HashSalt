@@ -115,6 +115,7 @@ const Home = () => {
               className="w-full h-56 object-cover"
               src={product.product_image || "https://applecenter.com.vn/uploads/cms/16632365177447.jpg"}
               alt={product.product_name}
+              loading="lazy" 
             />
             <div className="p-4">
               <h2 className="text-xl font-bold mb-2 text-gray-900 truncate">{product.product_name}</h2>
