@@ -14,16 +14,16 @@ exports.sendEmail = async(session) => {
         const mailOptions = {
             from: process.env.NODEMAILER_EMAIL,
             to: session.customer_email,
-            subject: `Order Confirmation - Order #${session.id}`,
+            subject: `Order Confirmation in Zkare Shop`,
             html: `
                 <h1>Thank You for Your Order!</h1>
-                <p>Dear ${session.customer_name},</p>
+                <p>Dear ${session.customer_details.name},</p>
                 <p>We are excited to confirm your order. Below are the details:</p>
                 <h3>Order Number: ${session.id}</h3>
-                <p><strong>Total: $${session.total_amount.toFixed(2)}</strong></p>
+                <p><strong>Total: $${session.amount_total.toFixed(2) / 100}</strong></p>
                 <p>We will notify you once your items are shipped. If you have any questions, feel free to reply to this email.</p>
                 <p>Thank you for shopping with us!</p>
-                <p>Best regards,<br/>The [Your Company Name] Team</p>
+                <p>Best regards,<br/>The Zkare Team</p>
             `
         };
 
@@ -33,3 +33,25 @@ exports.sendEmail = async(session) => {
         throw err;
     }
 };
+
+exports.sendOTP = async(email, otp) => {
+    try {
+        const mailOptions = {
+            from: process.env.NODEMAILER_EMAIL,
+            to: email,
+            subject: `One Time Password (OTP) for Zkare Shop`,
+            html: `
+                <h1>One Time Password (OTP)</h1>
+                <p>Your OTP is: <strong>${otp}</strong></p>
+                <p>This OTP will expire in 5 minutes. Do not share this OTP with anyone.</p>
+                <p>If you did not request this OTP, please ignore this email.</p>
+                <p>Best regards,<br/>The Zkare Team</p>
+            `
+        };
+
+        const result = await transporter.sendOTP(mailOptions);
+        console.log('Email sent with OTP: ', result);
+    } catch (err) {
+        throw err;
+    }
+}

@@ -4,12 +4,22 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../routes/routes';
 import useStoreToken from '../../hooks/useStoreToken';
+import ForgotPasswordModal from '../../components/forgotPasswordModal';
 
 const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const { setAuthenticated, setRole } = useStoreToken();
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -72,7 +82,13 @@ const Login = () => {
                                 />
                                 <label className="ml-2 text-gray-700" htmlFor="remember">Remember me</label>
                             </div>
-                            <button className="text-violet-500 hover:text-violet-600 bg-white">Forgot password?</button>
+                            <button
+                                type="button"
+                                onClick={openModal}
+                                className="text-violet-500 hover:text-violet-600 bg-white"
+                            >
+                                Forgot password?
+                            </button>
                         </div>
                         <button className="bg-violet-500 text-white w-full py-3 rounded-lg hover:bg-violet-600 transition duration-200">Login</button>
                     </form>
@@ -84,6 +100,7 @@ const Login = () => {
                     </button>
                     <p className="mt-6 text-center">Don't have an account? <button className="text-violet-500 hover:text-violet-600 bg-white" onClick={() => navigate(ROUTES.REGISTER)}>Sign up</button></p>
                 </div>
+                <ForgotPasswordModal isOpen={isModalOpen} onRequestClose={closeModal} />
             </div>
             <div className="hidden lg:flex w-1/4 h-full items-center justify-center bg-slate-700">
                 <div className="w-60 h-60 bg-gradient-to-tr from-violet-500 to-pink-500 rounded-full animate-bounce"></div>

@@ -49,7 +49,7 @@ function Main() {
       <Navbar />
       <Toaster />
       <main className="flex-grow">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div className='items-center justify-center text-6xl'>Loading...</div>}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
