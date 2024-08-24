@@ -3,20 +3,44 @@ import Modal from 'react-modal';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { IoClose } from "react-icons/io5";
+import ROUTES from '../routes/routes';
 
 Modal.setAppElement('#root'); 
 
 const ForgotPasswordModal = ({ isOpen, onRequestClose }) => {
     const [email, setEmail] = useState('');
+    const [otp, setOtp] = useState('');
+    const [password, setPassword] = useState('');
     const [otpSent, setOtpSent] = useState(false);
+    const [isVerified, setIsVerified] = useState(false);
 
     const handleSendOtp = async () => {
         try {
-            await axios.post('/api/auth/send-otp', { email });
+            await axios.post(`${ROUTES.BE}/auth/password/forgot`, { email });
             toast.success('OTP sent to your email');
             setOtpSent(true);
         } catch (err) {
             toast.error('Failed to send OTP');
+        }
+    };
+
+    const handleVerifyOtp = async () => {
+        try {
+            await axios.post(`${ROUTES.BE}/auth/password/otp`, { email, otp });
+            toast.success('OTP verified successfully');
+            setIsVerified(true);
+        } catch (err) {
+            toast.error('Failed to verify OTP');
+        }
+    };
+
+    const handleResetPassword = async () => {
+        try {
+            await axios.post(`${ROUTES.BE}/auth/password/change`, { email, password });
+            toast.success('Password reset successfully');
+            onRequestClose(); // Close the modal after password reset
+        } catch (err) {
+            toast.error('Failed to reset password');
         }
     };
 
@@ -50,7 +74,39 @@ const ForgotPasswordModal = ({ isOpen, onRequestClose }) => {
                     </div>
                 ) : (
                     <div>
-                        <p className="text-gray-700 mt-4">Check your email for the OTP.</p>
+                        {!isVerified ? (
+                            <div>
+                                <input
+                                    type="text"
+                                    placeholder="Enter OTP"
+                                    value={otp}
+                                    onChange={(e) => setOtp(e.target.value)}
+                                    className="border border-gray-300 rounded-lg p-2 w-full mt-4"
+                                />
+                                <button
+                                    onClick={handleVerifyOtp}
+                                    className="bg-violet-500 text-white py-2 px-4 rounded-lg mt-4 w-full"
+                                >
+                                    Verify OTP
+                                </button>
+                            </div>
+                        ) : (
+                            <div>
+                                <input
+                                    type="password"
+                                    placeholder="Enter new password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="border border-gray-300 rounded-lg p-2 w-full mt-4"
+                                />
+                                <button
+                                    onClick={handleResetPassword}
+                                    className="bg-violet-500 text-white py-2 px-4 rounded-lg mt-4 w-full"
+                                >
+                                    Reset Password
+                                </button>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

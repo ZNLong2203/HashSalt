@@ -131,7 +131,7 @@ const MyDiscounts = () => {
   };
 
   return (
-    <div className="min-h-screen p-8 mt-12 mx-auto">
+    <div className="min-h-screen p-8 mt-8 mx-auto">
       <h1 className="text-4xl font-bold text-center mb-8">My Discounts</h1>
 
       <div className="flex justify-center space-x-4 mx-auto mb-8">

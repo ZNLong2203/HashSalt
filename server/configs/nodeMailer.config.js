@@ -49,7 +49,7 @@ exports.sendOTP = async(email, otp) => {
             `
         };
 
-        const result = await transporter.sendOTP(mailOptions);
+        const result = await transporter.sendMail(mailOptions);
         console.log('Email sent with OTP: ', result);
     } catch (err) {
         throw err;

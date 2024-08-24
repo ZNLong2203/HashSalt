@@ -10,8 +10,8 @@ router.post('/signup', authController.signup)
 router.post('/login', authController.login)
 router.post('/logout', authenticateToken, authController.logout)
 
-router.get('/test', authenticateToken, (req, res) => {
-    res.json({message: "Access granted"})
-})
+router.post('/password/forgot', authController.sendOTPVerificationEmail)
+router.post('/password/otp', authController.verifyPasswordOTP)
+router.patch('/password/change', authenticateToken, authController.changePassword)
 
 module.exports = router 

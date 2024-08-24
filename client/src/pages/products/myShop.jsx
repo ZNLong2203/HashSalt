@@ -88,7 +88,7 @@ const MYSHOP = () => {
   };
 
   return (
-    <div className="container mx-auto p-8 mt-12">
+    <div className="container mx-auto p-8 mt-8">
       <h1 className="text-4xl font-bold text-center mb-8">My Shop</h1>
 
       <div className="flex justify-center space-x-4 mb-8">
