@@ -42,7 +42,7 @@ const Home = () => {
       setCategory('name');
       setSearchName(searchName);
     }
-  }, [query, setAuthenticated, category]);
+  }, [setAuthenticated, category, query]);
 
   useEffect(() => {
     if (prevCategory.current !== category || prevPage.current !== currentPage || flag === false) {
@@ -67,7 +67,7 @@ const Home = () => {
       prevCategory.current = category;
       prevPage.current = currentPage;
     }
-  }, [category, currentPage, query, searchName]);
+  }, [category, currentPage, query, searchName, flag]);
 
   const handleOpenPopup = (product) => {
     setSelectedProduct(product);
