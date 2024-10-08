@@ -20,7 +20,7 @@
 
 ## Architecture
 
-![alt text](zimg/Architecture.png)
+![alt text](uploads/Architecture.png)
 
 1. Client Interaction:
 
